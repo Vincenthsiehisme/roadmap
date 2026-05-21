@@ -1,0 +1,3034 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI / ML Roadmap 2026 · Compact Sprint Dependency View</title>
+<style>
+:root {
+  --bg:#f6f7fb; --surface:#ffffff; --surface-2:#fbfcfe; --line:#d9dee8; --line-soft:#eef1f6;
+  --text:#18202f; --muted:#667085; --muted-2:#98a2b3; --shadow:0 16px 38px rgba(16,24,40,.08); --shadow-soft:0 7px 20px rgba(16,24,40,.055);
+  --blue:#2563eb; --blue-soft:#eff6ff; --blue-line:#bfdbfe; --green:#059669; --green-soft:#ecfdf5; --green-line:#a7f3d0;
+  --amber:#d97706; --amber-soft:#fffbeb; --amber-line:#fde68a; --purple:#7c3aed; --purple-soft:#f5f3ff; --purple-line:#ddd6fe;
+  --slate:#475569; --slate-soft:#f8fafc; --slate-line:#cbd5e1; --ink:#111827;
+}
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Inter, 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif; letter-spacing:.005em; }
+button { font-family:inherit; }
+.page { max-width:1540px; width:100%; margin:0 auto; padding:24px 24px 52px; }
+
+.annotation-toolbar { position:sticky; top:0; z-index:120; display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 14px; padding:10px 12px; border:1px solid rgba(217,222,232,.92); border-radius:18px; background:rgba(255,255,255,.92); box-shadow:0 10px 28px rgba(16,24,40,.08); backdrop-filter:blur(10px); }
+.toolbar-title { padding:4px 8px 4px 2px; font-size:12px; font-weight:950; color:#101828; letter-spacing:.03em; }
+.toolbar-btn { appearance:none; border:1px solid var(--line); background:#fff; color:#344054; border-radius:999px; padding:7px 11px; font-size:11.2px; font-weight:900; line-height:1; cursor:pointer; transition:background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease; }
+.toolbar-btn:hover { transform:translateY(-1px); border-color:#cbd5e1; box-shadow:0 5px 12px rgba(16,24,40,.09); }
+.toolbar-btn.is-active { background:#111827; border-color:#111827; color:#fff; }
+.toolbar-sep { width:1px; height:22px; background:var(--line); margin:0 2px; }
+.annotation-hint { margin-left:auto; color:#667085; font-size:11.2px; line-height:1.45; max-width:470px; }
+
+
+.overview-shell { display:grid; grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr); gap:14px; margin-bottom:14px; align-items:stretch; }
+.hero-card, .guide-card, .mini-panel, .dependency-inspector { background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow-soft); }
+.hero-card { background:linear-gradient(135deg,#101828,#27364a); color:#fff; padding:24px; box-shadow:var(--shadow); }
+.hero-eyebrow { display:inline-block; margin-bottom:10px; font-size:11px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; color:#c7d2fe; }
+.hero-card h1 { font-size:42px; line-height:1; margin:0 0 12px; letter-spacing:-.045em; }
+.hero-card > p { margin:0; color:#dbe3ef; font-size:14px; line-height:1.65; max-width:420px; }
+.hero-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; }
+.hero-kpi { padding:12px 13px; border-radius:16px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.08); }
+.hero-kpi b { display:block; font-size:11px; letter-spacing:.04em; margin-bottom:5px; color:#eef2ff; }
+.hero-kpi span { display:block; font-size:12.5px; line-height:1.45; color:#ffffff; }
+.guide-card { padding:22px 24px; display:grid; grid-template-rows:auto 1fr; gap:14px; }
+.guide-card h2 { margin:0 0 8px; font-size:22px; letter-spacing:-.02em; }
+.guide-card > p { margin:0; font-size:14.5px; line-height:1.75; color:#344054; }
+.guide-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+.guide-block { background:#f8fafc; border:1px solid var(--line-soft); border-radius:16px; padding:14px 15px; }
+.guide-block b { display:block; margin-bottom:8px; font-size:13px; color:#101828; }
+.guide-block ul { margin:0; padding-left:18px; }
+.guide-block li { margin:0 0 6px; font-size:12px; line-height:1.55; color:#475467; }
+.context-grid { display:grid; grid-template-columns:.9fr 1.28fr .96fr; gap:12px; margin:0 0 12px; align-items:stretch; }
+.mini-panel { padding:16px 18px; }
+.panel-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.panel-head b { font-size:16px; line-height:1.2; letter-spacing:-.01em; color:#101828; }
+.panel-head span { font-size:11.3px; color:#667085; }
+.principle-list { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.principle-list li { padding:11px 12px; border-radius:14px; background:#f8fafc; border:1px solid var(--line-soft); }
+.principle-list b { display:block; margin-bottom:4px; font-size:12.4px; color:#101828; }
+.principle-list span { display:block; font-size:11.5px; line-height:1.55; color:#667085; }
+.phase-strip { display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:8px; }
+.phase-card { background:#f8fafc; border:1px solid var(--line-soft); border-radius:16px; padding:12px; min-height:104px; box-shadow:none; }
+.phase-card small { display:block; font-size:10.1px; font-weight:900; color:var(--blue); margin-bottom:5px; text-transform:uppercase; letter-spacing:.08em; }
+.phase-card b { display:block; font-size:12.8px; line-height:1.28; margin-bottom:5px; color:#101828; }
+.phase-card p { margin:0; font-size:11px; line-height:1.48; color:var(--muted); }
+.legend { background:#fff; border:1px solid var(--line); border-radius:22px; padding:16px 18px; margin-bottom:12px; box-shadow:var(--shadow-soft); }
+.legend-group { display:grid; gap:10px; }
+.legend-row { display:grid; grid-template-columns:54px 1fr; gap:10px; align-items:start; }
+.legend-row label { font-size:11px; font-weight:900; color:#475467; padding-top:5px; }
+.legend-tags { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.legend-title { display:block; font-size:16px; font-weight:900; margin:0 0 12px; color:#101828; }
+.tag { display:inline-flex; align-items:center; gap:5px; border:1px solid var(--slate-line); background:var(--slate-soft); color:var(--slate); border-radius:999px; padding:5px 8px 5px 7px; font-size:10.8px; font-weight:900; white-space:nowrap; cursor:pointer; }
+.tag em { font-style:normal; font-weight:650; color:#475467; }
+.tag-D,.tag-O { background:var(--slate-soft); border-color:var(--slate-line); color:var(--slate); }
+.tag-S,.tag-H { background:var(--blue-soft); border-color:var(--blue-line); color:var(--blue); }
+.tag-R,.tag-B { background:var(--green-soft); border-color:var(--green-line); color:var(--green); }
+.tag-I,.tag-P,.tag-A { background:var(--amber-soft); border-color:var(--amber-line); color:var(--amber); }
+.tag-G,.tag-K { background:var(--purple-soft); border-color:var(--purple-line); color:var(--purple); }
+.dependency-inspector { margin:0 0 12px; padding:16px 18px; display:grid; gap:12px; }
+.inspector-header { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr); gap:12px; align-items:start; }
+.inspector-main h3 { margin:4px 0 8px; font-size:22px; line-height:1.2; letter-spacing:-.02em; }
+.inspector-main p { margin:0; color:#475467; font-size:12.2px; line-height:1.62; }
+.inspector-label { display:inline-block; font-size:11px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; color:#667085; }
+.inspector-placeholder { color:#667085; font-weight:650; }
+.inspector-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+.inspector-tags .tag { cursor:default; }
+.inspector-help { border:1px solid var(--line-soft); background:#f8fafc; border-radius:16px; padding:12px 14px; }
+.inspector-help b { display:block; margin-bottom:7px; font-size:12px; color:#101828; }
+.inspector-help ul { margin:0; padding-left:18px; }
+.inspector-help li { margin:0 0 5px; font-size:11.5px; line-height:1.5; color:#475467; }
+.inspector-grid { display:grid; grid-template-columns:1fr 1.1fr 1fr; gap:10px; }
+.inspector-box { border:1px solid var(--line-soft); background:#fbfcfe; border-radius:16px; padding:12px 14px; min-height:108px; }
+.inspector-box b { display:block; margin-bottom:7px; font-size:12px; color:#101828; }
+.inspector-box ul { margin:0; padding-left:18px; }
+.inspector-box li { margin:0 0 5px; font-size:11.8px; line-height:1.52; color:#475467; }
+.inspector-method-list { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.inspector-method-list li { margin:0; padding:8px 9px; border-radius:12px; background:#fff; border:1px solid var(--line-soft); }
+.inspector-method-list b { display:block; margin-bottom:6px; font-size:11.4px; color:#101828; }
+.inspector-method-list p { margin:0; color:#475467; font-size:11.2px; line-height:1.5; }
+.inspector-method-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.inspector-method-chips .method-chip { font-size:10.2px; background:#fbfcfe; }
+
+.roadmap-scroll { overflow-x:auto; padding-bottom:10px; }
+.roadmap-shell { position:relative; width:100%; min-width:1210px; }
+.roadmap-board { position:relative; z-index:10; background:var(--surface); border:1px solid var(--line); border-radius:24px; overflow:hidden; box-shadow:var(--shadow); isolation:isolate; }
+.dependency-lines { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:18; overflow:hidden; }
+.dependency-lines .dependency-path { fill:none; stroke-width:2.35; opacity:.88; stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 1px 2px rgba(16,24,40,.16)); }
+.dependency-lines .dependency-path.rail { stroke-width:6; opacity:.11; filter:none; }
+.dependency-lines .dependency-path.upstream { stroke:#d97706; }
+.dependency-lines .dependency-path.downstream { stroke:#2563eb; }
+.dependency-lines .dependency-path.connector-hidden { opacity:0; }
+
+.timeline-head { display:grid; grid-template-columns:205px minmax(660px,1fr) 330px; border-bottom:1px solid var(--line); background:#f8fafc; position:sticky; top:58px; z-index:42; }
+.timeline-head > div { padding:11px 12px; font-size:12px; font-weight:850; color:#475467; border-right:1px solid var(--line); }
+.timeline-head > div:last-child { border-right:0; }
+.sprint-head { display:grid; grid-template-columns:repeat(13,1fr); padding:0 !important; }
+.sprint-head span { min-height:45px; display:flex; align-items:center; justify-content:center; border-right:1px solid var(--line-soft); font-size:10.8px; font-weight:850; color:#667085; }
+.sprint-head span:nth-child(4n+1) { background:#fff; color:#344054; }
+.section-title { display:flex; align-items:center; min-height:46px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:0 16px; position:relative; z-index:32; }
+.section-title:first-of-type { border-top:0; }
+.section-title div { display:flex; align-items:baseline; gap:12px; }
+.section-title b { font-size:19px; }
+.section-title span { font-size:11.8px; color:#667085; }
+.section-foundation { background:linear-gradient(90deg, rgba(71,85,105,.12), rgba(71,85,105,.025)); border-left:7px solid var(--slate); }
+.section-webapp { background:linear-gradient(90deg, rgba(37,99,235,.11), rgba(37,99,235,.025)); border-left:7px solid var(--blue); }
+.section-marketing { background:linear-gradient(90deg, rgba(217,119,6,.11), rgba(217,119,6,.025)); border-left:7px solid var(--amber); }
+.section-ai { background:linear-gradient(90deg, rgba(124,58,237,.11), rgba(124,58,237,.025)); border-left:7px solid var(--purple); }
+.lane { display:grid; grid-template-columns:205px minmax(660px,1fr) 330px; border-bottom:1px solid var(--line); min-height:calc(var(--rows) * 50px + 30px); position:relative; transition:opacity .2s ease, filter .2s ease, box-shadow .2s ease; }
+.lane:last-child { border-bottom:0; }
+.lane-meta { padding:15px 14px; background:#fff; border-right:1px solid var(--line); position:relative; transition:all .18s ease; }
+.phase-pill { display:inline-flex; padding:4px 8px; border-radius:999px; font-size:10.7px; font-weight:900; color:#fff; background:#111827; margin-bottom:9px; }
+.lane-meta h3 { margin:0 0 9px; font-size:18px; letter-spacing:-.01em; line-height:1.2; }
+.lane-meta .tags { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px; }
+.lane-meta p { margin:0; color:#667085; font-size:11.7px; line-height:1.58; }
+.role-badge { display:none; position:absolute; right:10px; top:10px; padding:4px 8px; border-radius:999px; font-size:10.3px; font-weight:900; }
+.timeline-grid { position:relative; display:grid; grid-template-columns:repeat(13, 1fr); grid-template-rows:repeat(var(--rows), minmax(44px, auto)); gap:6px; padding:13px; background-image:linear-gradient(to right, var(--line-soft) 1px, transparent 1px); background-size:calc(100% / 13) 100%; border-right:1px solid var(--line); }
+.task { appearance:none; position:relative; z-index:28; text-align:left; border-radius:12px; padding:8px 9px 8px; min-height:42px; overflow:hidden; box-shadow:0 3px 9px rgba(16,24,40,.045); border:1px solid transparent; display:flex; flex-direction:column; justify-content:center; cursor:pointer; transition:opacity .18s ease, filter .18s ease, transform .18s ease, box-shadow .18s ease, outline .18s ease; }
+.lane-meta, .tech-card { position:relative; z-index:26; }
+.task:hover { transform:translateY(-1px); box-shadow:0 8px 20px rgba(16,24,40,.10); }
+.task small { font-size:9.4px; line-height:1; font-weight:900; letter-spacing:.035em; margin-bottom:5px; color:inherit; opacity:.86; }
+.task strong { font-size:11.35px; line-height:1.34; font-weight:850; color:#101828; }
+.task-data { background:#fff7ed; border-color:#fed7aa; color:#c2410c; }
+.task-search { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
+.task-reco { background:#ecfdf5; border-color:#a7f3d0; color:#047857; }
+.task-activation { background:#fffbeb; border-color:#fde68a; color:#b45309; }
+.task-ai { background:#f5f3ff; border-color:#ddd6fe; color:#6d28d9; }
+.tech-card { margin:13px; padding:13px 14px; border:1px solid var(--line); border-radius:17px; background:linear-gradient(180deg,#fff,#fbfcfe); box-shadow:var(--shadow-soft); align-self:start; transition:all .18s ease; }
+.tech-card h4 { margin:0 0 9px; font-size:15px; line-height:1.25; }
+.tech-card ul { margin:0; padding-left:16px; color:#475467; font-size:11.6px; line-height:1.54; }
+.tech-card li { margin:0 0 6px; }
+
+.tech-card .tech-summary { margin:0 0 10px; padding-left:16px; color:#475467; font-size:11.6px; line-height:1.54; }
+.tech-card .tech-summary li { margin:0 0 6px; }
+.method-box { margin-top:10px; padding:10px; border-radius:13px; background:#f8fafc; border:1px solid var(--line-soft); }
+.method-box b, .io-box b { display:block; font-size:11.3px; color:#101828; margin-bottom:7px; }
+.method-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.method-chip { display:inline-flex; align-items:center; border-radius:999px; border:1px solid #e5e7eb; background:#fff; color:#344054; padding:4px 7px; font-size:10.5px; font-weight:800; line-height:1.2; }
+.io-grid { display:grid; grid-template-columns:1fr; gap:7px; margin-top:9px; }
+.io-box { padding:9px 10px; border-radius:12px; background:#fff; border:1px solid var(--line-soft); }
+.io-box p { margin:0; color:#475467; font-size:10.9px; line-height:1.48; }
+.tech-note { margin-top:9px; padding:8px 10px; border-radius:12px; background:#f8fafc; border:1px dashed #cbd5e1; color:#667085; font-size:10.8px; line-height:1.48; }
+.method-box.method-search { background:var(--blue-soft); border-color:var(--blue-line); }
+.method-box.method-reco { background:var(--green-soft); border-color:var(--green-line); }
+.method-box.method-activation { background:var(--amber-soft); border-color:var(--amber-line); }
+.method-box.method-ai { background:var(--purple-soft); border-color:var(--purple-line); }
+
+.method-box { transition:box-shadow .18s ease, border-color .18s ease, background .18s ease; }
+.method-chip { transition:opacity .18s ease, background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease; }
+.method-box.method-pool-active { border-color:#94a3b8; box-shadow:0 10px 24px rgba(16,24,40,.10); background:linear-gradient(180deg,#fff,#f8fafc); }
+.method-box.method-pool-active .method-chip { opacity:.24; filter:grayscale(.22); }
+.method-box.method-pool-active .method-chip.method-core,
+.inspector-method-chips .method-chip.method-core { opacity:1; filter:none; background:#111827; border-color:#111827; color:#fff; }
+.method-box.method-pool-active .method-chip.method-support,
+.inspector-method-chips .method-chip.method-support { opacity:1; filter:none; background:#eff6ff; border-color:#93c5fd; color:#1d4ed8; }
+.method-box.method-pool-active .method-chip.method-later,
+.inspector-method-chips .method-chip.method-later { opacity:1; filter:none; background:#f5f3ff; border-color:#c4b5fd; color:#6d28d9; }
+.method-box.method-pool-active .method-chip.method-core,
+.method-box.method-pool-active .method-chip.method-support,
+.method-box.method-pool-active .method-chip.method-later { transform:translateY(-1px); box-shadow:0 4px 10px rgba(16,24,40,.08); }
+.method-pool-note { margin:8px 0 9px; padding:8px 9px; border-radius:12px; border:1px solid var(--line-soft); background:#fff; color:#475467; font-size:10.8px; line-height:1.48; }
+.method-role-legend { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.method-role-legend span { display:inline-flex; align-items:center; border-radius:999px; padding:3px 7px; border:1px solid var(--line-soft); background:#fbfcfe; font-size:10px; font-weight:850; color:#475467; }
+.method-role-legend .role-core { background:#111827; border-color:#111827; color:#fff; }
+.method-role-legend .role-support { background:#eff6ff; border-color:#93c5fd; color:#1d4ed8; }
+.method-role-legend .role-later { background:#f5f3ff; border-color:#c4b5fd; color:#6d28d9; }
+.method-pool-extra { margin-top:8px; padding-top:8px; border-top:1px dashed #cbd5e1; }
+.method-pool-extra b { font-size:10.8px; margin-bottom:6px; color:#475467; }
+.method-role-card.method-role-core { border-color:#cbd5e1; background:#fff; }
+.method-role-card.method-role-support { border-color:#dbeafe; background:#eff6ff; }
+.method-role-card.method-role-later { border-color:#ddd6fe; background:#f5f3ff; }
+.method-relation-note { color:#475467; font-size:11.2px; line-height:1.5; }
+
+
+.compact-tech .method-box, .compact-tech .io-grid, .compact-tech .tech-note { display:none; }
+.compact-tech .tech-card { margin:10px 12px; padding:12px 13px; border-radius:15px; background:linear-gradient(180deg,#fff,#fbfcfe); box-shadow:none; }
+.compact-tech .tech-card h4 { margin-bottom:7px; font-size:13.4px; }
+.compact-tech .tech-card .tech-summary { margin:0; padding-left:15px; }
+.compact-tech .tech-card .tech-summary li { margin:0 0 4px; font-size:11.1px; line-height:1.48; }
+.compact-tech .tech-card::after { content:'點擊任務卡展開本卡方法採用關係'; display:block; margin-top:9px; padding:7px 9px; border-radius:12px; background:#f8fafc; border:1px dashed #cbd5e1; color:#667085; font-size:10.7px; line-height:1.42; }
+.compact-tech.dependency-active .lane.is-selected .tech-card .method-box.method-pool-active { display:block; }
+.compact-tech.dependency-active .lane.is-selected .tech-card::after { content:'已展開選取任務的方法採用關係'; border-style:solid; background:#eef2ff; border-color:#c7d2fe; color:#344054; }
+.compact-tech.dependency-active .lane.has-related:not(.is-selected) .tech-card::after { content:'關聯任務維持技術摘要，避免畫面過度展開'; }
+.method-chip.method-muted { opacity:.24; filter:grayscale(.22); }
+
+.inline-note { display:none; margin-top:10px; padding:9px 10px; border-radius:12px; border:1px solid #dbeafe; background:#eff6ff; color:#344054; font-size:11.3px; line-height:1.55; }
+.note-mode .inline-note { display:block; }
+.note-mode .lane-meta { outline:2px solid rgba(37,99,235,.13); outline-offset:-5px; }
+.evolution { margin-top:11px; padding:10px; border-radius:13px; background:#f8fafc; border:1px solid var(--line-soft); }
+.evolution-title { font-size:11.3px; font-weight:900; color:#344054; margin-bottom:7px; }
+.evolution-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; }
+.evolution-step { padding:7px; border-radius:10px; background:#fff; border:1px solid var(--line-soft); }
+.evolution-step b { display:block; font-size:10.7px; margin-bottom:3px; color:#101828; }
+.evolution-step span { display:block; font-size:10.5px; line-height:1.38; color:var(--muted); }
+.validation-box { margin-top:9px; padding:9px 10px; border-radius:12px; background:#f8fafc; border:1px solid var(--line-soft); }
+.validation-box b { display:block; font-size:11.3px; color:#101828; margin-bottom:5px; }
+.validation-box ul { margin:0; padding-left:18px; }
+.validation-box li { font-size:10.9px; line-height:1.42; color:#475467; }
+.limit-box { margin-top:9px; padding:9px 10px; border-radius:12px; background:#fffbeb; border:1px solid #fde68a; color:#92400e; font-size:11.2px; line-height:1.52; }
+.limit-box b { display:block; color:#78350f; margin-bottom:4px; }
+.compact-tech .evolution, .compact-tech .validation-box, .compact-tech .limit-box { display:none; }
+.compact-tech.dependency-active .lane.is-selected .tech-card .method-box.method-pool-active .method-pool-note,
+.compact-tech.dependency-active .lane.is-selected .tech-card .method-box.method-pool-active .method-pool-extra { display:block; }
+.dependency-active .task { opacity:.18; filter:grayscale(.28); }
+.dependency-active .task.task-selected, .dependency-active .task.task-upstream, .dependency-active .task.task-downstream { opacity:1; filter:none; }
+.dependency-active .lane { opacity:.35; }
+.dependency-active .lane.has-related { opacity:1; }
+.lane.is-selected .lane-meta { background:#111827; color:#fff; }
+.lane.is-selected .lane-meta p { color:#d0d5dd; }
+.lane.is-selected .phase-pill { background:#fff; color:#111827; }
+.lane.is-selected .role-badge { display:block; background:#fff; color:#111827; }
+.lane.is-selected .role-badge::after { content:'選取任務所在'; }
+.lane.is-upstream .lane-meta { background:linear-gradient(180deg,#fff7ed,#fff); }
+.lane.is-upstream .role-badge { display:block; background:#ffedd5; color:#9a3412; }
+.lane.is-upstream .role-badge::after { content:'有前置任務'; }
+.lane.is-downstream .lane-meta { background:linear-gradient(180deg,#eff6ff,#fff); }
+.lane.is-downstream .role-badge { display:block; background:#dbeafe; color:#1d4ed8; }
+.lane.is-downstream .role-badge::after { content:'有受影響任務'; }
+.task.task-selected { outline:3px solid rgba(17,24,39,.34); outline-offset:2px; transform:translateY(-1px); box-shadow:0 12px 26px rgba(16,24,40,.16); }
+.task.task-upstream { outline:2px solid rgba(217,119,6,.45); outline-offset:2px; }
+.task.task-downstream { outline:2px solid rgba(37,99,235,.40); outline-offset:2px; }
+.task.task-upstream::after, .task.task-downstream::after { position:absolute; top:5px; right:6px; border-radius:999px; padding:2px 5px; font-size:9px; font-weight:900; background:#fff; box-shadow:0 1px 4px rgba(16,24,40,.08); }
+.task.task-upstream::after { content:'前置'; color:#9a3412; }
+.task.task-downstream::after { content:'影響'; color:#1d4ed8; }
+.filter-active .lane { opacity:.22; }
+.filter-active .lane.filter-match { opacity:1; }
+.filter-active .lane:not(.filter-match) .task { opacity:.24; }
+
+.lane.is-selected .tech-card { border-color:#cbd5e1; box-shadow:0 12px 28px rgba(16,24,40,.10); }
+.dependency-active .lane:not(.has-related) .tech-card { opacity:.36; }
+
+
+.sprint-filter-controls { display:flex; flex-wrap:wrap; gap:7px; margin-top:13px; }
+.sprint-filter-btn { appearance:none; border:1px solid var(--line); background:#fff; color:#344054; border-radius:999px; padding:6px 10px; font-size:11px; font-weight:900; cursor:pointer; transition:all .18s ease; }
+.sprint-filter-btn:hover { transform:translateY(-1px); box-shadow:0 4px 10px rgba(16,24,40,.08); }
+.sprint-filter-btn.is-active { background:#111827; border-color:#111827; color:#fff; }
+.sprint-head span { cursor:pointer; transition:background .18s ease, color .18s ease, box-shadow .18s ease; }
+.sprint-head span:hover { background:#eef2ff; color:#1d4ed8; }
+.sprint-head span.is-active { background:#111827 !important; color:#fff !important; box-shadow:inset 0 -3px 0 rgba(255,255,255,.22); }
+.sprint-filter-active .lane { opacity:.26; }
+.sprint-filter-active .lane.sprint-match { opacity:1; }
+.sprint-filter-active .task { opacity:.20; filter:grayscale(.28); }
+.sprint-filter-active .task.task-sprint-match { opacity:1; filter:none; outline:2px solid rgba(17,24,39,.12); outline-offset:1px; }
+.sprint-filter-active .lane:not(.sprint-match) .tech-card { opacity:.38; }
+.sprint-summary-metrics { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:7px; margin-top:8px; }
+.sprint-summary-metric { padding:8px 9px; border-radius:12px; border:1px solid var(--line-soft); background:#fff; }
+.sprint-summary-metric b { display:block; margin:0 0 3px; font-size:10.5px; color:#101828; }
+.sprint-summary-metric span { display:block; font-size:10.8px; line-height:1.4; color:#475467; }
+.sprint-task-item strong { display:block; font-size:11.7px; color:#101828; }
+.sprint-task-item span { display:block; margin-top:2px; font-size:10.8px; color:#667085; }
+.sprint-method-section { margin:0 0 9px; padding:8px 9px; border-radius:12px; border:1px solid var(--line-soft); background:#fff; }
+.sprint-method-section b { display:block; margin-bottom:6px; font-size:11.4px; color:#101828; }
+.sprint-method-section .method-chips { gap:5px; }
+
+.toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#111827; color:#fff; border-radius:999px; padding:10px 16px; font-size:12px; font-weight:850; z-index:120; opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease; }
+.toast.is-show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+@media (max-width: 1500px) { .page { padding:22px 18px 46px; } .annotation-hint { flex-basis:100%; margin-left:0; } }
+@media (max-width: 1320px) { .roadmap-shell { min-width:1180px; } .timeline-head, .lane { grid-template-columns:198px minmax(640px,1fr) 318px; } }
+@media (max-width: 1100px) { .overview-shell, .context-grid, .inspector-header, .inspector-grid, .guide-grid { grid-template-columns:1fr; } .phase-strip { grid-template-columns:repeat(2, minmax(0,1fr)); } .hero-kpis { grid-template-columns:1fr; } .annotation-hint { flex-basis:100%; margin-left:0; text-align:left; } }
+@media (max-width: 900px) { .page { padding:16px 12px 36px; } .phase-strip { grid-template-columns:1fr; } .hero-card h1 { font-size:34px; } }
+@media print { body { background:white; } .page { padding:0; min-width:0; max-width:none; } .annotation-toolbar,.toast,.dependency-lines { display:none !important; } .roadmap-board,.phase-card,.legend,.dependency-inspector { box-shadow:none; } }
+
+
+/* v16: keep the default view business-readable; reveal method names at task level. */
+.capability-brief { display:grid; gap:8px; }
+.capability-brief-item { padding:9px 10px; border-radius:12px; border:1px solid var(--line-soft); background:#fff; }
+.capability-brief-item b { display:block; margin-bottom:4px; font-size:11.2px; color:#101828; }
+.capability-brief-item p { margin:0; color:#475467; font-size:10.9px; line-height:1.5; }
+.compact-tech .capability-brief { gap:6px; }
+.compact-tech .capability-brief-item { padding:7px 8px; }
+.compact-tech .capability-brief-item p { font-size:10.6px; line-height:1.42; }
+.compact-tech .tech-card::after { content:'點擊任務卡後，完整方法名詞會在上方任務面板展開'; }
+.compact-tech.dependency-active .lane.is-selected .tech-card .method-box.method-pool-active { display:none !important; }
+.compact-tech.dependency-active .lane.is-selected .tech-card::after { content:'已選取任務；請看上方任務面板的 Core / Support / Later 方法說明'; }
+.method-explain-grid { display:grid; gap:7px; margin-top:8px; }
+.method-explain-card { padding:8px 9px; border-radius:12px; border:1px solid var(--line-soft); background:#fff; }
+.method-explain-card strong { display:block; margin-bottom:3px; font-size:11.4px; color:#101828; }
+.method-explain-card p { margin:0; font-size:10.9px; line-height:1.48; color:#475467; }
+.method-role-card .role-note { display:block; margin:-2px 0 6px; font-size:10.6px; color:#667085; line-height:1.42; }
+.method-role-card.method-role-core .method-explain-card { border-color:#cbd5e1; }
+.method-role-card.method-role-support .method-explain-card { border-color:#bfdbfe; background:#eff6ff; }
+.method-role-card.method-role-later .method-explain-card { border-color:#ddd6fe; background:#f5f3ff; }
+.task-purpose-box { display:grid; gap:7px; }
+.task-purpose-box span { display:block; }
+.task-purpose-box b { color:#101828; }
+.task-purpose-box .task-limit { color:#667085; }
+.sprint-method-section p { margin:0; color:#475467; font-size:11.2px; line-height:1.5; }
+</style>
+</head>
+<body class="compact-tech">
+<main class="page">
+<nav aria-label="互動檢視工具列" class="annotation-toolbar">
+<span class="toolbar-title">檢視</span>
+<button class="toolbar-btn" data-action="compact-tech" type="button">展開技術細節</button>
+<button class="toolbar-btn" data-action="note-mode" type="button">顯示初版定義</button>
+<span class="toolbar-sep"></span>
+<button class="toolbar-btn" data-filter="all" type="button">全部</button>
+<button class="toolbar-btn" data-filter="S" type="button">搜尋</button>
+<button class="toolbar-btn" data-filter="R" type="button">推薦</button>
+<button class="toolbar-btn" data-filter="I" type="button">意圖 / 活化</button>
+<button class="toolbar-btn" data-filter="G" type="button">AI 互動</button>
+<span class="toolbar-sep"></span>
+<button class="toolbar-btn" data-action="reset" type="button">重置</button>
+<span class="annotation-hint">預設精簡技術線；點擊任務卡展開該卡方法採用、相依線與 Sprint 摘要</span>
+</nav>
+<section aria-label="Roadmap 概覽與閱讀導覽" class="overview-shell">
+<div class="hero-card">
+<span class="hero-eyebrow">AI / ML Roadmap 2026</span>
+<h1>Roadmap</h1>
+<p>聚焦應用排程、任務級相依性與模型方法候選，讓人先看懂決策脈絡，再視需要往下閱讀技術細節。</p>
+<div aria-label="關鍵口徑" class="hero-kpis">
+<div class="hero-kpi"><b>時間基準</b><span>以首次對外露出作為預估基準</span></div>
+<div class="hero-kpi"><b>相依單位</b><span>以 sprint 任務卡而非大類別呈現</span></div>
+<div class="hero-kpi"><b>技術口徑</b><span>預設只呈現技術摘要，點擊任務卡後才展開方法採用關係</span></div>
+</div>
+</div>
+<div class="guide-card">
+<div>
+<h2>閱讀導覽</h2>
+<p>本圖聚焦對外說明 Roadmap 的決策脈絡：各能力何時首次露出、哪些任務互相承接、每張 sprint card 對應哪些候選方法，以及驗證與階段邊界如何被管理。</p>
+</div>
+<div class="guide-grid">
+<div class="guide-block">
+<b>先怎麼看</b>
+<ul>
+<li>先看中間的 sprint 任務卡，理解每個功能的落地時間與相依任務。</li>
+<li>點擊 sprint card 後看上方檢視區，確認該任務候選方法、輸出物件與驗證；右側只展開該卡相關方法，其他 Lane 維持摘要。</li>
+<li>Phase 代表能力成熟度，不代表嚴格瀑布式開發順序。</li>
+</ul>
+</div>
+<div class="guide-block">
+<b>互動會發生什麼</b>
+<ul>
+<li>點擊任務卡：高亮前置任務、受影響任務、對應連線，並在上方任務面板展開主要採用、支援與後續承接方法。</li>
+<li>點擊上方篩選：只看搜尋、推薦、意圖 / 活化或 AI 互動相關能力。</li>
+<li>切換「展開技術細節」：需要深入討論時再展開完整方法池、輸入輸出與驗證資訊。</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section aria-label="閱讀原則與成熟度說明" class="context-grid">
+<div class="mini-panel principle-panel">
+<div class="panel-head"><b>閱讀原則</b><span>先看關係，再看技術</span></div>
+<ol class="principle-list">
+<li><b>先看任務，再看大類</b><span>以 sprint 任務卡呈現相依性，清楚區分搜尋、推薦與活化的實際承接關係。</span></li>
+<li><b>方法候選對應任務卡</b><span>BM25、Embedding、Propensity、RAG 等完整方法名詞只在任務卡被選取後展開，實際採用將依資料量、延遲、可解釋性與驗證結果決定。</span></li>
+<li><b>技術說明服務決策</b><span>聚焦呈現方法、輸入、輸出、驗證與階段邊界，細部資料表、API 與權限規格由治理或系統設計文件承接。</span></li>
+</ol>
+</div>
+<div class="mini-panel phase-panel">
+<div class="panel-head"><b>能力成熟度</b><span>Phase = maturity，代表能力成熟度</span></div>
+<div aria-label="技術線與演算法成熟度" class="phase-strip">
+<div class="phase-card"><small>Phase 1</small><b>Data Readiness / Observation</b><p>資料準備、事件回收與基本觀測。</p></div>
+<div class="phase-card"><small>Phase 2</small><b>Rule-based / Batch-based</b><p>熱門、規則推薦、初版分眾與批次名單。</p></div>
+<div class="phase-card"><small>Phase 3</small><b>Hybrid Search / Similarity</b><p>搜尋理解、向量召回、相似商品與重排。</p></div>
+<div class="phase-card"><small>Phase 4</small><b>Intent Scoring / Marketing Automation</b><p>意圖濃度、傾向分數與自動化觸發。</p></div>
+<div class="phase-card"><small>Phase 5</small><b>AI Interaction / Knowledge</b><p>AI 互動、知識節點、工具調用與回覆觀測。</p></div>
+</div>
+</div>
+<section aria-label="階段註記" class="legend legend-panel">
+<span class="legend-title">階段註記</span>
+<div class="legend-group">
+<div class="legend-row"><label>基礎</label><div class="legend-tags"><span class="tag tag-D" data-capability="D">D<em>資料準備</em></span><span class="tag tag-O" data-capability="O">O<em>成效觀測</em></span></div></div>
+<div class="legend-row"><label>搜尋</label><div class="legend-tags"><span class="tag tag-S" data-capability="S">S<em>搜尋理解</em></span><span class="tag tag-H" data-capability="H">H<em>混合召回</em></span></div></div>
+<div class="legend-row"><label>推薦</label><div class="legend-tags"><span class="tag tag-R" data-capability="R">R<em>推薦能力</em></span><span class="tag tag-B" data-capability="B">B<em>批次產出</em></span></div></div>
+<div class="legend-row"><label>活化</label><div class="legend-tags"><span class="tag tag-I" data-capability="I">I<em>意圖濃度</em></span><span class="tag tag-P" data-capability="P">P<em>傾向分數</em></span><span class="tag tag-A" data-capability="A">A<em>自動化觸發</em></span></div></div>
+<div class="legend-row"><label>AI</label><div class="legend-tags"><span class="tag tag-G" data-capability="G">G<em>代理流程</em></span><span class="tag tag-K" data-capability="K">K<em>知識節點</em></span></div></div>
+</div>
+</section>
+</section>
+<section aria-live="polite" class="dependency-inspector sprint-filter-panel" id="dependencyInspector">
+<div class="inspector-header">
+<div class="inspector-main">
+<span class="inspector-label">Roadmap Control</span>
+<h3 id="inspectorTitle">Sprint 篩選與任務級技術檢視</h3>
+<p class="inspector-placeholder" id="inspectorIntro">選擇 Sprint 後保留該 Sprint 任務分布；點擊任務卡後，才展開該卡的前置、影響、主要方法與驗證口徑。預設不展開完整技術池，避免干擾 Roadmap 主線。</p>
+<div aria-label="Sprint 篩選" class="sprint-filter-controls" id="sprintFilterControls">
+<button class="sprint-filter-btn is-active" data-sprint="all" type="button">全部</button>
+<button class="sprint-filter-btn" data-sprint="4" type="button">S4</button>
+<button class="sprint-filter-btn" data-sprint="5" type="button">S5</button>
+<button class="sprint-filter-btn" data-sprint="6" type="button">S6</button>
+<button class="sprint-filter-btn" data-sprint="7" type="button">S7</button>
+<button class="sprint-filter-btn" data-sprint="8" type="button">S8</button>
+<button class="sprint-filter-btn" data-sprint="9" type="button">S9</button>
+<button class="sprint-filter-btn" data-sprint="10" type="button">S10</button>
+<button class="sprint-filter-btn" data-sprint="11" type="button">S11</button>
+<button class="sprint-filter-btn" data-sprint="12" type="button">S12</button>
+<button class="sprint-filter-btn" data-sprint="13" type="button">S13</button>
+<button class="sprint-filter-btn" data-sprint="14" type="button">S14</button>
+<button class="sprint-filter-btn" data-sprint="15" type="button">S15</button>
+<button class="sprint-filter-btn" data-sprint="16" type="button">S16</button>
+</div>
+<div class="inspector-tags" id="inspectorTags"></div>
+</div>
+<div class="inspector-help">
+<b>判讀規則</b>
+<ul>
+<li>Sprint 篩選：保留該 Sprint 內有覆蓋的任務卡，跨 Sprint 任務會同時出現在涵蓋的 Sprint。</li>
+<li>點擊任務卡：只高亮前置、影響與該卡方法採用關係，不觸發頁面跳轉或自動捲動。</li>
+<li>技術細節預設收合；需要討論方法、輸入輸出與驗證時再手動展開。</li>
+</ul>
+</div>
+</div>
+<div class="inspector-grid">
+<div class="inspector-box"><b>該 Sprint 任務</b><ul id="inspectorDeps"><li>顯示全部任務分布</li></ul></div>
+<div class="inspector-box"><b>方法採用摘要</b><div id="inspectorMethods"><ul class="inspector-method-list"><li><p>選擇 Sprint 後顯示本 Sprint 涵蓋的 Core / Support / Later 方法摘要。</p></li></ul></div></div>
+<div class="inspector-box"><b>跨 Sprint 相依與驗證提醒</b><ul id="inspectorImpact"><li>選擇 Sprint 後顯示前後承接關係。</li></ul></div>
+</div>
+</section>
+<div class="roadmap-scroll">
+<div class="roadmap-shell" id="roadmapShell">
+<section aria-label="AI/ML Roadmap" class="roadmap-board" id="roadmapBoard">
+<svg aria-hidden="true" class="dependency-lines" focusable="false" id="dependencyLines"></svg>
+<div class="timeline-head">
+<div>應用 Lane / 階段</div>
+<div class="sprint-head"><span>Sprint 4</span><span>Sprint 5</span><span>Sprint 6</span><span>Sprint 7</span><span>Sprint 8</span><span>Sprint 9</span><span>Sprint 10</span><span>Sprint 11</span><span>Sprint 12</span><span>Sprint 13</span><span>Sprint 14</span><span>Sprint 15</span><span>Sprint 16</span></div>
+<div>技術落點摘要 / 點擊任務卡展開</div>
+</div>
+<div class="section-title section-foundation" id="section-data_foundation"><div><b>資料基礎</b><span>先讓資料可被觀測、回收與串接；不把資料表與 API 設計塞進 Roadmap。</span></div></div><article class="lane" data-lane="data_foundation" data-tags="D O" id="lane-data_foundation" style="--rows:4;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 1</div>
+<h3>資料基礎與事件觀測</h3>
+<div class="tags"><span class="tag tag-D" data-capability="D">D<em>資料準備</em></span><span class="tag tag-O" data-capability="O">O<em>成效觀測</em></span></div>
+<p>作為搜尋、推薦、活化、投放與 AI 互動服務的共同基礎階段。</p>
+<div class="inline-note"><b>初版定義</b><br/>完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。</div>
+</div>
+<div class="timeline-grid" style="--rows:4;"><button class="task task-data" data-lane="data_foundation" data-task-id="df_event_spec" style="grid-column:1 / span 2; grid-row:1;" type="button">
+<small>Sprint 4–5</small>
+<strong>事件追蹤規範設計</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_search_events" style="grid-column:1 / span 2; grid-row:2;" type="button">
+<small>Sprint 4–5</small>
+<strong>搜尋相關事件埋設</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_purchase_events" style="grid-column:1 / span 2; grid-row:3;" type="button">
+<small>Sprint 4–5</small>
+<strong>購買相關事件埋設（補）</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_browse_events" style="grid-column:2 / span 2; grid-row:4;" type="button">
+<small>Sprint 5–6</small>
+<strong>瀏覽相關事件埋設（補）</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_marketing_events" style="grid-column:3 / span 2; grid-row:2;" type="button">
+<small>Sprint 6–7</small>
+<strong>行銷相關事件埋設</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_login_events" style="grid-column:3 / span 2; grid-row:3;" type="button">
+<small>Sprint 6–7</small>
+<strong>登入註冊相關事件埋設（補）</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_cold_start" style="grid-column:5 / span 2; grid-row:1;" type="button">
+<small>Sprint 8–9</small>
+<strong>冷啟動旅遊偏好收集</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_decision_info" style="grid-column:5 / span 2; grid-row:2;" type="button">
+<small>Sprint 8–9</small>
+<strong>決策資訊收集</strong>
+</button><button class="task task-data" data-lane="data_foundation" data-task-id="df_id_mapping" style="grid-column:9 / span 2; grid-row:3;" type="button">
+<small>Sprint 12–13</small>
+<strong>定期規整及清理使用者 ID（ID Mapping）</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Data Foundation / Measurement</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>建立事件規範、漏斗觀測、ID 關聯與回饋資料，作為搜尋、推薦、活化、投放與 AI 互動的共同基礎。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Event Taxonomy → Funnel Measurement → Identity Resolution → Feedback Loop</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先確認 Amplitude 事件品質、關鍵行為補點與基本成效回收；資料表、API 與權限細節由治理文件承接。</p></div></div>
+<div class="method-box"><b>方法池 / 資料治理採用關係</b><div class="method-chips"><span class="method-chip">Event Taxonomy</span><span class="method-chip">Funnel Mapping</span><span class="method-chip">Data Quality Check</span><span class="method-chip">Identity Resolution</span><span class="method-chip">Attribution Feedback</span><span class="method-chip">Naming Convention</span><span class="method-chip">Event QA</span><span class="method-chip">Data Contract</span><span class="method-chip">Query Log Structuring</span><span class="method-chip">SERP Exposure Tracking</span><span class="method-chip">Zero-result Tracking</span><span class="method-chip">Conversion Funnel Mapping</span><span class="method-chip">Device-to-User Stitching</span><span class="method-chip">Consent State Mapping</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>Amplitude（Web / App）事件、搜尋曝光與點擊、瀏覽與收藏、booking_start、訂單、登入註冊、行銷互動與回流。</p></div><div class="io-box"><b>輸出物件</b><p>可追蹤事件規範、漏斗資料集、使用者與裝置關聯、跨渠道回饋與模型訓練候選資料。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>階段定義</b><span>確認應用所需資料與觀測條件</span></div><div class="evolution-step"><b>階段收斂</b><span>ID Mapping 與跨渠道回饋成為共用能力</span></div><div class="evolution-step"><b>可驗證基礎</b><span>支援搜尋、推薦、活化與 AI 成效回收</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>事件覆蓋率與漏斗可追蹤</li><li>搜尋、曝光、點擊、收藏、booking_start 可回收</li><li>ID Mapping 與跨渠道回饋可逐步銜接</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。</div>
+</aside>
+</article><div class="section-title section-webapp" id="section-ai_search"><div><b>Web / App</b><span>使用者站內行動時的搜尋、推薦、活化與轉換決策。</span></div></div><article class="lane" data-lane="ai_search" data-tags="S H" id="lane-ai_search" style="--rows:3;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 3</div>
+<h3>AI 搜尋機制</h3>
+<div class="tags"><span class="tag tag-S" data-capability="S">S<em>搜尋理解</em></span><span class="tag tag-H" data-capability="H">H<em>混合召回</em></span></div>
+<p>定位為搜尋理解與排序能力，並與 AI Agent、對話服務形成清楚分工。</p>
+<div class="inline-note"><b>初版定義</b><br/>先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。</div>
+</div>
+<div class="timeline-grid" style="--rows:3;"><button class="task task-search" data-lane="ai_search" data-task-id="search_beta" style="grid-column:2 / span 2; grid-row:1;" type="button">
+<small>Sprint 5–6</small>
+<strong>AI 產品搜尋 Beta</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_trial" style="grid-column:4 / span 1; grid-row:2;" type="button">
+<small>Sprint 7</small>
+<strong>AI 搜尋小流量試營運</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_vector" style="grid-column:4 / span 1; grid-row:3;" type="button">
+<small>Sprint 7</small>
+<strong>Vector Retrieval 接入 Hybrid Search</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_app_launch" style="grid-column:5 / span 2; grid-row:2;" type="button">
+<small>Sprint 8–9</small>
+<strong>AI 搜尋正式上線（App 2.0）</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_web_launch" style="grid-column:7 / span 2; grid-row:1;" type="button">
+<small>Sprint 10–11</small>
+<strong>AI 搜尋 Web 上線規劃</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Query Understanding / Hybrid Search</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>讓搜尋能理解自然語言需求，並結合關鍵字、向量召回、條件過濾與排序機制，提高搜尋結果相關性。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Keyword Retrieval → Query Understanding → Vector Retrieval → Hybrid Search / Reranking</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以小流量驗證查詢改寫、意圖辨識、keyword retrieval、vector retrieval、filter 與 reranking。</p></div></div>
+<div class="method-box method-search"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">BM25</span><span class="method-chip">Synonym Expansion</span><span class="method-chip">Query Rewrite</span><span class="method-chip">NER</span><span class="method-chip">Intent Classification</span><span class="method-chip">Embedding Retrieval</span><span class="method-chip">ANN Search</span><span class="method-chip">Learning-to-Rank</span><span class="method-chip">Cross-Encoder Reranker</span><span class="method-chip">Rule-based Facet Mapping</span><span class="method-chip">Search Quality Evaluation</span><span class="method-chip">Relevance Feedback</span><span class="method-chip">Zero-result Analysis</span><span class="method-chip">Hybrid Fusion</span><span class="method-chip">Availability Filter</span><span class="method-chip">Facet Filter</span><span class="method-chip">Ranking Calibration</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>query、目的地與 POI、天數、月份、價格帶、商品可售狀態、搜尋曝光、點擊、改搜與查無結果。</p></div><div class="io-box"><b>輸出物件</b><p>query intent、改寫後查詢、候選商品池、facet 條件、排序分數、zero-result 原因與搜尋品質回饋。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>同義詞、熱門詞、查無結果與規則排序</span></div><div class="evolution-step"><b>中期</b><span>Query Understanding + Keyword / Vector 召回</span></div><div class="evolution-step"><b>後期</b><span>Hybrid Search + 商品條件過濾 + Reranking</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>搜尋結果頁到商品詳情頁 CTR</li><li>查無結果率與 zero-click rate</li><li>改搜率、搜尋後 booking_start 率</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。</div>
+<div class="tech-note">右側為 lane 方法池；實際候選方法以點擊後顯示的 sprint 任務卡內容為準，並取決於資料量、延遲、可解釋性與 A/B 驗證結果。</div>
+</aside>
+</article><article class="lane" data-lane="recommendation" data-tags="R B I" id="lane-recommendation" style="--rows:5;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 2 → 4</div>
+<h3>推薦機制</h3>
+<div class="tags"><span class="tag tag-R" data-capability="R">R<em>推薦能力</em></span><span class="tag tag-B" data-capability="B">B<em>批次產出</em></span><span class="tag tag-I" data-capability="I">I<em>意圖濃度</em></span></div>
+<p>由規則、批次與相似商品先行，逐步走向 session-based 與意圖驅動推薦。</p>
+<div class="inline-note"><b>初版定義</b><br/>初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。</div>
+</div>
+<div class="timeline-grid" style="--rows:5;"><button class="task task-reco" data-lane="recommendation" data-task-id="reco_hot" style="grid-column:2 / span 2; grid-row:1;" type="button">
+<small>Sprint 5–6</small>
+<strong>每日熱門商品機制優化（累積 / 指數）</strong>
+</button><button class="task task-reco" data-lane="recommendation" data-task-id="reco_similar" style="grid-column:4 / span 2; grid-row:2;" type="button">
+<small>Sprint 7–8</small>
+<strong>相似商品推薦</strong>
+</button><button class="task task-reco" data-lane="recommendation" data-task-id="reco_segment_content" style="grid-column:5 / span 2; grid-row:3;" type="button">
+<small>Sprint 8–9</small>
+<strong>分眾內容推薦（ID-based，手動條件控版位）</strong>
+</button><button class="task task-reco" data-lane="recommendation" data-task-id="reco_trend" style="grid-column:7 / span 2; grid-row:1;" type="button">
+<small>Sprint 10–11</small>
+<strong>趨勢商品機制優化（外部趨勢話題與促銷時機）</strong>
+</button><button class="task task-reco" data-lane="recommendation" data-task-id="reco_infinite" style="grid-column:7 / span 2; grid-row:4;" type="button">
+<small>Sprint 10–11</small>
+<strong>無限滾動推薦（session-based / near real-time）</strong>
+</button><button class="task task-activation" data-lane="recommendation" data-task-id="reco_context" style="grid-column:9 / span 2; grid-row:5;" type="button">
+<small>Sprint 12–13</small>
+<strong>情境推薦（視事件階段成熟度推進）</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Recommendation / Personalization</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>由熱門、相似商品與使用者行為訊號，逐步建立個人化與情境化推薦能力。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Popularity → Similarity → Segment-based → Session-based → Intent-driven Recommendation</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>初期以熱門商品、相似商品與手動分眾推薦驗證商品池與排序品質，再銜接 session-based 與 near real-time features。</p></div></div>
+<div class="method-box method-reco"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">Time-decay Popularity</span><span class="method-chip">Wilson Score</span><span class="method-chip">Bayesian Smoothing</span><span class="method-chip">Content-based Similarity</span><span class="method-chip">Embedding Similarity</span><span class="method-chip">Item-to-Item CF</span><span class="method-chip">ALS / Matrix Factorization</span><span class="method-chip">Session-based Recommendation</span><span class="method-chip">Multi-objective Ranking</span><span class="method-chip">Exposure Correction</span><span class="method-chip">Similarity Thresholding</span><span class="method-chip">Rule-based Segmentation</span><span class="method-chip">Content-based Recommendation</span><span class="method-chip">Trend Score</span><span class="method-chip">Growth Rate</span><span class="method-chip">External Trend Mapping</span><span class="method-chip">Sequential Recommendation</span><span class="method-chip">Near Real-time Features</span><span class="method-chip">Contextual Recommendation</span><span class="method-chip">Lifecycle Stage Rule</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>商品屬性、地區與主題標籤、曝光、點擊、瀏覽深度、收藏、booking_start、成交、近期熱度與外部趨勢。</p></div><div class="io-box"><b>輸出物件</b><p>熱門分數、趨勢分數、相似商品清單、分眾推薦商品池、session 推薦結果與排序理由。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>熱門商品、規則推薦、手動分眾</span></div><div class="evolution-step"><b>中期</b><span>相似商品、趨勢分數、批次分眾名單</span></div><div class="evolution-step"><b>後期</b><span>Session-based / near real-time 與意圖驅動推薦</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>推薦曝光後 CTR 是否高於原排序商品</li><li>推薦商品進入詳情頁、收藏、booking_start 的增量</li><li>熱門分數是否排除高曝光污染</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。</div>
+</aside>
+</article><article class="lane" data-lane="cross_sell" data-tags="A I R" id="lane-cross_sell" style="--rows:3;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 4</div>
+<h3>交叉銷售</h3>
+<div class="tags"><span class="tag tag-A" data-capability="A">A<em>自動化觸發</em></span><span class="tag tag-I" data-capability="I">I<em>意圖濃度</em></span><span class="tag tag-R" data-capability="R">R<em>推薦能力</em></span></div>
+<p>核心聚焦旅程階段與訂單生命週期下的 Next Best Offer，並結合商品關聯與情境條件。</p>
+<div class="inline-note"><b>初版定義</b><br/>先以商品關聯規則與加購場景驗證，再逐步導入旅程階段、可售性與頻控。</div>
+</div>
+<div class="timeline-grid" style="--rows:3;"><button class="task task-activation" data-lane="cross_sell" data-task-id="cross_related" style="grid-column:5 / span 2; grid-row:1;" type="button">
+<small>Sprint 8–9</small>
+<strong>關聯性商品銷售推薦（銜接 MVP 上線後優化）</strong>
+</button><button class="task task-activation" data-lane="cross_sell" data-task-id="cross_decision_pref" style="grid-column:6 / span 2; grid-row:2;" type="button">
+<small>Sprint 9–10</small>
+<strong>歷史決策偏好商品推薦（依據決策類型）</strong>
+</button><button class="task task-activation" data-lane="cross_sell" data-task-id="cross_lookalike" style="grid-column:9 / span 2; grid-row:3;" type="button">
+<small>Sprint 12–13</small>
+<strong>類似受眾促銷（Lookalike）</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Lifecycle Offer / Next Best Action</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>依旅程階段、訂單狀態與商品關聯，判斷下一個最適合的加購、提醒或服務行動。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Association Rule → Lifecycle Stage → Next Best Offer → Next Best Action</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以商品關聯規則與加購場景驗證，再逐步導入旅程階段、可售性、頻控與服務負荷控管。</p></div></div>
+<div class="method-box method-activation"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">Association Rule</span><span class="method-chip">Apriori</span><span class="method-chip">FP-Growth</span><span class="method-chip">Market Basket Analysis</span><span class="method-chip">Lifecycle Recommendation</span><span class="method-chip">Next Best Offer Ranking</span><span class="method-chip">Contextual Ranking</span><span class="method-chip">Contextual Bandit</span><span class="method-chip">Eligibility Rule</span><span class="method-chip">Decision Preference Mapping</span><span class="method-chip">Next Best Offer</span><span class="method-chip">Lookalike Seed</span><span class="method-chip">Audience Scoring</span><span class="method-chip">Propensity-based Audience Seed</span><span class="method-chip">Match Rate Monitoring</span><span class="method-chip">Holdout Evaluation</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>訂單狀態、旅程階段、主商品、加購品、可售狀態、價格與毛利、服務負荷、頻控與使用者同意狀態。</p></div><div class="io-box"><b>輸出物件</b><p>加購推薦清單、Next Best Offer、觸發條件、適用條件、排除條件、頻控規則與跨渠道提示理由。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>商品關聯規則與加購場景</span></div><div class="evolution-step"><b>中期</b><span>旅程階段 + 訂單狀態 + 可售性</span></div><div class="evolution-step"><b>後期</b><span>Next Best Offer 與跨渠道觸發</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>加購品曝光後 CTR 與轉換率</li><li>加購推薦是否符合訂單狀態與可售性</li><li>推送後客服負擔、取消與干擾成本是否升高</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>交叉銷售會依旅程階段、可售狀態、頻控、服務負荷與同意狀態進行控管。</div>
+</aside>
+</article><article class="lane" data-lane="activation" data-tags="I P A G" id="lane-activation" style="--rows:6;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 2 → 5</div>
+<h3>用戶活化</h3>
+<div class="tags"><span class="tag tag-I" data-capability="I">I<em>意圖濃度</em></span><span class="tag tag-P" data-capability="P">P<em>傾向分數</em></span><span class="tag tag-A" data-capability="A">A<em>自動化觸發</em></span><span class="tag tag-G" data-capability="G">G<em>代理流程</em></span></div>
+<p>規則型先行，模型型待資料累積；先收攏互動訊號、成本與回饋，再談 ROI。</p>
+<div class="inline-note"><b>初版定義</b><br/>先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。</div>
+</div>
+<div class="timeline-grid" style="--rows:6;"><button class="task task-activation" data-lane="activation" data-task-id="act_segment_push" style="grid-column:4 / span 2; grid-row:1;" type="button">
+<small>Sprint 7–8</small>
+<strong>App 分眾推播（ID-based，手動設定）</strong>
+</button><button class="task task-activation" data-lane="activation" data-task-id="act_stage_label" style="grid-column:5 / span 2; grid-row:2;" type="button">
+<small>Sprint 8–9</small>
+<strong>行為階段分層標籤化，支援行前銷售情境露出</strong>
+</button><button class="task task-activation" data-lane="activation" data-task-id="act_active_grade" style="grid-column:6 / span 2; grid-row:3;" type="button">
+<small>Sprint 9–10</small>
+<strong>細化活躍度分級，優化有效名單撈取機制</strong>
+</button><button class="task task-activation" data-lane="activation" data-task-id="act_script_push" style="grid-column:7 / span 2; grid-row:4;" type="button">
+<small>Sprint 10–11</small>
+<strong>自動化腳本互動：推播通知（固定時間召回）</strong>
+</button><button class="task task-activation" data-lane="activation" data-task-id="act_script_reward" style="grid-column:9 / span 2; grid-row:5;" type="button">
+<small>Sprint 12–13</small>
+<strong>自動化腳本互動：站內行為獎勵（條件式觸發）</strong>
+</button><button class="task task-ai" data-lane="activation" data-task-id="act_ai_audience" style="grid-column:12 / span 2; grid-row:6;" type="button">
+<small>Sprint 15–16</small>
+<strong>AI 輔助設定受眾，滾動更新受眾包</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Intent Scoring / Marketing Automation</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>將使用者行為轉成意圖分數、活躍度分級與轉換傾向，支援分眾、推播與自動化觸發。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Rule-based Segment → Lifecycle Labeling → Intent Score → Propensity → Automation</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。</p></div></div>
+<div class="method-box method-activation"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">RFM</span><span class="method-chip">Intent Score</span><span class="method-chip">Engagement Score</span><span class="method-chip">Product Affinity Score</span><span class="method-chip">Logistic Regression</span><span class="method-chip">LightGBM / XGBoost</span><span class="method-chip">Response Propensity</span><span class="method-chip">Uplift Modeling</span><span class="method-chip">Rule Engine</span><span class="method-chip">ID-based Segmentation</span><span class="method-chip">Rule-based Send-time Selection</span><span class="method-chip">Frequency Capping</span><span class="method-chip">Rule-based Lifecycle Stage Labeling</span><span class="method-chip">Lifecycle Stage Mapping</span><span class="method-chip">Threshold Calibration</span><span class="method-chip">Scheduled Trigger</span><span class="method-chip">Conditional Trigger</span><span class="method-chip">Reward Eligibility</span><span class="method-chip">Stop-loss Rule</span><span class="method-chip">AI-assisted Audience Builder</span><span class="method-chip">Human-in-the-loop Review</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>瀏覽深度、搜尋意圖、目的地偏好、價格帶、收藏、booking_start、訂單狀態、推播互動與回訪。</p></div><div class="io-box"><b>輸出物件</b><p>意圖濃度、活躍度分級、轉換傾向、回應傾向、召回名單、推播觸發條件與排除名單。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>規則型名單與手動推播</span></div><div class="evolution-step"><b>中期</b><span>活躍度分級、決策階段與意圖濃度</span></div><div class="evolution-step"><b>後期</b><span>Propensity Score + Automation + ROI 回饋</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>推播開啟率、點擊率與後續行為轉換</li><li>高意圖未轉換名單召回率</li><li>自動化觸發後的干擾成本與退訂率</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。</div>
+<div class="tech-note">後期預計補上 holdout / uplift 觀測增量，用於區分自然轉換與實際增量貢獻。</div>
+</aside>
+</article><div class="section-title section-marketing" id="section-ads"><div><b>行銷</b><span>誰該被溝通、何時溝通、推什麼、用什麼理由。</span></div></div><article class="lane" data-lane="ads" data-tags="O I P" id="lane-ads" style="--rows:2;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 4</div>
+<h3>站外廣告投放</h3>
+<div class="tags"><span class="tag tag-O" data-capability="O">O<em>成效觀測</em></span><span class="tag tag-I" data-capability="I">I<em>意圖濃度</em></span><span class="tag tag-P" data-capability="P">P<em>傾向分數</em></span></div>
+<p>CAPI / Signal Gateway 是投放資料管線；演算法價值在高品質受眾種子與成效回饋。</p>
+<div class="inline-note"><b>初版定義</b><br/>先打通第一方事件與受眾輸出，再讓高意圖、高價值與類似受眾作為投放增量驗證。</div>
+</div>
+<div class="timeline-grid" style="--rows:2;"><button class="task task-data" data-lane="ads" data-task-id="ads_capi" style="grid-column:5 / span 2; grid-row:1;" type="button">
+<small>Sprint 8–9</small>
+<strong>Conversions API Event Streaming（第一方自訂事件送至 Meta）</strong>
+</button><button class="task task-activation" data-lane="ads" data-task-id="ads_signal_gateway" style="grid-column:7 / span 2; grid-row:2;" type="button">
+<small>Sprint 10–11</small>
+<strong>Meta Signal Gateway（第一方受眾同步，涵蓋匿名與會員）</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Audience Activation / Conversion Feedback</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>把第一方事件、受眾與轉換回饋銜接到站外投放，讓高意圖與高價值受眾可被驗證。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Audience Sync → Conversion Feedback → Match-rate Monitoring → Incremental Evaluation</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先打通第一方事件回傳、去重、受眾同步與同意狀態控管，再以匹配率與增量觀測驗證投放價值。</p></div></div>
+<div class="method-box method-activation"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">Audience Scoring</span><span class="method-chip">Propensity-based Audience Seed</span><span class="method-chip">LTV Segment</span><span class="method-chip">Lookalike Seed</span><span class="method-chip">Conversion Feedback</span><span class="method-chip">Match Rate Monitoring</span><span class="method-chip">Holdout Evaluation</span><span class="method-chip">Event Deduplication</span><span class="method-chip">Server-side Event Streaming</span><span class="method-chip">Audience Sync</span><span class="method-chip">Identity Resolution</span><span class="method-chip">Consent Filtering</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>第一方事件、匿名與會員 ID、目的地偏好、轉換事件、站外回流、campaign 互動與受眾同意狀態。</p></div><div class="io-box"><b>輸出物件</b><p>高意圖受眾包、高價值 seed、Lookalike seed、事件回傳、匹配率與投放回饋資料。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>規則型受眾包與事件回傳</span></div><div class="evolution-step"><b>中期</b><span>高意圖 / 高價值受眾種子</span></div><div class="evolution-step"><b>後期</b><span>Lookalike seed + 投放成效回饋</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>事件回傳成功率與去重品質</li><li>受眾匹配率與更新頻率</li><li>高意圖受眾與一般受眾的投放差異</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>透過回接成效回饋，投放能力可由受眾輸出升級為可驗證增量的閉環。</div>
+</aside>
+</article><div class="section-title section-ai" id="section-digital_twins"><div><b>AI 互動服務層</b><span>行前、行中、行後的 AI 互動、知識情境與工具調用。</span></div></div><article class="lane" data-lane="digital_twins" data-tags="G K O" id="lane-digital_twins" style="--rows:3;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 5</div>
+<h3>AI 旅程助理</h3>
+<div class="tags"><span class="tag tag-G" data-capability="G">G<em>代理流程</em></span><span class="tag tag-K" data-capability="K">K<em>知識節點</em></span><span class="tag tag-O" data-capability="O">O<em>成效觀測</em></span></div>
+<p>AI 互動服務調用搜尋、推薦、意圖與交叉銷售能力，讓對話層負責情境承接與服務體驗。</p>
+<div class="inline-note"><b>初版定義</b><br/>先以固定旅遊情境、知識節點、工具調用與回覆品質觀測落地，再逐步個人化。</div>
+</div>
+<div class="timeline-grid" style="--rows:3;"><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_pretrip" style="grid-column:7 / span 2; grid-row:1;" type="button">
+<small>Sprint 10–11</small>
+<strong>AI 旅程助理（行前提醒）</strong>
+</button><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_posttrip" style="grid-column:9 / span 2; grid-row:2;" type="button">
+<small>Sprint 12–13</small>
+<strong>AI 旅程助理（行後互動）</strong>
+</button><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_intratrip" style="grid-column:11 / span 2; grid-row:3;" type="button">
+<small>Sprint 14–15</small>
+<strong>AI 旅程助理（行中互動）</strong>
+</button></div>
+<aside class="tech-card">
+<h4>AI Journey Assistant / Knowledge Orchestration</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>以旅程階段、知識節點、工具調用與回覆品質觀測，支援行前、行中與行後的 AI 互動服務。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>RAG Response → Context Routing → Tool Calling → Guardrails / Human Handoff → Runtime Monitoring</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以固定旅遊情境、知識節點、工具調用與回答依據 trace 落地，再逐步導入個人化與更高自動化。</p></div></div>
+<div class="method-box method-ai"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">RAG</span><span class="method-chip">Knowledge Retrieval</span><span class="method-chip">Context Routing</span><span class="method-chip">Intent Classification</span><span class="method-chip">Tool Calling</span><span class="method-chip">Agent Workflow</span><span class="method-chip">LLM Evaluation</span><span class="method-chip">Answer Grounding</span><span class="method-chip">Guardrails</span><span class="method-chip">Feedback Classification</span><span class="method-chip">Sentiment Classification</span><span class="method-chip">Trace Review</span><span class="method-chip">Human Handoff</span><span class="method-chip">Runtime Monitoring</span><span class="method-chip">Journey Stage Context</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>旅程階段、商品與訂單資訊、FAQ / 知識庫、搜尋與推薦結果、使用者上下文、服務流程與工具權限。</p></div><div class="io-box"><b>輸出物件</b><p>知識節點回覆、工具調用結果、行前 / 行中 / 行後互動、異常轉人工、prompt trace 與品質評估。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>固定情境腳本與知識節點</span></div><div class="evolution-step"><b>中期</b><span>Agent Workflow + Tool Calling + Trace</span></div><div class="evolution-step"><b>後期</b><span>個人化旅程互動與跨服務調用</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>AI 回覆是否能被 trace 與評估</li><li>行前、行中、行後互動是否產生有效行為</li><li>工具調用成功率、成本、延遲與異常率</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>AI 互動層聚焦情境承接、知識組織、工具調用與回覆品質觀測，並銜接搜尋推薦能力。</div>
+<div class="tech-note">不把 LLM 名稱作為 Roadmap 主體；重點是 RAG、工具調用、品質觀測與異常治理。</div>
+</aside>
+</article>
+</section>
+</div>
+</div>
+</main>
+<div class="toast" id="toast">已重置閱讀狀態</div>
+<script>
+(function(){
+  const TASKS = {
+  "df_event_spec": {
+    "id": "df_event_spec",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 4–5",
+    "title": "事件追蹤規範設計",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [],
+    "enables": [
+      "df_search_events",
+      "df_purchase_events",
+      "df_browse_events",
+      "df_marketing_events",
+      "df_login_events",
+      "search_beta"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Event Taxonomy / Funnel Mapping / Naming Convention / Event QA / Data Contract",
+    "output": "可執行事件規範、事件命名規則、漏斗對照與埋點驗收清單。"
+  },
+  "df_search_events": {
+    "id": "df_search_events",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 4–5",
+    "title": "搜尋相關事件埋設",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_event_spec"
+    ],
+    "enables": [
+      "search_beta",
+      "search_trial",
+      "search_app_launch"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Search Event Schema / Query Log Structuring / SERP Exposure Tracking / Zero-result Tracking",
+    "output": "搜尋 query log、搜尋曝光、點擊、改搜與查無結果回饋資料。"
+  },
+  "df_purchase_events": {
+    "id": "df_purchase_events",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 4–5",
+    "title": "購買相關事件埋設（補）",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_event_spec"
+    ],
+    "enables": [
+      "df_decision_info",
+      "df_id_mapping",
+      "reco_hot",
+      "act_stage_label",
+      "ads_capi",
+      "dt_posttrip"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Conversion Funnel Mapping / Booking Event Schema / Attribution Feedback / Data Quality Check",
+    "output": "booking_start、訂單與成交回饋事件，用於推薦、活化與投放成效閉環。"
+  },
+  "df_browse_events": {
+    "id": "df_browse_events",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 5–6",
+    "title": "瀏覽相關事件埋設（補）",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_event_spec"
+    ],
+    "enables": [
+      "df_cold_start",
+      "df_decision_info",
+      "df_id_mapping",
+      "reco_hot",
+      "reco_similar",
+      "reco_segment_content",
+      "reco_trend",
+      "reco_infinite",
+      "act_stage_label"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Browse Event Schema / Engagement Depth / Product View Tracking / Signal Aggregation",
+    "output": "瀏覽、停留、收藏、商品互動與內容深度訊號。"
+  },
+  "df_marketing_events": {
+    "id": "df_marketing_events",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 6–7",
+    "title": "行銷相關事件埋設",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_event_spec"
+    ],
+    "enables": [
+      "act_segment_push",
+      "act_script_push",
+      "ads_capi"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Campaign Event Schema / UTM Mapping / Push Interaction Tracking / Channel Feedback",
+    "output": "行銷互動、推播點擊、站外回流與 campaign 回饋資料。"
+  },
+  "df_login_events": {
+    "id": "df_login_events",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 6–7",
+    "title": "登入註冊相關事件埋設（補）",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_event_spec"
+    ],
+    "enables": [
+      "df_cold_start",
+      "df_id_mapping",
+      "reco_segment_content",
+      "act_segment_push",
+      "ads_capi",
+      "ads_signal_gateway"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Identity Event Mapping / Login Funnel Tracking / Consent State Mapping / Member Linking",
+    "output": "登入註冊漏斗、會員關聯、同意狀態與匿名轉會員銜接資料。"
+  },
+  "df_cold_start": {
+    "id": "df_cold_start",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 8–9",
+    "title": "冷啟動旅遊偏好收集",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_browse_events",
+      "df_login_events"
+    ],
+    "enables": [
+      "act_stage_label"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Preference Questionnaire / Progressive Profiling / Cold-start Feature Encoding / Rule-based Preference Mapping",
+    "output": "冷啟動偏好特徵、旅遊主題偏好與初始推薦候選條件。"
+  },
+  "df_decision_info": {
+    "id": "df_decision_info",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 8–9",
+    "title": "決策資訊收集",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_browse_events",
+      "df_purchase_events"
+    ],
+    "enables": [
+      "reco_context",
+      "cross_decision_pref",
+      "act_active_grade"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Decision Attribute Collection / Preference Feature Engineering / Context Labeling / Intent Feature Mapping",
+    "output": "決策類型、旅遊動機、價格敏感、同行者與行前情境特徵。"
+  },
+  "df_id_mapping": {
+    "id": "df_id_mapping",
+    "lane": "data_foundation",
+    "laneTitle": "資料基礎與事件觀測",
+    "sprint": "Sprint 12–13",
+    "title": "定期規整及清理使用者 ID（ID Mapping）",
+    "tags": [
+      "D",
+      "O"
+    ],
+    "phase": "Phase 1",
+    "deps": [
+      "df_login_events",
+      "df_purchase_events",
+      "df_browse_events"
+    ],
+    "enables": [
+      "act_ai_audience"
+    ],
+    "validation": [
+      "事件覆蓋率與漏斗可追蹤",
+      "搜尋、曝光、點擊、收藏、booking_start 可回收",
+      "ID Mapping 與跨渠道回饋可逐步銜接"
+    ],
+    "limit": "資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。",
+    "initial": "完成事件規範、關鍵行為補點與基本成效回收，不在此文件展開欄位、表設計或 API payload。",
+    "method": "Identity Resolution / Device-to-User Stitching / Merge Rules / Data Quality Check",
+    "output": "使用者 ID 關聯表、匿名與會員映射、合併規則與清理結果。"
+  },
+  "search_beta": {
+    "id": "search_beta",
+    "lane": "ai_search",
+    "laneTitle": "AI 搜尋機制",
+    "sprint": "Sprint 5–6",
+    "title": "AI 產品搜尋 Beta",
+    "tags": [
+      "S",
+      "H"
+    ],
+    "phase": "Phase 3",
+    "deps": [
+      "df_search_events",
+      "df_event_spec"
+    ],
+    "enables": [
+      "search_trial",
+      "search_vector"
+    ],
+    "validation": [
+      "搜尋結果頁到商品詳情頁 CTR",
+      "查無結果率與 zero-click rate",
+      "改搜率、搜尋後 booking_start 率"
+    ],
+    "limit": "AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。",
+    "initial": "先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。",
+    "method": "BM25 / Synonym Expansion / Query Rewrite / NER / Rule-based Facet Mapping",
+    "output": "Beta 版搜尋理解結果、改寫查詢、facet 條件與候選商品池。"
+  },
+  "search_trial": {
+    "id": "search_trial",
+    "lane": "ai_search",
+    "laneTitle": "AI 搜尋機制",
+    "sprint": "Sprint 7",
+    "title": "AI 搜尋小流量試營運",
+    "tags": [
+      "S",
+      "H"
+    ],
+    "phase": "Phase 3",
+    "deps": [
+      "search_beta",
+      "df_search_events"
+    ],
+    "enables": [
+      "search_app_launch"
+    ],
+    "validation": [
+      "搜尋結果頁到商品詳情頁 CTR",
+      "查無結果率與 zero-click rate",
+      "改搜率、搜尋後 booking_start 率"
+    ],
+    "limit": "AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。",
+    "initial": "先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。",
+    "method": "Search Quality Evaluation / A/B Testing / Relevance Feedback / Zero-result Analysis",
+    "output": "小流量成效觀測、搜尋品質回饋、zero-click 與改搜分析。"
+  },
+  "search_vector": {
+    "id": "search_vector",
+    "lane": "ai_search",
+    "laneTitle": "AI 搜尋機制",
+    "sprint": "Sprint 7",
+    "title": "Vector Retrieval 接入 Hybrid Search",
+    "tags": [
+      "S",
+      "H"
+    ],
+    "phase": "Phase 3",
+    "deps": [
+      "search_beta"
+    ],
+    "enables": [
+      "search_app_launch",
+      "search_web_launch",
+      "reco_similar"
+    ],
+    "validation": [
+      "搜尋結果頁到商品詳情頁 CTR",
+      "查無結果率與 zero-click rate",
+      "改搜率、搜尋後 booking_start 率"
+    ],
+    "limit": "AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。",
+    "initial": "先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。",
+    "method": "Embedding Retrieval / ANN Search / Hybrid Fusion / Candidate Recall Evaluation",
+    "output": "向量召回候選池、keyword + vector 混合召回結果與召回品質指標。"
+  },
+  "search_app_launch": {
+    "id": "search_app_launch",
+    "lane": "ai_search",
+    "laneTitle": "AI 搜尋機制",
+    "sprint": "Sprint 8–9",
+    "title": "AI 搜尋正式上線（App 2.0）",
+    "tags": [
+      "S",
+      "H"
+    ],
+    "phase": "Phase 3",
+    "deps": [
+      "search_trial",
+      "search_vector",
+      "df_search_events"
+    ],
+    "enables": [
+      "search_web_launch",
+      "reco_infinite",
+      "dt_pretrip"
+    ],
+    "validation": [
+      "搜尋結果頁到商品詳情頁 CTR",
+      "查無結果率與 zero-click rate",
+      "改搜率、搜尋後 booking_start 率"
+    ],
+    "limit": "AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。",
+    "initial": "先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。",
+    "method": "Hybrid Search / Availability Filter / Facet Filter / Learning-to-Rank / Feature Flag Rollout",
+    "output": "App 2.0 正式搜尋結果、排序分數、可售條件過濾與上線觀測資料。"
+  },
+  "search_web_launch": {
+    "id": "search_web_launch",
+    "lane": "ai_search",
+    "laneTitle": "AI 搜尋機制",
+    "sprint": "Sprint 10–11",
+    "title": "AI 搜尋 Web 上線規劃",
+    "tags": [
+      "S",
+      "H"
+    ],
+    "phase": "Phase 3",
+    "deps": [
+      "search_app_launch",
+      "search_vector"
+    ],
+    "enables": [
+      "dt_intratrip"
+    ],
+    "validation": [
+      "搜尋結果頁到商品詳情頁 CTR",
+      "查無結果率與 zero-click rate",
+      "改搜率、搜尋後 booking_start 率"
+    ],
+    "limit": "AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。",
+    "initial": "先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。",
+    "method": "Web Search Integration / Hybrid Search / Ranking Calibration / Search Analytics",
+    "output": "Web 搜尋上線規劃、排序校準規則、跨裝置搜尋品質觀測。"
+  },
+  "reco_hot": {
+    "id": "reco_hot",
+    "lane": "recommendation",
+    "laneTitle": "推薦機制",
+    "sprint": "Sprint 5–6",
+    "title": "每日熱門商品機制優化（累積 / 指數）",
+    "tags": [
+      "R",
+      "B",
+      "I"
+    ],
+    "phase": "Phase 2 → 4",
+    "deps": [
+      "df_browse_events",
+      "df_purchase_events"
+    ],
+    "enables": [
+      "reco_segment_content",
+      "reco_trend"
+    ],
+    "validation": [
+      "推薦曝光後 CTR 是否高於原排序商品",
+      "推薦商品進入詳情頁、收藏、booking_start 的增量",
+      "熱門分數是否排除高曝光污染"
+    ],
+    "limit": "即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。",
+    "initial": "初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。",
+    "method": "Time-decay Popularity / Wilson Score / Bayesian Smoothing / Exposure Correction",
+    "output": "熱門商品分數、曝光修正後排序與熱門推薦商品池。"
+  },
+  "reco_similar": {
+    "id": "reco_similar",
+    "lane": "recommendation",
+    "laneTitle": "推薦機制",
+    "sprint": "Sprint 7–8",
+    "title": "相似商品推薦",
+    "tags": [
+      "R",
+      "B",
+      "I"
+    ],
+    "phase": "Phase 2 → 4",
+    "deps": [
+      "df_browse_events",
+      "search_vector"
+    ],
+    "enables": [
+      "reco_infinite",
+      "cross_related"
+    ],
+    "validation": [
+      "推薦曝光後 CTR 是否高於原排序商品",
+      "推薦商品進入詳情頁、收藏、booking_start 的增量",
+      "熱門分數是否排除高曝光污染"
+    ],
+    "limit": "即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。",
+    "initial": "初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。",
+    "method": "Content-based Similarity / Embedding Similarity / Item-to-Item CF / Similarity Thresholding",
+    "output": "相似商品清單、替代探索候選與相似理由。"
+  },
+  "reco_segment_content": {
+    "id": "reco_segment_content",
+    "lane": "recommendation",
+    "laneTitle": "推薦機制",
+    "sprint": "Sprint 8–9",
+    "title": "分眾內容推薦（ID-based，手動條件控版位）",
+    "tags": [
+      "R",
+      "B",
+      "I"
+    ],
+    "phase": "Phase 2 → 4",
+    "deps": [
+      "df_login_events",
+      "df_browse_events",
+      "reco_hot"
+    ],
+    "enables": [
+      "reco_context"
+    ],
+    "validation": [
+      "推薦曝光後 CTR 是否高於原排序商品",
+      "推薦商品進入詳情頁、收藏、booking_start 的增量",
+      "熱門分數是否排除高曝光污染"
+    ],
+    "limit": "即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。",
+    "initial": "初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。",
+    "method": "Rule-based Segmentation / ID-based Audience Matching / Content-based Recommendation / Manual Slot Control",
+    "output": "ID-based 分眾商品池、版位控管條件與分眾推薦清單。"
+  },
+  "reco_trend": {
+    "id": "reco_trend",
+    "lane": "recommendation",
+    "laneTitle": "推薦機制",
+    "sprint": "Sprint 10–11",
+    "title": "趨勢商品機制優化（外部趨勢話題與促銷時機）",
+    "tags": [
+      "R",
+      "B",
+      "I"
+    ],
+    "phase": "Phase 2 → 4",
+    "deps": [
+      "reco_hot",
+      "df_browse_events"
+    ],
+    "enables": [],
+    "validation": [
+      "推薦曝光後 CTR 是否高於原排序商品",
+      "推薦商品進入詳情頁、收藏、booking_start 的增量",
+      "熱門分數是否排除高曝光污染"
+    ],
+    "limit": "即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。",
+    "initial": "初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。",
+    "method": "Trend Score / Growth Rate / External Trend Mapping / Anomaly Detection",
+    "output": "近期熱議商品清單、趨勢分數、外部話題映射與促銷時機提示。"
+  },
+  "reco_infinite": {
+    "id": "reco_infinite",
+    "lane": "recommendation",
+    "laneTitle": "推薦機制",
+    "sprint": "Sprint 10–11",
+    "title": "無限滾動推薦（session-based / near real-time）",
+    "tags": [
+      "R",
+      "B",
+      "I"
+    ],
+    "phase": "Phase 2 → 4",
+    "deps": [
+      "reco_similar",
+      "df_browse_events",
+      "search_app_launch"
+    ],
+    "enables": [
+      "reco_context"
+    ],
+    "validation": [
+      "推薦曝光後 CTR 是否高於原排序商品",
+      "推薦商品進入詳情頁、收藏、booking_start 的增量",
+      "熱門分數是否排除高曝光污染"
+    ],
+    "limit": "即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。",
+    "initial": "初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。",
+    "method": "Session-based Recommendation / Sequential Recommendation / Near Real-time Features / Multi-objective Ranking",
+    "output": "當次 session 的下一批推薦商品、排序分數與推薦理由。"
+  },
+  "reco_context": {
+    "id": "reco_context",
+    "lane": "recommendation",
+    "laneTitle": "推薦機制",
+    "sprint": "Sprint 12–13",
+    "title": "情境推薦（視事件階段成熟度推進）",
+    "tags": [
+      "R",
+      "B",
+      "I"
+    ],
+    "phase": "Phase 2 → 4",
+    "deps": [
+      "reco_infinite",
+      "reco_segment_content",
+      "df_decision_info"
+    ],
+    "enables": [
+      "act_script_reward"
+    ],
+    "validation": [
+      "推薦曝光後 CTR 是否高於原排序商品",
+      "推薦商品進入詳情頁、收藏、booking_start 的增量",
+      "熱門分數是否排除高曝光污染"
+    ],
+    "limit": "即時推薦屬後續成熟能力；初期先以 batch / session-based 能力驗證商品池、排序與回饋，再逐步銜接 event streaming、online feature 與低延遲服務。",
+    "initial": "初期以 batch / session-based 驗證商品池、排序與回饋，後續逐步銜接 full real-time 能力。",
+    "method": "Contextual Recommendation / Intent Score / Lifecycle Stage Rule / Trigger Eligibility",
+    "output": "情境推薦清單、觸發條件、適用事件階段與排除條件。"
+  },
+  "cross_related": {
+    "id": "cross_related",
+    "lane": "cross_sell",
+    "laneTitle": "交叉銷售",
+    "sprint": "Sprint 8–9",
+    "title": "關聯性商品銷售推薦（銜接 MVP 上線後優化）",
+    "tags": [
+      "A",
+      "I",
+      "R"
+    ],
+    "phase": "Phase 4",
+    "deps": [
+      "reco_similar",
+      "act_stage_label"
+    ],
+    "enables": [
+      "dt_pretrip",
+      "dt_posttrip"
+    ],
+    "validation": [
+      "加購品曝光後 CTR 與轉換率",
+      "加購推薦是否符合訂單狀態與可售性",
+      "推送後客服負擔、取消與干擾成本是否升高"
+    ],
+    "limit": "交叉銷售會依旅程階段、可售狀態、頻控、服務負荷與同意狀態進行控管。",
+    "initial": "先以商品關聯規則與加購場景驗證，再逐步導入旅程階段、可售性與頻控。",
+    "method": "Association Rule / Apriori / FP-Growth / Market Basket Analysis / Eligibility Rule",
+    "output": "關聯商品、加購推薦、適用條件與可售性檢查結果。"
+  },
+  "cross_decision_pref": {
+    "id": "cross_decision_pref",
+    "lane": "cross_sell",
+    "laneTitle": "交叉銷售",
+    "sprint": "Sprint 9–10",
+    "title": "歷史決策偏好商品推薦（依據決策類型）",
+    "tags": [
+      "A",
+      "I",
+      "R"
+    ],
+    "phase": "Phase 4",
+    "deps": [
+      "df_decision_info",
+      "act_stage_label"
+    ],
+    "enables": [
+      "cross_lookalike"
+    ],
+    "validation": [
+      "加購品曝光後 CTR 與轉換率",
+      "加購推薦是否符合訂單狀態與可售性",
+      "推送後客服負擔、取消與干擾成本是否升高"
+    ],
+    "limit": "交叉銷售會依旅程階段、可售狀態、頻控、服務負荷與同意狀態進行控管。",
+    "initial": "先以商品關聯規則與加購場景驗證，再逐步導入旅程階段、可售性與頻控。",
+    "method": "Lifecycle Recommendation / Contextual Ranking / Decision Preference Mapping / Next Best Offer",
+    "output": "依決策類型與旅程階段產生的 Next Best Offer 與推薦理由。"
+  },
+  "cross_lookalike": {
+    "id": "cross_lookalike",
+    "lane": "cross_sell",
+    "laneTitle": "交叉銷售",
+    "sprint": "Sprint 12–13",
+    "title": "類似受眾促銷（Lookalike）",
+    "tags": [
+      "A",
+      "I",
+      "R"
+    ],
+    "phase": "Phase 4",
+    "deps": [
+      "cross_decision_pref",
+      "ads_signal_gateway",
+      "act_active_grade"
+    ],
+    "enables": [],
+    "validation": [
+      "加購品曝光後 CTR 與轉換率",
+      "加購推薦是否符合訂單狀態與可售性",
+      "推送後客服負擔、取消與干擾成本是否升高"
+    ],
+    "limit": "交叉銷售會依旅程階段、可售狀態、頻控、服務負荷與同意狀態進行控管。",
+    "initial": "先以商品關聯規則與加購場景驗證，再逐步導入旅程階段、可售性與頻控。",
+    "method": "Lookalike Seed / Audience Scoring / Propensity-based Audience Seed / Match Rate Monitoring / Holdout Evaluation",
+    "output": "類似受眾種子包、促銷名單、匹配率與投放增量觀測資料。"
+  },
+  "act_segment_push": {
+    "id": "act_segment_push",
+    "lane": "activation",
+    "laneTitle": "用戶活化",
+    "sprint": "Sprint 7–8",
+    "title": "App 分眾推播（ID-based，手動設定）",
+    "tags": [
+      "I",
+      "P",
+      "A",
+      "G"
+    ],
+    "phase": "Phase 2 → 5",
+    "deps": [
+      "df_login_events",
+      "df_marketing_events"
+    ],
+    "enables": [],
+    "validation": [
+      "推播開啟率、點擊率與後續行為轉換",
+      "高意圖未轉換名單召回率",
+      "自動化觸發後的干擾成本與退訂率"
+    ],
+    "limit": "活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。",
+    "initial": "先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。",
+    "method": "ID-based Segmentation / Rule Engine / Rule-based Send-time Selection / Frequency Capping",
+    "output": "手動分眾推播名單、推播條件、排除條件與頻控設定。"
+  },
+  "act_stage_label": {
+    "id": "act_stage_label",
+    "lane": "activation",
+    "laneTitle": "用戶活化",
+    "sprint": "Sprint 8–9",
+    "title": "行為階段分層標籤化，支援行前銷售情境露出",
+    "tags": [
+      "I",
+      "P",
+      "A",
+      "G"
+    ],
+    "phase": "Phase 2 → 5",
+    "deps": [
+      "df_browse_events",
+      "df_purchase_events",
+      "df_cold_start"
+    ],
+    "enables": [
+      "cross_related",
+      "cross_decision_pref",
+      "act_active_grade",
+      "act_script_reward",
+      "dt_pretrip"
+    ],
+    "validation": [
+      "推播開啟率、點擊率與後續行為轉換",
+      "高意圖未轉換名單召回率",
+      "自動化觸發後的干擾成本與退訂率"
+    ],
+    "limit": "活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。",
+    "initial": "先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。",
+    "method": "Rule-based Lifecycle Stage Labeling / Intent Score / Product Affinity Score / Lifecycle Stage Mapping",
+    "output": "行為階段標籤、行前銷售情境條件與高意圖未轉換名單。"
+  },
+  "act_active_grade": {
+    "id": "act_active_grade",
+    "lane": "activation",
+    "laneTitle": "用戶活化",
+    "sprint": "Sprint 9–10",
+    "title": "細化活躍度分級，優化有效名單撈取機制",
+    "tags": [
+      "I",
+      "P",
+      "A",
+      "G"
+    ],
+    "phase": "Phase 2 → 5",
+    "deps": [
+      "act_stage_label",
+      "df_decision_info"
+    ],
+    "enables": [
+      "cross_lookalike",
+      "act_script_push",
+      "act_script_reward",
+      "act_ai_audience"
+    ],
+    "validation": [
+      "推播開啟率、點擊率與後續行為轉換",
+      "高意圖未轉換名單召回率",
+      "自動化觸發後的干擾成本與退訂率"
+    ],
+    "limit": "活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。",
+    "initial": "先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。",
+    "method": "RFM / Engagement Score / Logistic Regression / LightGBM / Threshold Calibration",
+    "output": "活躍度分級、有效名單排序、轉換傾向候選分數。"
+  },
+  "act_script_push": {
+    "id": "act_script_push",
+    "lane": "activation",
+    "laneTitle": "用戶活化",
+    "sprint": "Sprint 10–11",
+    "title": "自動化腳本互動：推播通知（固定時間召回）",
+    "tags": [
+      "I",
+      "P",
+      "A",
+      "G"
+    ],
+    "phase": "Phase 2 → 5",
+    "deps": [
+      "act_active_grade",
+      "df_marketing_events"
+    ],
+    "enables": [
+      "act_ai_audience"
+    ],
+    "validation": [
+      "推播開啟率、點擊率與後續行為轉換",
+      "高意圖未轉換名單召回率",
+      "自動化觸發後的干擾成本與退訂率"
+    ],
+    "limit": "活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。",
+    "initial": "先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。",
+    "method": "Rule Engine / Scheduled Trigger / Response Propensity / Frequency Capping / Stop-loss Rule",
+    "output": "固定時間召回腳本、觸發名單、推播頻控與回應觀測資料。"
+  },
+  "act_script_reward": {
+    "id": "act_script_reward",
+    "lane": "activation",
+    "laneTitle": "用戶活化",
+    "sprint": "Sprint 12–13",
+    "title": "自動化腳本互動：站內行為獎勵（條件式觸發）",
+    "tags": [
+      "I",
+      "P",
+      "A",
+      "G"
+    ],
+    "phase": "Phase 2 → 5",
+    "deps": [
+      "act_active_grade",
+      "act_stage_label",
+      "reco_context"
+    ],
+    "enables": [
+      "act_ai_audience"
+    ],
+    "validation": [
+      "推播開啟率、點擊率與後續行為轉換",
+      "高意圖未轉換名單召回率",
+      "自動化觸發後的干擾成本與退訂率"
+    ],
+    "limit": "活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。",
+    "initial": "先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。",
+    "method": "Event-based Rule Engine / Conditional Trigger / Reward Eligibility / Stop-loss Rule / Uplift Observation",
+    "output": "站內行為獎勵觸發條件、適用名單、排除名單與增量觀測資料。"
+  },
+  "act_ai_audience": {
+    "id": "act_ai_audience",
+    "lane": "activation",
+    "laneTitle": "用戶活化",
+    "sprint": "Sprint 15–16",
+    "title": "AI 輔助設定受眾，滾動更新受眾包",
+    "tags": [
+      "I",
+      "P",
+      "A",
+      "G"
+    ],
+    "phase": "Phase 2 → 5",
+    "deps": [
+      "act_active_grade",
+      "df_id_mapping",
+      "act_script_push",
+      "act_script_reward"
+    ],
+    "enables": [],
+    "validation": [
+      "推播開啟率、點擊率與後續行為轉換",
+      "高意圖未轉換名單召回率",
+      "自動化觸發後的干擾成本與退訂率"
+    ],
+    "limit": "活化可由規則型能力先行；自動化決策、Propensity 與 ROI 最佳化會隨資料累積與回饋穩定逐步推進。",
+    "initial": "先以 ID-based、人工規則、固定情境與小範圍自動化驗證；模型型分眾與 Propensity 後續補上。",
+    "method": "AI-assisted Audience Builder / Rule Generation / Propensity-based Audience Seed / Human-in-the-loop Review / Rolling Refresh",
+    "output": "AI 輔助受眾條件草案、滾動更新受眾包與人工審核紀錄。"
+  },
+  "ads_capi": {
+    "id": "ads_capi",
+    "lane": "ads",
+    "laneTitle": "站外廣告投放",
+    "sprint": "Sprint 8–9",
+    "title": "Conversions API Event Streaming（第一方自訂事件送至 Meta）",
+    "tags": [
+      "O",
+      "I",
+      "P"
+    ],
+    "phase": "Phase 4",
+    "deps": [
+      "df_marketing_events",
+      "df_purchase_events",
+      "df_login_events"
+    ],
+    "enables": [
+      "ads_signal_gateway"
+    ],
+    "validation": [
+      "事件回傳成功率與去重品質",
+      "受眾匹配率與更新頻率",
+      "高意圖受眾與一般受眾的投放差異"
+    ],
+    "limit": "透過回接成效回饋，投放能力可由受眾輸出升級為可驗證增量的閉環。",
+    "initial": "先打通第一方事件與受眾輸出，再讓高意圖、高價值與類似受眾作為投放增量驗證。",
+    "method": "Conversion Feedback / Event Deduplication / Match Rate Monitoring / Server-side Event Streaming",
+    "output": "第一方事件回傳、去重監測、事件成功率與 Meta 回饋資料。"
+  },
+  "ads_signal_gateway": {
+    "id": "ads_signal_gateway",
+    "lane": "ads",
+    "laneTitle": "站外廣告投放",
+    "sprint": "Sprint 10–11",
+    "title": "Meta Signal Gateway（第一方受眾同步，涵蓋匿名與會員）",
+    "tags": [
+      "O",
+      "I",
+      "P"
+    ],
+    "phase": "Phase 4",
+    "deps": [
+      "ads_capi",
+      "df_login_events"
+    ],
+    "enables": [
+      "cross_lookalike"
+    ],
+    "validation": [
+      "事件回傳成功率與去重品質",
+      "受眾匹配率與更新頻率",
+      "高意圖受眾與一般受眾的投放差異"
+    ],
+    "limit": "透過回接成效回饋，投放能力可由受眾輸出升級為可驗證增量的閉環。",
+    "initial": "先打通第一方事件與受眾輸出，再讓高意圖、高價值與類似受眾作為投放增量驗證。",
+    "method": "Audience Sync / Identity Resolution / Lookalike Seed / Match Rate Monitoring / Consent Filtering",
+    "output": "匿名與會員受眾同步包、高意圖 seed、匹配率與同步狀態。"
+  },
+  "dt_pretrip": {
+    "id": "dt_pretrip",
+    "lane": "digital_twins",
+    "laneTitle": "AI 旅程助理",
+    "sprint": "Sprint 10–11",
+    "title": "AI 旅程助理（行前提醒）",
+    "tags": [
+      "G",
+      "K",
+      "O"
+    ],
+    "phase": "Phase 5",
+    "deps": [
+      "search_app_launch",
+      "act_stage_label",
+      "cross_related"
+    ],
+    "enables": [
+      "dt_posttrip",
+      "dt_intratrip"
+    ],
+    "validation": [
+      "AI 回覆是否能被 trace 與評估",
+      "行前、行中、行後互動是否產生有效行為",
+      "工具調用成功率、成本、延遲與異常率"
+    ],
+    "limit": "AI 互動層聚焦情境承接、知識組織、工具調用與回覆品質觀測，並銜接搜尋推薦能力。",
+    "initial": "先以固定旅遊情境、知識節點、工具調用與回覆品質觀測落地，再逐步個人化。",
+    "method": "RAG / Context Routing / Tool Calling / Answer Grounding / Journey Stage Context",
+    "output": "行前提醒、行程知識回覆、服務工具調用與回答依據 trace。"
+  },
+  "dt_posttrip": {
+    "id": "dt_posttrip",
+    "lane": "digital_twins",
+    "laneTitle": "AI 旅程助理",
+    "sprint": "Sprint 12–13",
+    "title": "AI 旅程助理（行後互動）",
+    "tags": [
+      "G",
+      "K",
+      "O"
+    ],
+    "phase": "Phase 5",
+    "deps": [
+      "dt_pretrip",
+      "df_purchase_events",
+      "cross_related"
+    ],
+    "enables": [
+      "dt_intratrip"
+    ],
+    "validation": [
+      "AI 回覆是否能被 trace 與評估",
+      "行前、行中、行後互動是否產生有效行為",
+      "工具調用成功率、成本、延遲與異常率"
+    ],
+    "limit": "AI 互動層聚焦情境承接、知識組織、工具調用與回覆品質觀測，並銜接搜尋推薦能力。",
+    "initial": "先以固定旅遊情境、知識節點、工具調用與回覆品質觀測落地，再逐步個人化。",
+    "method": "RAG / Feedback Classification / Sentiment Classification / LLM Evaluation / Trace Review",
+    "output": "行後互動、回饋分類、品質評估與可追蹤對話紀錄。"
+  },
+  "dt_intratrip": {
+    "id": "dt_intratrip",
+    "lane": "digital_twins",
+    "laneTitle": "AI 旅程助理",
+    "sprint": "Sprint 14–15",
+    "title": "AI 旅程助理（行中互動）",
+    "tags": [
+      "G",
+      "K",
+      "O"
+    ],
+    "phase": "Phase 5",
+    "deps": [
+      "dt_pretrip",
+      "dt_posttrip",
+      "search_web_launch"
+    ],
+    "enables": [],
+    "validation": [
+      "AI 回覆是否能被 trace 與評估",
+      "行前、行中、行後互動是否產生有效行為",
+      "工具調用成功率、成本、延遲與異常率"
+    ],
+    "limit": "AI 互動層聚焦情境承接、知識組織、工具調用與回覆品質觀測，並銜接搜尋推薦能力。",
+    "initial": "先以固定旅遊情境、知識節點、工具調用與回覆品質觀測落地，再逐步個人化。",
+    "method": "Context Routing / Tool Calling / Guardrails / Human Handoff / Runtime Monitoring",
+    "output": "行中即時互動、異常處理、轉人工條件與工具調用結果。"
+  }
+};
+  const TASK_DETAILS = {
+  "data_foundation": {
+    "method": "Event Taxonomy / Funnel Mapping / Data Quality Check / Identity Resolution",
+    "output": "事件規範、漏斗資料集、ID Mapping 與回饋資料。"
+  },
+  "ai_search": {
+    "method": "BM25 / Query Rewrite / NER / Intent Classification / Embedding Retrieval / Learning-to-Rank",
+    "output": "query intent、候選商品池、facet 條件、排序分數。"
+  },
+  "recommendation": {
+    "method": "Time-decay Popularity / Content-based Similarity / Item-to-Item CF / ALS / Session-based Recommendation",
+    "output": "熱門分數、相似商品清單、分眾商品池、session 推薦結果。"
+  },
+  "cross_sell": {
+    "method": "Association Rule / FP-Growth / Market Basket Analysis / Next Best Offer Ranking",
+    "output": "加購推薦清單、NBO、觸發條件、排除條件。"
+  },
+  "activation": {
+    "method": "RFM / Intent Score / Propensity Model / Response Propensity / Uplift Modeling / Rule Engine",
+    "output": "意圖濃度、活躍度分級、轉換傾向、召回名單。"
+  },
+  "ads": {
+    "method": "Audience Scoring / LTV Segment / Lookalike Seed / Conversion Feedback / Holdout Evaluation",
+    "output": "高意圖受眾包、高價值 seed、事件回傳、匹配率回饋。"
+  },
+  "digital_twins": {
+    "method": "RAG / Knowledge Retrieval / Context Routing / Tool Calling / Agent Workflow / LLM Evaluation",
+    "output": "知識節點回覆、工具調用結果、prompt trace、品質評估。"
+  },
+  "reco_hot": {
+    "method": "Time-decay Popularity / Wilson Score / Bayesian Smoothing",
+    "output": "熱門商品分數與曝光修正後排序。"
+  },
+  "reco_similar": {
+    "method": "Content-based Similarity / Embedding Similarity / Item-to-Item CF",
+    "output": "相似商品清單與替代探索候選。"
+  },
+  "reco_trend": {
+    "method": "Trend Score / Growth Rate / Anomaly Detection",
+    "output": "近期熱議商品清單與趨勢分數。"
+  },
+  "reco_infinite": {
+    "method": "Session-based Recommendation / Sequential Recommendation / Multi-objective Ranking",
+    "output": "當次 session 的下一批推薦商品。"
+  },
+  "cross_related": {
+    "method": "Association Rule / Apriori / FP-Growth / Market Basket Analysis",
+    "output": "關聯商品與加購推薦。"
+  },
+  "cross_decision_pref": {
+    "method": "Lifecycle Recommendation / Contextual Ranking / Next Best Offer",
+    "output": "依決策類型與旅程階段產生的推薦。"
+  },
+  "act_stage_label": {
+    "method": "Rule-based Lifecycle Stage Labeling / Intent Score / Product Affinity Score",
+    "output": "行為階段標籤與行前銷售情境條件。"
+  },
+  "act_active_grade": {
+    "method": "RFM / Engagement Score / Logistic Regression / LightGBM",
+    "output": "活躍度分級與有效名單排序。"
+  },
+  "act_ai_audience": {
+    "method": "AI-assisted Audience Builder / Propensity-based Audience Seed / Rule Generation / Human-in-the-loop Review",
+    "output": "滾動更新受眾包與受眾條件草案。"
+  },
+  "ads_capi": {
+    "method": "Conversion Feedback / Event Deduplication / Match Rate Monitoring",
+    "output": "第一方事件回傳與去重監測。"
+  },
+  "ads_signal_gateway": {
+    "method": "Audience Sync / Identity Resolution / Lookalike Seed",
+    "output": "匿名與會員受眾同步包。"
+  },
+  "dt_pretrip": {
+    "method": "RAG / Context Routing / Tool Calling / Answer Grounding",
+    "output": "行前提醒、行程知識回覆與服務工具調用。"
+  },
+  "dt_posttrip": {
+    "method": "RAG / Feedback Classification / LLM Evaluation",
+    "output": "行後互動、回饋整理與品質 trace。"
+  },
+  "dt_intratrip": {
+    "method": "Context Routing / Tool Calling / Guardrails / Human Handoff",
+    "output": "行中即時互動、異常處理與轉人工。"
+  }
+};
+  const TASK_METHOD_OVERRIDES = {
+  "df_event_spec": {
+    "core": [
+      "Event Taxonomy",
+      "Data Contract"
+    ],
+    "support": [
+      "Funnel Mapping",
+      "Naming Convention",
+      "Event QA"
+    ],
+    "later": [
+      "Data Quality Check",
+      "Identity Resolution"
+    ],
+    "maturity": "Phase 1：先建立事件語言、命名規則與驗收基準。"
+  },
+  "df_search_events": {
+    "core": [
+      "Search Event Schema",
+      "Query Log Structuring"
+    ],
+    "support": [
+      "SERP Exposure Tracking",
+      "Zero-result Tracking"
+    ],
+    "later": [
+      "Search Quality Evaluation",
+      "Relevance Feedback"
+    ],
+    "maturity": "Phase 1：先讓搜尋行為可被回收，支援後續搜尋品質與排序驗證。"
+  },
+  "df_purchase_events": {
+    "core": [
+      "Booking Event Schema",
+      "Conversion Funnel Mapping"
+    ],
+    "support": [
+      "Attribution Feedback",
+      "Data Quality Check"
+    ],
+    "later": [
+      "Conversion Feedback",
+      "Holdout Evaluation"
+    ],
+    "maturity": "Phase 1：建立轉換回饋，支援推薦、活化與投放閉環。"
+  },
+  "df_browse_events": {
+    "core": [
+      "Browse Event Schema",
+      "Product View Tracking"
+    ],
+    "support": [
+      "Engagement Depth",
+      "Signal Aggregation"
+    ],
+    "later": [
+      "Intent Score",
+      "Product Affinity Score"
+    ],
+    "maturity": "Phase 1：先收集瀏覽深度與商品互動訊號，作為推薦與意圖濃度基礎。"
+  },
+  "df_marketing_events": {
+    "core": [
+      "Campaign Event Schema",
+      "UTM Mapping"
+    ],
+    "support": [
+      "Push Interaction Tracking",
+      "Channel Feedback"
+    ],
+    "later": [
+      "Response Propensity",
+      "Audience Scoring"
+    ],
+    "maturity": "Phase 1：先把行銷互動與回流可觀測化。"
+  },
+  "df_login_events": {
+    "core": [
+      "Identity Event Mapping",
+      "Consent State Mapping"
+    ],
+    "support": [
+      "Login Funnel Tracking",
+      "Member Linking"
+    ],
+    "later": [
+      "Identity Resolution",
+      "Audience Sync"
+    ],
+    "maturity": "Phase 1：先讓登入、會員與同意狀態可支援後續受眾與跨渠道同步。"
+  },
+  "df_cold_start": {
+    "core": [
+      "Preference Questionnaire",
+      "Progressive Profiling"
+    ],
+    "support": [
+      "Cold-start Feature Encoding",
+      "Rule-based Preference Mapping"
+    ],
+    "later": [
+      "Product Affinity Score",
+      "Intent Score"
+    ],
+    "maturity": "Phase 1 → 2：以低摩擦偏好收集補足非高頻旅遊場景的冷啟動問題。"
+  },
+  "df_decision_info": {
+    "core": [
+      "Decision Attribute Collection",
+      "Preference Feature Engineering"
+    ],
+    "support": [
+      "Context Labeling",
+      "Intent Feature Mapping"
+    ],
+    "later": [
+      "Lifecycle Recommendation",
+      "Contextual Recommendation"
+    ],
+    "maturity": "Phase 1 → 3：將決策理由轉成後續推薦與活化可使用的特徵。"
+  },
+  "df_id_mapping": {
+    "core": [
+      "Identity Resolution",
+      "Device-to-User Stitching"
+    ],
+    "support": [
+      "Merge Rules",
+      "Data Quality Check"
+    ],
+    "later": [
+      "Audience Sync",
+      "Lookalike Seed"
+    ],
+    "maturity": "Phase 1 → 4：作為跨裝置、跨渠道、匿名與會員串接的共用基礎。"
+  },
+  "search_beta": {
+    "core": [
+      "BM25",
+      "Query Rewrite",
+      "NER"
+    ],
+    "support": [
+      "Synonym Expansion",
+      "Rule-based Facet Mapping"
+    ],
+    "later": [
+      "Embedding Retrieval",
+      "ANN Search",
+      "Learning-to-Rank"
+    ],
+    "maturity": "Phase 3 初期：先驗證查詢理解與 keyword retrieval，不一次進入完整 hybrid reranking。"
+  },
+  "search_trial": {
+    "core": [
+      "Search Quality Evaluation",
+      "A/B Testing"
+    ],
+    "support": [
+      "Relevance Feedback",
+      "Zero-result Analysis"
+    ],
+    "later": [
+      "Learning-to-Rank",
+      "Cross-Encoder Reranker"
+    ],
+    "maturity": "Phase 3 驗證：重點是小流量觀測，而不是新增複雜模型。"
+  },
+  "search_vector": {
+    "core": [
+      "Embedding Retrieval",
+      "ANN Search"
+    ],
+    "support": [
+      "Hybrid Fusion",
+      "Candidate Recall Evaluation"
+    ],
+    "later": [
+      "Cross-Encoder Reranker",
+      "Learning-to-Rank"
+    ],
+    "maturity": "Phase 3 中期：將向量召回接入 hybrid search，補足模糊需求與自然語言查詢。"
+  },
+  "search_app_launch": {
+    "core": [
+      "Hybrid Search",
+      "Availability Filter",
+      "Facet Filter"
+    ],
+    "support": [
+      "Learning-to-Rank",
+      "Feature Flag Rollout"
+    ],
+    "later": [
+      "Cross-Encoder Reranker",
+      "Ranking Calibration"
+    ],
+    "maturity": "Phase 3 上線：以可售性、facet 與排序穩定為主，進階 reranking 依成效推進。"
+  },
+  "search_web_launch": {
+    "core": [
+      "Web Search Integration",
+      "Hybrid Search"
+    ],
+    "support": [
+      "Ranking Calibration",
+      "Search Analytics"
+    ],
+    "later": [
+      "Cross-Encoder Reranker",
+      "Personalized Search"
+    ],
+    "maturity": "Phase 3 擴展：將 App 驗證後能力移植到 Web，並做排序校準。"
+  },
+  "reco_hot": {
+    "core": [
+      "Time-decay Popularity",
+      "Wilson Score",
+      "Bayesian Smoothing"
+    ],
+    "support": [
+      "Exposure Correction"
+    ],
+    "later": [
+      "Multi-objective Ranking",
+      "Trend Score"
+    ],
+    "maturity": "Phase 2：以批次熱門分數與曝光修正驗證，不等同即時個人化推薦。"
+  },
+  "reco_similar": {
+    "core": [
+      "Content-based Similarity",
+      "Embedding Similarity"
+    ],
+    "support": [
+      "Item-to-Item CF",
+      "Similarity Thresholding"
+    ],
+    "later": [
+      "ALS / Matrix Factorization",
+      "Session-based Recommendation"
+    ],
+    "maturity": "Phase 3：先由內容與商品相似性建立可控推薦，再逐步加入行為共現。"
+  },
+  "reco_segment_content": {
+    "core": [
+      "Rule-based Segmentation",
+      "ID-based Audience Matching"
+    ],
+    "support": [
+      "Content-based Recommendation",
+      "Manual Slot Control"
+    ],
+    "later": [
+      "Product Affinity Score",
+      "Propensity Model"
+    ],
+    "maturity": "Phase 2：以人工條件與 ID-based 版位控管驗證分眾內容價值。"
+  },
+  "reco_trend": {
+    "core": [
+      "Trend Score",
+      "Growth Rate",
+      "External Trend Mapping"
+    ],
+    "support": [
+      "Anomaly Detection"
+    ],
+    "later": [
+      "Multi-objective Ranking",
+      "Contextual Recommendation"
+    ],
+    "maturity": "Phase 3：補上外部趨勢與近期熱度，避免只看歷史熱門。"
+  },
+  "reco_infinite": {
+    "core": [
+      "Session-based Recommendation",
+      "Sequential Recommendation"
+    ],
+    "support": [
+      "Near Real-time Features",
+      "Multi-objective Ranking"
+    ],
+    "later": [
+      "Contextual Recommendation",
+      "Propensity Model"
+    ],
+    "maturity": "Phase 4：開始走向 session-based / near real-time，但仍以可控排序與回饋為主。"
+  },
+  "reco_context": {
+    "core": [
+      "Contextual Recommendation",
+      "Intent Score"
+    ],
+    "support": [
+      "Lifecycle Stage Rule",
+      "Trigger Eligibility"
+    ],
+    "later": [
+      "Next Best Offer",
+      "Contextual Bandit"
+    ],
+    "maturity": "Phase 4：從商品推薦升級為情境、階段與觸發條件共同決定。"
+  },
+  "cross_related": {
+    "core": [
+      "Association Rule",
+      "Apriori",
+      "FP-Growth"
+    ],
+    "support": [
+      "Market Basket Analysis",
+      "Eligibility Rule"
+    ],
+    "later": [
+      "Lifecycle Recommendation",
+      "Next Best Offer"
+    ],
+    "maturity": "Phase 4 初期：先驗證商品關聯與加購規則，不直接跳到全旅程 NBO。"
+  },
+  "cross_decision_pref": {
+    "core": [
+      "Lifecycle Recommendation",
+      "Decision Preference Mapping"
+    ],
+    "support": [
+      "Contextual Ranking",
+      "Next Best Offer"
+    ],
+    "later": [
+      "Contextual Bandit",
+      "Uplift Modeling"
+    ],
+    "maturity": "Phase 4：將歷史決策偏好與旅程階段納入 Next Best Offer。"
+  },
+  "cross_lookalike": {
+    "core": [
+      "Lookalike Seed",
+      "Audience Scoring"
+    ],
+    "support": [
+      "Propensity-based Audience Seed",
+      "Match Rate Monitoring",
+      "Holdout Evaluation"
+    ],
+    "later": [
+      "LTV Segment",
+      "Uplift Modeling"
+    ],
+    "maturity": "Phase 4：以高品質 seed 和受眾回饋驗證站外增量。"
+  },
+  "act_segment_push": {
+    "core": [
+      "ID-based Segmentation",
+      "Rule Engine"
+    ],
+    "support": [
+      "Rule-based Send-time Selection",
+      "Frequency Capping"
+    ],
+    "later": [
+      "Response Propensity",
+      "Uplift Modeling"
+    ],
+    "maturity": "Phase 2：先以人工規則與 ID-based 名單控管，避免過早模型化。"
+  },
+  "act_stage_label": {
+    "core": [
+      "Rule-based Lifecycle Stage Labeling",
+      "Intent Score"
+    ],
+    "support": [
+      "Product Affinity Score",
+      "Lifecycle Stage Mapping"
+    ],
+    "later": [
+      "Propensity Model",
+      "Contextual Recommendation"
+    ],
+    "maturity": "Phase 3：把行為階段結構化，支援行前銷售與後續自動化。"
+  },
+  "act_active_grade": {
+    "core": [
+      "RFM",
+      "Engagement Score"
+    ],
+    "support": [
+      "Logistic Regression",
+      "LightGBM",
+      "Threshold Calibration"
+    ],
+    "later": [
+      "Response Propensity",
+      "Uplift Modeling"
+    ],
+    "maturity": "Phase 4：從活躍度分級逐步銜接轉換傾向模型。"
+  },
+  "act_script_push": {
+    "core": [
+      "Rule Engine",
+      "Scheduled Trigger"
+    ],
+    "support": [
+      "Response Propensity",
+      "Frequency Capping",
+      "Stop-loss Rule"
+    ],
+    "later": [
+      "Uplift Modeling",
+      "Contextual Bandit"
+    ],
+    "maturity": "Phase 4：先做固定時間召回與頻控，再觀察回應傾向與干擾成本。"
+  },
+  "act_script_reward": {
+    "core": [
+      "Event-based Rule Engine",
+      "Conditional Trigger"
+    ],
+    "support": [
+      "Reward Eligibility",
+      "Stop-loss Rule",
+      "Uplift Observation"
+    ],
+    "later": [
+      "Uplift Modeling",
+      "Next Best Action"
+    ],
+    "maturity": "Phase 4：以條件式觸發建立站內行為獎勵與增量觀測。"
+  },
+  "act_ai_audience": {
+    "core": [
+      "AI-assisted Audience Builder",
+      "Rule Generation"
+    ],
+    "support": [
+      "Propensity-based Audience Seed",
+      "Human-in-the-loop Review",
+      "Rolling Refresh"
+    ],
+    "later": [
+      "Autonomous Optimization",
+      "Uplift Modeling"
+    ],
+    "maturity": "Phase 5：AI 輔助產生受眾條件，但仍保留人工審核與安全邊界。"
+  },
+  "ads_capi": {
+    "core": [
+      "Server-side Event Streaming",
+      "Conversion Feedback"
+    ],
+    "support": [
+      "Event Deduplication",
+      "Match Rate Monitoring"
+    ],
+    "later": [
+      "Holdout Evaluation",
+      "Propensity-based Audience Seed"
+    ],
+    "maturity": "Phase 4：先打通第一方事件回傳與去重，再評估投放增量。"
+  },
+  "ads_signal_gateway": {
+    "core": [
+      "Audience Sync",
+      "Identity Resolution"
+    ],
+    "support": [
+      "Lookalike Seed",
+      "Match Rate Monitoring",
+      "Consent Filtering"
+    ],
+    "later": [
+      "LTV Segment",
+      "Holdout Evaluation"
+    ],
+    "maturity": "Phase 4：把匿名與會員受眾同步出去，並控管同意狀態與匹配率。"
+  },
+  "dt_pretrip": {
+    "core": [
+      "RAG",
+      "Context Routing",
+      "Tool Calling"
+    ],
+    "support": [
+      "Answer Grounding",
+      "Journey Stage Context"
+    ],
+    "later": [
+      "Agent Workflow",
+      "Personalization"
+    ],
+    "maturity": "Phase 5 初期：先用行前情境與知識節點承接服務需求。"
+  },
+  "dt_posttrip": {
+    "core": [
+      "RAG",
+      "Feedback Classification"
+    ],
+    "support": [
+      "Sentiment Classification",
+      "LLM Evaluation",
+      "Trace Review"
+    ],
+    "later": [
+      "Recommendation Feedback",
+      "Lifecycle Recommendation"
+    ],
+    "maturity": "Phase 5：把行後互動回饋轉成可評估與可回收的知識與品質資料。"
+  },
+  "dt_intratrip": {
+    "core": [
+      "Context Routing",
+      "Tool Calling",
+      "Guardrails"
+    ],
+    "support": [
+      "Human Handoff",
+      "Runtime Monitoring"
+    ],
+    "later": [
+      "Agent Workflow",
+      "Autonomous Tool Use"
+    ],
+    "maturity": "Phase 5：行中互動以安全邊界、轉人工與即時監控為優先。"
+  }
+};
+
+  const METHOD_DESCRIPTIONS = {
+    "event taxonomy": "定義事件分類、命名與層級，讓後續追蹤與分析有共同語言。",
+    "funnel mapping": "將關鍵流程拆成可追蹤步驟，用於觀察流失與轉換。",
+    "data quality check": "檢查事件完整性、重複、缺漏與異常，避免模型與報表被髒資料影響。",
+    "identity resolution": "整合匿名裝置、會員與跨渠道 ID，建立更穩定的使用者識別。",
+    "attribution feedback": "回收行銷與轉換回饋，支援成效歸因與投放優化。",
+    "naming convention": "統一事件、參數與物件命名，降低跨團隊維護成本。",
+    "event qa": "驗證事件是否依規格觸發、帶值與回收。",
+    "data contract": "定義資料生產與消費方的欄位、語意與品質承諾。",
+    "search event schema": "定義搜尋行為需要回收的 query、曝光、點擊、改搜與查無結果欄位。",
+    "query log structuring": "將搜尋紀錄整理成可分析、可訓練、可回饋的結構。",
+    "serp exposure tracking": "追蹤搜尋結果頁商品曝光，避免只看點擊而忽略排序位置。",
+    "zero-result tracking": "記錄查無結果情境，支援字典、facet 與召回補強。",
+    "booking event schema": "定義 booking_start、訂單與成交相關事件資料。",
+    "conversion funnel mapping": "將瀏覽到下訂轉換流程拆成可衡量漏斗。",
+    "browse event schema": "定義瀏覽、停留、商品互動與收藏等行為資料。",
+    "engagement depth": "衡量使用者瀏覽深度與互動強度。",
+    "product view tracking": "追蹤商品頁曝光與進入詳情頁行為。",
+    "signal aggregation": "彙整多種行為訊號，形成推薦與活化可使用的特徵。",
+    "campaign event schema": "定義行銷活動、推播與回流需要追蹤的事件資料。",
+    "utm mapping": "將來源、媒介與活動參數對齊到行銷成效分析。",
+    "push interaction tracking": "追蹤推播送達、開啟、點擊與後續行為。",
+    "channel feedback": "回收不同通路互動結果，支援跨渠道判斷。",
+    "identity event mapping": "把登入、註冊、匿名與會員事件對齊到同一識別流程。",
+    "consent state mapping": "記錄使用者同意狀態，避免不合規資料使用。",
+    "login funnel tracking": "追蹤登入與註冊流程中的流失與完成。",
+    "member linking": "將匿名行為與會員身份銜接。",
+    "preference questionnaire": "用低摩擦問題收集冷啟動偏好。",
+    "progressive profiling": "分階段補齊使用者偏好，避免一次詢問過多。",
+    "cold-start feature encoding": "將新用戶偏好轉成推薦或分眾可用特徵。",
+    "rule-based preference mapping": "用規則將問卷或互動答案對應到偏好標籤。",
+    "decision attribute collection": "收集預算、同行者、旅遊動機等決策因素。",
+    "preference feature engineering": "將偏好與決策資訊加工成模型或規則可用特徵。",
+    "context labeling": "標記使用者所處情境，例如行前、比價、猶豫或回訪。",
+    "intent feature mapping": "將行為與情境轉成意圖相關特徵。",
+    "device-to-user stitching": "將裝置層行為連到使用者或會員層。",
+    "merge rules": "定義多個 ID 合併或排除的規則。",
+    "bm25": "關鍵字檢索基礎排序，適合處理明確目的地、商品名與主題詞。",
+    "synonym expansion": "擴充同義詞與常見查詢變體，提升關鍵字召回率。",
+    "query rewrite": "將自然語言查詢改寫成更適合搜尋引擎理解的查詢條件。",
+    "ner": "辨識目的地、POI、天數、月份、價格等查詢實體。",
+    "intent classification": "判斷查詢或對話背後的需求類型，例如找商品、問行程或需要服務。",
+    "rule-based facet mapping": "用規則把查詢意圖對應到目的地、天數、價格帶等 facet。",
+    "search quality evaluation": "用 CTR、zero-result、zero-click、改搜率等評估搜尋品質。",
+    "a/b testing": "以控制組與變異組比較改動是否產生有效提升。",
+    "relevance feedback": "回收點擊、停留、改搜等行為作為搜尋相關性回饋。",
+    "zero-result analysis": "分析查無結果原因，判斷是字典、商品資料、facet 還是召回問題。",
+    "embedding retrieval": "用語意相似度找出不完全命中關鍵字但需求相近的商品。",
+    "ann search": "用近似最近鄰搜尋提升向量召回效率。",
+    "hybrid fusion": "融合關鍵字與向量召回結果，兼顧精準詞與自然語言需求。",
+    "candidate recall evaluation": "評估候選商品池是否涵蓋足夠相關結果。",
+    "learning-to-rank": "以特徵與回饋訓練排序模型，改善結果排序。",
+    "cross-encoder reranker": "對召回結果做更精細的語意相關性重排。",
+    "hybrid search": "結合關鍵字、語意召回、條件過濾與排序的搜尋方式。",
+    "availability filter": "先排除不可售、無庫存或不符合條件的商品。",
+    "facet filter": "依目的地、日期、天數、價格等條件過濾商品。",
+    "feature flag rollout": "用開關控制功能分批上線與回滾。",
+    "ranking calibration": "校準排序分數，避免單一訊號過度影響結果。",
+    "web search integration": "將已驗證的搜尋能力整合到 Web 端。",
+    "search analytics": "持續追蹤搜尋品質、流量與轉換結果。",
+    "personalized search": "依使用者偏好與歷史行為調整搜尋結果。",
+    "time-decay popularity": "讓近期互動比久遠互動有更高權重，避免熱門榜過度陳舊。",
+    "wilson score": "在樣本量不足時降低極端比例誤判，讓熱門排序更穩定。",
+    "bayesian smoothing": "用先驗校正小樣本波動，避免少量高 CTR 商品被過度放大。",
+    "exposure correction": "修正高曝光商品自然累積更多點擊的偏誤。",
+    "multi-objective ranking": "同時考慮 CTR、轉換、毛利、可售性與體驗等多目標排序。",
+    "trend score": "衡量近期成長、外部熱度或促銷時機帶來的趨勢強度。",
+    "content-based similarity": "依商品內容、地區、主題、天數等屬性找相似商品。",
+    "embedding similarity": "以向量表示比較商品或需求的語意相似度。",
+    "item-to-item cf": "根據使用者共同行為找出常被一起瀏覽或點擊的商品。",
+    "similarity thresholding": "設定相似度門檻，避免推薦過度鬆散或不相關商品。",
+    "als / matrix factorization": "用矩陣分解從使用者與商品互動中學習潛在偏好。",
+    "session-based recommendation": "根據當次瀏覽行為即時調整推薦。",
+    "rule-based segmentation": "用明確條件建立分眾，適合初期可控驗證。",
+    "id-based audience matching": "以會員或裝置 ID 對應到特定分眾名單。",
+    "content-based recommendation": "根據商品與內容屬性推薦符合偏好的項目。",
+    "manual slot control": "由營運或行銷手動控制版位與推薦條件。",
+    "product affinity score": "估算使用者對特定商品、目的地或主題的偏好強度。",
+    "propensity model": "預測使用者採取特定行動的機率，例如點擊、收藏或下訂。",
+    "growth rate": "衡量商品或需求在短期內的成長速度。",
+    "external trend mapping": "將外部熱議、搜尋趨勢或活動話題對應到內部商品。",
+    "anomaly detection": "偵測不尋常的熱度變化或資料異常。",
+    "sequential recommendation": "根據行為順序預測下一個可能感興趣的商品。",
+    "near real-time features": "接近即時更新的行為或情境特徵，用於推薦或活化。",
+    "contextual recommendation": "把使用者情境、旅程階段與商品條件納入推薦。",
+    "lifecycle stage rule": "依旅程或訂單階段設定觸發規則。",
+    "trigger eligibility": "判斷某次推薦或觸發是否符合條件。",
+    "association rule": "找出常一起購買、瀏覽或加購的商品關聯。",
+    "apriori": "常見關聯規則演算法，用於發現商品組合關係。",
+    "fp-growth": "更有效率的頻繁項目集挖掘方法。",
+    "market basket analysis": "分析商品之間的共購或加購關係。",
+    "eligibility rule": "判斷使用者或訂單是否符合特定推薦、加購或觸發資格。",
+    "lifecycle recommendation": "依旅程階段與訂單狀態調整推薦內容。",
+    "next best offer": "在當前情境下選出最合適的優惠、商品或加購建議。",
+    "decision preference mapping": "把歷史決策因素對應到可能偏好的商品或服務。",
+    "contextual ranking": "根據情境、條件與商品屬性進行排序。",
+    "contextual bandit": "在探索與利用之間動態調整推薦或觸發策略。",
+    "lookalike seed": "用高價值或高意圖族群作為類似受眾擴展基礎。",
+    "audience scoring": "為受眾打分，判斷其價值、意圖或可投放程度。",
+    "propensity-based audience seed": "以高轉換傾向族群作為站外投放或類似受眾種子。",
+    "match rate monitoring": "監測受眾同步到廣告平台後的匹配率。",
+    "holdout evaluation": "保留不觸發或不投放的對照組，用於觀察增量效果。",
+    "ltv segment": "依長期價值區分受眾，支援高價值投放或維繫。",
+    "rfm": "用近期互動、頻率與價值衡量使用者活躍度。",
+    "engagement score": "整合瀏覽、點擊、收藏、停留等互動強度。",
+    "logistic regression": "常見可解釋分類模型，適合建立初版傾向分數。",
+    "lightgbm": "梯度提升樹模型，適合處理結構化特徵與非線性關係。",
+    "xgboost": "梯度提升樹模型，常用於轉換傾向或排序特徵建模。",
+    "lightgbm / xgboost": "常見樹模型，適合處理結構化特徵與轉換傾向預測。",
+    "threshold calibration": "調整分數門檻，讓名單量、精準度與干擾成本取得平衡。",
+    "response propensity": "預測使用者對推播、提醒或促銷的回應機率。",
+    "uplift modeling": "評估觸發溝通後是否真的帶來增量，而不是只找原本就會轉換的人。",
+    "id-based segmentation": "以使用者 ID 建立可觸達的分眾名單。",
+    "rule engine": "用規則引擎管理分眾、觸發、排除與頻控條件。",
+    "rule-based send-time selection": "用規則選擇較適合發送的時間點。",
+    "frequency capping": "限制觸發或推播頻率，降低干擾與退訂風險。",
+    "rule-based lifecycle stage labeling": "用規則標記使用者或訂單所處旅程階段。",
+    "lifecycle stage mapping": "將行為、訂單與時間點對應到旅程階段。",
+    "scheduled trigger": "依固定時間或排程觸發溝通。",
+    "conditional trigger": "符合特定條件時才觸發提醒、優惠或互動。",
+    "event-based rule engine": "根據事件發生與條件規則執行觸發。",
+    "reward eligibility": "判斷使用者是否符合特定獎勵或優惠觸發資格。",
+    "stop-loss rule": "當成效不佳、頻率過高或風險升高時停止觸發。",
+    "uplift observation": "先觀察觸發前後增量訊號，作為正式 uplift modeling 前的基礎。",
+    "next best action": "在當前情境下選擇最合適的下一步行動，不限於優惠或商品。",
+    "ai-assisted audience builder": "由 AI 輔助產生受眾條件草案，但仍保留人工審核。",
+    "rule generation": "產生可執行的分眾、排除或觸發規則草案。",
+    "human-in-the-loop review": "讓人工保留審核與調整權，避免自動化誤判直接上線。",
+    "rolling refresh": "定期更新受眾或分數，避免名單過期。",
+    "autonomous optimization": "由系統自動調整策略，屬後續成熟能力而非初期承諾。",
+    "server-side event streaming": "從伺服器端回傳事件，提高穩定性與資料控制。",
+    "conversion feedback": "回收轉換結果，讓投放與模型能形成閉環。",
+    "event deduplication": "避免同一事件被前端與後端重複計算。",
+    "audience sync": "將內部受眾同步到外部平台或行銷工具。",
+    "consent filtering": "依使用者同意狀態過濾可使用或可同步資料。",
+    "rag": "以知識庫檢索結果輔助 AI 回覆，降低憑空生成風險。",
+    "knowledge retrieval": "從知識庫或文件中找出與問題相關的內容。",
+    "context routing": "根據旅程階段、問題類型或使用者狀態選擇合適流程。",
+    "tool calling": "讓 AI 在需要時呼叫系統工具或 API 執行任務。",
+    "answer grounding": "要求回覆依據可追蹤資料或知識來源。",
+    "journey stage context": "將行前、行中、行後等旅程狀態納入 AI 回覆。",
+    "agent workflow": "多步驟 AI 任務流程，通常包含判斷、工具調用與結果檢查。",
+    "personalization": "依使用者偏好或情境調整回覆與服務。",
+    "feedback classification": "將使用者回饋分類，支援服務改善與後續分析。",
+    "sentiment classification": "判斷回饋或對話中的情緒傾向。",
+    "llm evaluation": "評估 AI 回覆品質、正確性、可用性與風險。",
+    "trace review": "檢視 AI 回覆過程、檢索內容與工具調用紀錄。",
+    "recommendation feedback": "把互動或回饋反向用於推薦品質改善。",
+    "guardrails": "設定安全、品質與業務規則邊界，降低錯誤回覆風險。",
+    "human handoff": "在高風險或無法處理時轉由人工服務承接。",
+    "runtime monitoring": "監控 AI 服務執行中的成本、延遲、錯誤與異常。",
+    "autonomous tool use": "讓 AI 更自主地選擇與操作工具，屬後續成熟能力。"
+  };
+
+  const TAGS = {"D": ["Data Readiness", "資料準備"], "O": ["Measurement", "成效衡量"], "S": ["Search", "搜尋理解"], "H": ["Hybrid", "混合召回"], "R": ["Recommendation", "推薦能力"], "B": ["Batch", "批次產出"], "I": ["Intent", "意圖濃度"], "P": ["Propensity", "傾向分數"], "A": ["Automation", "自動化觸發"], "G": ["AI Agent", "代理流程"], "K": ["Knowledge", "知識節點"]};
+  const shell = document.getElementById('roadmapShell');
+  const board = document.getElementById('roadmapBoard');
+  const svg = document.getElementById('dependencyLines');
+  const toast = document.getElementById('toast');
+  const inspectorTitle = document.getElementById('inspectorTitle');
+  const inspectorIntro = document.getElementById('inspectorIntro');
+  const inspectorTags = document.getElementById('inspectorTags');
+  const inspectorDeps = document.getElementById('inspectorDeps');
+  const inspectorMethods = document.getElementById('inspectorMethods');
+  const inspectorImpact = document.getElementById('inspectorImpact');
+  const sprintFilterControls = document.getElementById('sprintFilterControls');
+  let selectedTaskId = null;
+  let activeSprint = 'all';
+
+  function tagHtml(code) {
+    const label = TAGS[code] ? TAGS[code][1] : code;
+    return `<span class="tag tag-${code}">${code}<em>${label}</em></span>`;
+  }
+  function taskTitle(id) { return TASKS[id] ? TASKS[id].title : id; }
+  function sprintNumbers(task) {
+    const nums = String(task?.sprint || '').match(/\d+/g)?.map(Number) || [];
+    if(!nums.length) return [];
+    const start = nums[0];
+    const end = nums[1] || start;
+    const range = [];
+    for(let n = start; n <= end; n++) range.push(n);
+    return range;
+  }
+  function taskInSprint(task, sprint) {
+    if(sprint === 'all') return true;
+    return sprintNumbers(task).includes(Number(sprint));
+  }
+  function taskIdsForSprint(sprint) {
+    return Object.keys(TASKS).filter(id => taskInSprint(TASKS[id], sprint));
+  }
+  function taskLaneSummary(ids) {
+    const lanes = new Map();
+    ids.forEach(id => {
+      const task = TASKS[id];
+      if(!task) return;
+      lanes.set(task.laneTitle, (lanes.get(task.laneTitle) || 0) + 1);
+    });
+    return Array.from(lanes.entries()).map(([lane, count]) => `${lane} ${count} 張`).join('、') || '尚無任務';
+  }
+  function setSprintButtonActive(sprint) {
+    const key = String(sprint);
+    document.querySelectorAll('.sprint-filter-btn').forEach(btn => btn.classList.toggle('is-active', btn.dataset.sprint === key));
+    document.querySelectorAll('.sprint-head span').forEach(span => span.classList.toggle('is-active', span.dataset.sprint === key));
+  }
+  function uniqueList(items, limit = 12) {
+    const seen = new Set();
+    const out = [];
+    items.forEach(item => {
+      const text = String(item || '').trim();
+      const key = normalizeMethod(text);
+      if(!text || seen.has(key)) return;
+      seen.add(key);
+      out.push(text);
+    });
+    return out.slice(0, limit);
+  }
+  function sprintMethodSummary(ids) {
+    const core = [], support = [], later = [];
+    ids.forEach(id => {
+      const task = TASKS[id];
+      if(!task) return;
+      const plan = getMethodPlan(task);
+      core.push(...splitMethods(plan.core));
+      support.push(...splitMethods(plan.support));
+      later.push(...splitMethods(plan.later));
+    });
+    const coreCount = uniqueList(core, 999).length;
+    const supportCount = uniqueList(support, 999).length;
+    const laterCount = uniqueList(later, 999).length;
+    return `<div class="sprint-method-section"><b>技術採用摘要</b><p>本篩選範圍包含主要採用 ${coreCount} 類、支援方法 ${supportCount} 類、後續承接 ${laterCount} 類候選方法。完整方法名詞與白話解釋會在點擊單一 sprint card 後展開。</p></div>` +
+      `<div class="sprint-method-section"><b>判讀方式</b><p>Core 代表本卡主要採用或驗證；Support 代表輔助品質、規則或觀測；Later 代表後續成熟承接，非本期交付承諾。</p></div>`;
+  }
+  function sprintDependencySummary(ids, sprint) {
+    const idSet = new Set(ids);
+    const upstream = [];
+    const downstream = [];
+    ids.forEach(id => {
+      const task = TASKS[id];
+      if(!task) return;
+      task.deps.forEach(dep => { if(!idSet.has(dep) && TASKS[dep]) upstream.push(`${TASKS[dep].sprint}｜${TASKS[dep].title} → ${task.title}`); });
+      task.enables.forEach(next => { if(!idSet.has(next) && TASKS[next]) downstream.push(`${task.title} → ${TASKS[next].sprint}｜${TASKS[next].title}`); });
+    });
+    const rows = uniqueList([...upstream.slice(0,4), ...downstream.slice(0,5)], 9);
+    if(!rows.length) return sprint === 'all' ? ['全部模式下不另外列出跨 Sprint 關聯；點擊任務卡可看完整前後關係。'] : ['此 Sprint 內任務目前沒有明顯跨 Sprint 關聯。'];
+    return rows;
+  }
+  function renderSprintPanel(sprint = activeSprint) {
+    const ids = taskIdsForSprint(sprint);
+    const label = sprint === 'all' ? '全部 Sprint' : `Sprint ${sprint}`;
+    const tags = uniqueList(ids.flatMap(id => TASKS[id]?.tags || []), 10);
+    inspectorTitle.textContent = `${label}｜任務分布與方法摘要`;
+    inspectorIntro.classList.remove('inspector-placeholder');
+    inspectorIntro.innerHTML = `${label} 涵蓋 ${ids.length} 張任務卡。此區作為控制台：先看任務分布，再點擊任務卡查看任務級方法採用與相依關係。<div class="sprint-summary-metrics"><div class="sprint-summary-metric"><b>任務數</b><span>${ids.length} 張 sprint card</span></div><div class="sprint-summary-metric"><b>Lane 分布</b><span>${escapeHtml(taskLaneSummary(ids))}</span></div><div class="sprint-summary-metric"><b>能力標籤</b><span>${tags.length ? tags.join(' / ') : '尚無'}</span></div></div>`;
+    inspectorTags.innerHTML = tags.map(tagHtml).join('');
+    inspectorDeps.innerHTML = ids.length
+      ? ids.map(id => `<li class="sprint-task-item"><strong>${escapeHtml(TASKS[id].title)}</strong><span>${escapeHtml(TASKS[id].sprint)}｜${escapeHtml(TASKS[id].laneTitle)}</span></li>`).join('')
+      : '<li>此 Sprint 目前沒有任務卡。</li>';
+    inspectorMethods.innerHTML = ids.length ? sprintMethodSummary(ids) : '<ul class="inspector-method-list"><li><p>此 Sprint 尚無方法採用摘要。</p></li></ul>';
+    inspectorImpact.innerHTML = listHtml(sprintDependencySummary(ids, sprint), '此 Sprint 目前沒有明確跨 Sprint 關係。');
+  }
+  function filterBySprint(sprint) {
+    activeSprint = String(sprint || 'all');
+    selectedTaskId = null;
+    clearVisualState();
+    document.querySelectorAll('.toolbar-btn[data-filter]').forEach(btn=>btn.classList.remove('is-active'));
+    setSprintButtonActive(activeSprint);
+    if(activeSprint !== 'all') {
+      document.body.classList.add('sprint-filter-active');
+      document.querySelectorAll('.task[data-task-id]').forEach(el => {
+        const match = taskInSprint(TASKS[el.dataset.taskId], activeSprint);
+        el.classList.toggle('task-sprint-match', match);
+      });
+      document.querySelectorAll('.lane').forEach(lane => {
+        const has = Array.from(lane.querySelectorAll('.task[data-task-id]')).some(el => taskInSprint(TASKS[el.dataset.taskId], activeSprint));
+        lane.classList.toggle('sprint-match', has);
+      });
+    }
+    renderSprintPanel(activeSprint);
+  }
+  function initSprintHeadControls() {
+    document.querySelectorAll('.sprint-head span').forEach((span, index) => {
+      const sprint = String(index + 4);
+      span.dataset.sprint = sprint;
+      span.setAttribute('tabindex', '0');
+      span.setAttribute('role', 'button');
+      span.setAttribute('aria-label', `篩選 Sprint ${sprint}`);
+      span.addEventListener('click', () => filterBySprint(sprint));
+      span.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); filterBySprint(sprint); } });
+    });
+  }
+  function taskSprint(id) { return TASKS[id] ? TASKS[id].sprint : ''; }
+  function taskEl(id) { return document.querySelector(`.task[data-task-id="${id}"]`); }
+  function laneEl(id) { return document.querySelector(`.lane[data-lane="${id}"]`); }
+  function listHtml(items, fallback) { return items && items.length ? items.map(x=>`<li>${x}</li>`).join('') : `<li>${fallback}</li>`; }
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>'"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '\'':'&#39;', '"':'&quot;' }[ch]));
+  }
+  function splitMethods(methodText) {
+    if(Array.isArray(methodText)) return methodText.map(x=>String(x).trim()).filter(Boolean);
+    return String(methodText || '').split('/').map(x=>x.trim()).filter(Boolean);
+  }
+  function normalizeMethod(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+  function methodChips(methods, role = '') {
+    return splitMethods(methods).map(x=>`<span class="method-chip${role ? ` method-${role}` : ''}" data-method="${escapeHtml(normalizeMethod(x))}">${escapeHtml(x)}</span>`).join('');
+  }
+  function getMethodPlan(task) {
+    const override = TASK_METHOD_OVERRIDES[task.id] || {};
+    const base = splitMethods(task.method);
+    const core = override.core || base.slice(0, Math.min(2, base.length));
+    const coreSet = new Set(core.map(normalizeMethod));
+    const support = override.support || base.filter(x=>!coreSet.has(normalizeMethod(x))).slice(0, 4);
+    const usedSet = new Set([...core, ...support].map(normalizeMethod));
+    const later = override.later || base.filter(x=>!usedSet.has(normalizeMethod(x)));
+    return {
+      core,
+      support,
+      later,
+      maturity: override.maturity || `${task.phase}：本任務候選方法以當前交付範圍為準。`,
+      output: override.output || task.output || '',
+      poolNote: override.poolNote || ''
+    };
+  }
+  function methodListMatches(chipText, list) {
+    const chip = normalizeMethod(chipText);
+    return splitMethods(list).some(item => {
+      const target = normalizeMethod(item);
+      return chip === target || (chip.length > 4 && target.includes(chip)) || (target.length > 4 && chip.includes(target));
+    });
+  }
+  function methodRoleForText(text, plan) {
+    if(methodListMatches(text, plan.core)) return 'core';
+    if(methodListMatches(text, plan.support)) return 'support';
+    if(methodListMatches(text, plan.later)) return 'later';
+    return '';
+  }
+  function methodDescription(method) {
+    return METHOD_DESCRIPTIONS[normalizeMethod(method)] || '此方法屬於本任務的候選技術，用於支援該 sprint card 的交付、觀測或後續驗證。';
+  }
+  function methodRoleNote(role) {
+    if(role === 'core') return '本 sprint card 主要使用或驗證的方法。';
+    if(role === 'support') return '輔助資料品質、規則判斷、效果觀測或穩定上線的方法。';
+    if(role === 'later') return '後續成熟承接，非本期交付承諾。';
+    return '';
+  }
+  function methodExplainCard(method, role) {
+    return `<div class="method-explain-card method-${role}" data-method="${escapeHtml(normalizeMethod(method))}"><strong>${escapeHtml(method)}</strong><p>${escapeHtml(methodDescription(method))}</p></div>`;
+  }
+  function methodRoleBlock(label, methods, role, fallback) {
+    const items = splitMethods(methods);
+    return `<li class="method-role-card method-role-${role}"><b>${label}</b><span class="role-note">${escapeHtml(methodRoleNote(role))}</span>${items.length ? `<div class="method-explain-grid">${items.map(item => methodExplainCard(item, role)).join('')}</div>` : `<p>${fallback}</p>`}</li>`;
+  }
+  function initMethodPoolChips() {
+    document.querySelectorAll('.tech-card .method-chip').forEach(chip => {
+      chip.dataset.method = normalizeMethod(chip.textContent);
+      chip.classList.add('method-chip-pool');
+    });
+  }
+  function clearMethodPoolHighlight() {
+    document.querySelectorAll('.method-box.method-pool-active').forEach(box => box.classList.remove('method-pool-active'));
+    document.querySelectorAll('.tech-card .method-chip').forEach(chip => chip.classList.remove('method-core','method-support','method-later','method-muted'));
+    document.querySelectorAll('.method-pool-note,.method-pool-extra').forEach(el => el.remove());
+  }
+  function updateMethodPoolHighlight(task, plan = getMethodPlan(task)) {
+    clearMethodPoolHighlight();
+    const lane = laneEl(task.lane);
+    const box = lane?.querySelector('.tech-card .method-box');
+    if(!box) return;
+    box.classList.add('method-pool-active');
+    const chips = Array.from(box.querySelectorAll('.method-chip'));
+    const matched = new Set();
+    chips.forEach(chip => {
+      const role = methodRoleForText(chip.textContent, plan);
+      if(role) {
+        chip.classList.add(`method-${role}`);
+        matched.add(normalizeMethod(chip.textContent));
+      } else {
+        chip.classList.add('method-muted');
+      }
+    });
+    const allMethods = [...plan.core, ...plan.support, ...plan.later];
+    const unmatched = allMethods.filter(method => !chips.some(chip => methodRoleForText(chip.textContent, { core:[method], support:[], later:[] }) || methodRoleForText(chip.textContent, { core:[], support:[method], later:[] }) || methodRoleForText(chip.textContent, { core:[], support:[], later:[method] })));
+    const note = document.createElement('div');
+    note.className = 'method-pool-note';
+    note.innerHTML = `本任務在方法池中的採用關係：主要採用 ${plan.core.length} 項、支援 ${plan.support.length} 項、後續承接 ${plan.later.length} 項。未高亮方法代表屬於此 lane 的候選能力，但本 sprint card 不採用。<div class="method-role-legend"><span class="role-core">主要採用</span><span class="role-support">支援</span><span class="role-later">後續承接</span></div>`;
+    const chipWrap = box.querySelector('.method-chips');
+    if(chipWrap) box.insertBefore(note, chipWrap);
+    if(unmatched.length) {
+      const extra = document.createElement('div');
+      extra.className = 'method-pool-extra';
+      extra.innerHTML = `<b>任務補充方法</b><div class="method-chips">${unmatched.map(method => {
+        const role = methodRoleForText(method, plan) || 'support';
+        return `<span class="method-chip method-${role}" data-method="${escapeHtml(normalizeMethod(method))}">${escapeHtml(method)}</span>`;
+      }).join('')}</div>`;
+      box.appendChild(extra);
+    }
+  }
+
+  function clearVisualState() {
+    document.body.classList.remove('dependency-active','filter-active','sprint-filter-active');
+    document.querySelectorAll('.lane').forEach(lane=>lane.classList.remove('is-selected','is-upstream','is-downstream','has-related','filter-match','sprint-match'));
+    document.querySelectorAll('.task').forEach(task=>task.classList.remove('task-selected','task-upstream','task-downstream','task-sprint-match'));
+    svg.innerHTML = '';
+    clearMethodPoolHighlight();
+  }
+
+  function relatedSet(task) {
+    const set = new Set([task.id]);
+    task.deps.forEach(id=>set.add(id));
+    task.enables.forEach(id=>set.add(id));
+    return set;
+  }
+
+  function selectTask(id) {
+    const task = TASKS[id];
+    if(!task) return;
+    selectedTaskId = id;
+    clearVisualState();
+    document.body.classList.add('dependency-active');
+
+    const selected = taskEl(id);
+    selected?.classList.add('task-selected');
+    laneEl(task.lane)?.classList.add('is-selected','has-related');
+
+    task.deps.forEach(depId => {
+      taskEl(depId)?.classList.add('task-upstream');
+      const lane = laneEl(TASKS[depId]?.lane);
+      lane?.classList.add('is-upstream','has-related');
+    });
+    task.enables.forEach(downId => {
+      taskEl(downId)?.classList.add('task-downstream');
+      const lane = laneEl(TASKS[downId]?.lane);
+      lane?.classList.add('is-downstream','has-related');
+    });
+
+    updateInspector(task);
+    requestAnimationFrame(drawLines);
+  }
+
+  function updateInspector(task) {
+    const plan = getMethodPlan(task);
+    inspectorTitle.textContent = `${task.laneTitle}｜${task.title}`;
+    inspectorIntro.classList.remove('inspector-placeholder');
+    inspectorIntro.innerHTML = `<div class="task-purpose-box"><span><b>${escapeHtml(task.sprint)}</b>｜${escapeHtml(task.initial)}</span><span class="task-limit">${escapeHtml(task.limit)}</span></div>`;
+    inspectorTags.innerHTML = task.tags.map(tagHtml).join('');
+    inspectorDeps.innerHTML = listHtml(task.deps.map(id => `${taskSprint(id)}｜${taskTitle(id)}`), '無明確前置任務；此卡片可作為階段起點。');
+    inspectorMethods.innerHTML = `
+      <ul class="inspector-method-list">
+        ${methodRoleBlock('Core / 主要採用', plan.core, 'core', '本任務未指定主要方法')}
+        ${methodRoleBlock('Support / 輔助判斷', plan.support, 'support', '本任務未指定支援方法')}
+        ${methodRoleBlock('Later / 後續承接', plan.later, 'later', '本任務暫無明確後續方法')}
+        <li><b>輸出物件</b><p>${escapeHtml(plan.output || '尚未定義輸出物件')}</p></li>
+        <li><b>驗證重點</b><p>${escapeHtml(task.validation.join('；'))}</p></li>
+        <li><b>與 Lane 方法池關係</b><p class="method-relation-note">${escapeHtml(plan.maturity)} 完整方法池會保留在進階技術細節模式；預設畫面只呈現任務級採用方法，避免誤解為整條 lane 皆已承諾落地。</p></li>
+      </ul>`;
+    updateMethodPoolHighlight(task, plan);
+    const impacts = [];
+    task.enables.forEach(id => impacts.push(`${taskSprint(id)}｜影響：${taskTitle(id)}`));
+    task.validation.slice(0,2).forEach(v => impacts.push(`驗證：${v}`));
+    inspectorImpact.innerHTML = listHtml(impacts, '此任務目前沒有明確下游任務，主要以自身成效驗證為主。');
+  }
+
+  function syncLineLayer() {
+    const box = board.getBoundingClientRect();
+    const width = Math.max(board.scrollWidth, Math.ceil(box.width));
+    const height = Math.max(board.scrollHeight, Math.ceil(box.height));
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', height);
+    svg.style.width = `${width}px`;
+    svg.style.height = `${height}px`;
+    svg.dataset.width = String(width);
+    svg.dataset.height = String(height);
+  }
+
+  function boardRect() {
+    return board.getBoundingClientRect();
+  }
+
+  function getPoint(el, side) {
+    const context = boardRect();
+    const box = el.getBoundingClientRect();
+    const base = {
+      left: box.left - context.left,
+      right: box.right - context.left,
+      top: box.top - context.top,
+      bottom: box.bottom - context.top,
+      cx: box.left - context.left + box.width / 2,
+      cy: box.top - context.top + box.height / 2
+    };
+    if(side === 'left') return { x: base.left, y: base.cy };
+    if(side === 'right') return { x: base.right, y: base.cy };
+    if(side === 'top') return { x: base.cx, y: base.top };
+    if(side === 'bottom') return { x: base.cx, y: base.bottom };
+    return { x: base.cx, y: base.cy };
+  }
+
+  function getAnchors(fromEl, toEl) {
+    const fromBox = fromEl.getBoundingClientRect();
+    const toBox = toEl.getBoundingClientRect();
+    const dx = (toBox.left + toBox.width / 2) - (fromBox.left + fromBox.width / 2);
+    const dy = (toBox.top + toBox.height / 2) - (fromBox.top + fromBox.height / 2);
+    if(Math.abs(dx) >= 42) {
+      return dx > 0
+        ? { fromSide:'right', toSide:'left', mode:'horizontal', dir:1 }
+        : { fromSide:'left', toSide:'right', mode:'horizontal', dir:-1 };
+    }
+    return dy >= 0
+      ? { fromSide:'bottom', toSide:'top', mode:'vertical', dir:1 }
+      : { fromSide:'top', toSide:'bottom', mode:'vertical', dir:-1 };
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function roundedPolyline(points, radius = 10) {
+    if(points.length < 2) return '';
+    const clean = points.filter((pt, index, arr) => index === 0 || Math.abs(pt.x - arr[index - 1].x) > 0.5 || Math.abs(pt.y - arr[index - 1].y) > 0.5);
+    if(clean.length < 2) return `M ${points[0].x} ${points[0].y}`;
+    let d = `M ${clean[0].x} ${clean[0].y}`;
+    for(let i = 1; i < clean.length - 1; i++) {
+      const prev = clean[i - 1];
+      const curr = clean[i];
+      const next = clean[i + 1];
+      const v1 = { x: curr.x - prev.x, y: curr.y - prev.y };
+      const v2 = { x: next.x - curr.x, y: next.y - curr.y };
+      const len1 = Math.hypot(v1.x, v1.y);
+      const len2 = Math.hypot(v2.x, v2.y);
+      if(len1 < 1 || len2 < 1 || (Math.abs(v1.x) > 0 && Math.abs(v2.x) > 0) || (Math.abs(v1.y) > 0 && Math.abs(v2.y) > 0)) {
+        d += ` L ${curr.x} ${curr.y}`;
+        continue;
+      }
+      const r = Math.min(radius, len1 / 2, len2 / 2);
+      const p1 = { x: curr.x - (v1.x / len1) * r, y: curr.y - (v1.y / len1) * r };
+      const p2 = { x: curr.x + (v2.x / len2) * r, y: curr.y + (v2.y / len2) * r };
+      d += ` L ${p1.x} ${p1.y} Q ${curr.x} ${curr.y} ${p2.x} ${p2.y}`;
+    }
+    const last = clean[clean.length - 1];
+    d += ` L ${last.x} ${last.y}`;
+    return d;
+  }
+
+  function buildPath(fromEl, toEl, relation, index, total) {
+    const anchors = getAnchors(fromEl, toEl);
+    const from = getPoint(fromEl, anchors.fromSide);
+    const to = getPoint(toEl, anchors.toSide);
+    const width = Number(svg.dataset.width) || board.scrollWidth || 1200;
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const offsetSeed = (index - (Math.max(total, 1) - 1) / 2) * 13;
+
+    if(anchors.mode === 'vertical') {
+      if(Math.abs(dx) < 8) {
+        return `M ${from.x} ${from.y} L ${to.x} ${to.y}`;
+      }
+      const midY = from.y + dy * 0.5 + offsetSeed;
+      return roundedPolyline([
+        from,
+        { x: from.x, y: midY },
+        { x: to.x, y: midY },
+        to
+      ], 9);
+    }
+
+    if(Math.abs(dy) < 18) {
+      return roundedPolyline([from, to], 0);
+    }
+
+    const dir = dx >= 0 ? 1 : -1;
+    const minBend = 42 + Math.min(Math.abs(offsetSeed), 22);
+    const horizontalBend = clamp(Math.abs(dx) * 0.44, minBend, 150);
+    let midX = from.x + dir * horizontalBend + offsetSeed * 0.45;
+    if(Math.sign(to.x - midX || dir) !== dir && Math.abs(dx) > 90) {
+      midX = from.x + dir * minBend;
+    }
+    midX = clamp(midX, 18, width - 18);
+
+    return roundedPolyline([
+      from,
+      { x: midX, y: from.y },
+      { x: midX, y: to.y },
+      to
+    ], 12);
+  }
+
+  function drawLines() {
+    if(!selectedTaskId || !document.body.classList.contains('dependency-active')) return;
+    const task = TASKS[selectedTaskId];
+    const selected = taskEl(selectedTaskId);
+    if(!task || !selected || !board || !svg) return;
+    syncLineLayer();
+    svg.innerHTML = `<defs>
+      <marker id="arrow-blue" markerWidth="11" markerHeight="11" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#2563eb" /></marker>
+      <marker id="arrow-amber" markerWidth="11" markerHeight="11" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#d97706" /></marker>
+    </defs>`;
+    const upstreamTotal = task.deps.length;
+    const downstreamTotal = task.enables.length;
+    task.deps.forEach((depId, index) => {
+      const dep = taskEl(depId);
+      if(dep) appendPath(buildPath(dep, selected, 'upstream', index, upstreamTotal), 'upstream', 'url(#arrow-amber)');
+    });
+    task.enables.forEach((downId, index) => {
+      const down = taskEl(downId);
+      if(down) appendPath(buildPath(selected, down, 'downstream', index, downstreamTotal), 'downstream', 'url(#arrow-blue)');
+    });
+  }
+
+  function appendPath(d, cls, marker) {
+    if(!d) return;
+    const rail = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    rail.setAttribute('d', d);
+    rail.setAttribute('class', `dependency-path rail ${cls}`);
+    rail.setAttribute('vector-effect', 'non-scaling-stroke');
+    svg.appendChild(rail);
+
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', d);
+    p.setAttribute('class', `dependency-path ${cls}`);
+    p.setAttribute('marker-end', marker);
+    p.setAttribute('vector-effect', 'non-scaling-stroke');
+    svg.appendChild(p);
+  }
+
+  function filterBy(code) {
+    selectedTaskId = null;
+    activeSprint = 'all';
+    clearVisualState();
+    setSprintButtonActive('all');
+    document.querySelectorAll('.toolbar-btn[data-filter]').forEach(btn=>btn.classList.toggle('is-active', btn.dataset.filter === code));
+    if(code === 'all') return;
+    const group = code === 'S' ? ['S','H'] : code === 'R' ? ['R','B'] : code === 'I' ? ['I','P','A'] : code === 'G' ? ['G','K'] : [code];
+    document.body.classList.add('filter-active');
+    document.querySelectorAll('.lane').forEach(lane=>{
+      const tags = (lane.dataset.tags || '').split(/\s+/);
+      if(group.some(g => tags.includes(g))) lane.classList.add('filter-match');
+    });
+    inspectorTitle.textContent = '能力階段篩選';
+    inspectorIntro.classList.remove('inspector-placeholder');
+    inspectorIntro.textContent = `目前篩選：${group.join(' / ')}。此檢視只用於快速定位能力落點；實際前後關係仍以 sprint 任務卡相依線為準。`;
+    inspectorTags.innerHTML = group.map(tagHtml).join('');
+    inspectorDeps.innerHTML = '<li>篩選模式不顯示單一卡片前置任務。</li>';
+    inspectorMethods.innerHTML = '<ul class="inspector-method-list"><li><p>篩選模式不顯示方法採用關係；點擊任務卡後會切換到任務級方法池對應檢視。</p></li></ul>';
+    inspectorImpact.innerHTML = '<li>點擊高亮區域中的任務卡，可切換為任務級相依性檢視。</li>';
+  }
+
+  function reset() {
+    selectedTaskId = null;
+    clearVisualState();
+    document.querySelectorAll('.toolbar-btn').forEach(btn=>btn.classList.remove('is-active'));
+    document.body.classList.remove('note-mode');
+    document.body.classList.add('compact-tech');
+    const noteBtn = document.querySelector('[data-action="note-mode"]');
+    const compactBtn = document.querySelector('[data-action="compact-tech"]');
+    if(noteBtn) noteBtn.textContent = '顯示初版定義';
+    if(compactBtn) { compactBtn.textContent = '展開技術細節'; compactBtn.classList.remove('is-active'); }
+    activeSprint = 'all';
+    setSprintButtonActive('all');
+    renderSprintPanel('all');
+    showToast('已重置閱讀狀態');
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('is-show');
+    setTimeout(()=>toast.classList.remove('is-show'), 1300);
+  }
+
+  initMethodPoolChips();
+  initSprintHeadControls();
+  renderSprintPanel('all');
+
+  document.querySelectorAll('.task[data-task-id]').forEach(task=>{
+    task.addEventListener('click', e=>{ e.preventDefault(); e.stopPropagation(); selectTask(task.dataset.taskId); task.blur(); });
+    task.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTask(task.dataset.taskId); } });
+  });
+  document.querySelectorAll('.tag[data-capability]').forEach(tag=>{
+    tag.addEventListener('click', e=>{ e.stopPropagation(); filterBy(tag.dataset.capability); });
+  });
+  document.querySelectorAll('.toolbar-btn[data-filter]').forEach(btn=>btn.addEventListener('click', ()=>filterBy(btn.dataset.filter)));
+  document.querySelectorAll('.sprint-filter-btn[data-sprint]').forEach(btn=>btn.addEventListener('click', ()=>filterBySprint(btn.dataset.sprint)));
+  document.querySelector('[data-action="note-mode"]')?.addEventListener('click', function(){
+    document.body.classList.toggle('note-mode');
+    const active = document.body.classList.contains('note-mode');
+    this.classList.toggle('is-active', active);
+    this.textContent = active ? '隱藏初版定義' : '顯示初版定義';
+  });
+  document.querySelector('[data-action="compact-tech"]')?.addEventListener('click', function(){
+    const expanded = document.body.classList.contains('compact-tech');
+    document.body.classList.toggle('compact-tech', !expanded);
+    this.classList.toggle('is-active', expanded);
+    this.textContent = expanded ? '收合技術細節' : '展開技術細節';
+    showToast(expanded ? '已展開技術細節' : '已收合技術細節');
+    scheduleDrawLines();
+  });
+  document.querySelector('[data-action="reset"]')?.addEventListener('click', reset);
+  let lineFrame = null;
+  function scheduleDrawLines() {
+    if(!selectedTaskId) return;
+    if(lineFrame) cancelAnimationFrame(lineFrame);
+    lineFrame = requestAnimationFrame(() => {
+      lineFrame = null;
+      drawLines();
+    });
+  }
+  window.addEventListener('resize', scheduleDrawLines);
+  window.addEventListener('scroll', scheduleDrawLines, {passive:true});
+  document.querySelector('.roadmap-scroll')?.addEventListener('scroll', scheduleDrawLines, { passive:true });
+  if('ResizeObserver' in window) {
+    const ro = new ResizeObserver(scheduleDrawLines);
+    if(shell) ro.observe(shell);
+    if(board) ro.observe(board);
+  }
+
+  document.querySelector('.toolbar-btn[data-filter="all"]')?.classList.add('is-active');
+  setSprintButtonActive('all');
+})();
+</script>
+</body>
+</html>
