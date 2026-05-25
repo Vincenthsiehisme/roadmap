@@ -2116,38 +2116,21 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
     });
   });
 
-  // 點任務卡 → 自動展開 inspector 收合塊
-  function openInspectorCollapse(){
-    const block = document.getElementById('collapseInspector');
-    if(!block || block.classList.contains('is-open')) return;
-    block.classList.add('is-open');
-    const head = block.querySelector('[data-collapse-toggle]');
-    if(head){
-      head.setAttribute('aria-expanded','true');
-      const hint = head.querySelector('.collapse-hint');
-      if(hint) hint.textContent = '點擊收起';
-    }
-  }
-
   document.querySelectorAll('.task[data-task-id]').forEach(task=>{
     task.addEventListener('click', e=>{
       if(task.classList.contains('task-dragging')) return; // safety guard
       e.preventDefault();
       e.stopPropagation();
       selectTask(task.dataset.taskId);
-      openInspectorCollapse();
       task.blur();
     });
-    task.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTask(task.dataset.taskId); openInspectorCollapse(); } });
+    task.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTask(task.dataset.taskId); } });
   });
   document.querySelectorAll('.tag[data-capability]').forEach(tag=>{
     tag.addEventListener('click', e=>{ e.stopPropagation(); filterBy(tag.dataset.capability); });
   });
   document.querySelectorAll('.toolbar-btn[data-filter]').forEach(btn=>btn.addEventListener('click', ()=>filterBy(btn.dataset.filter)));
-  document.querySelectorAll('.sprint-filter-btn[data-sprint]').forEach(btn=>btn.addEventListener('click', ()=>{
-    filterBySprint(btn.dataset.sprint);
-    if(btn.dataset.sprint !== 'all') openInspectorCollapse();
-  }));
+  document.querySelectorAll('.sprint-filter-btn[data-sprint]').forEach(btn=>btn.addEventListener('click', ()=>filterBySprint(btn.dataset.sprint)));
   document.querySelector('[data-action="note-mode"]')?.addEventListener('click', function(){
     document.body.classList.toggle('note-mode');
     const active = document.body.classList.contains('note-mode');
