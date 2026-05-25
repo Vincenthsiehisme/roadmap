@@ -77,6 +77,11 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .sprint-filter-bar .sprint-filter-label { font-size:11.5px; font-weight:900; color:#101828; letter-spacing:.02em; margin-right:4px; }
 .sprint-filter-bar .sprint-filter-label-hint { font-size:10.8px; color:#667085; font-weight:600; }
 
+/* 黏性軸區塊:把 Sprint 篩選列與 timeline-head 一起黏在 toolbar 下方,做為單一視覺區塊 */
+.sticky-axis-wrap { position:sticky; top:58px; z-index:50; background:var(--bg); margin:0 0 12px; border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:var(--shadow-soft); }
+.sticky-axis-wrap > .sprint-filter-bar { margin:0; border:0; border-bottom:1px solid var(--line-soft); border-radius:0; box-shadow:none; }
+.sticky-axis-wrap > .timeline-head { position:static; top:auto; z-index:auto; }
+
 .overview-shell { display:grid; grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr); gap:14px; margin-bottom:14px; align-items:stretch; }
 .hero-card, .guide-card, .mini-panel, .dependency-inspector { background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow-soft); }
 .hero-card { background:linear-gradient(135deg,#101828,#27364a); color:#fff; padding:24px; box-shadow:var(--shadow); }
@@ -156,7 +161,7 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .dependency-lines .dependency-path.downstream { stroke:#2563eb; }
 .dependency-lines .dependency-path.connector-hidden { opacity:0; }
 
-.timeline-head { display:grid; grid-template-columns:205px minmax(660px,1fr) 330px; border-bottom:1px solid var(--line); background:#f8fafc; position:sticky; top:58px; z-index:42; }
+.timeline-head { display:grid; grid-template-columns:205px minmax(660px,1fr) 330px; border-bottom:1px solid var(--line); background:#f8fafc; }
 .timeline-head > div { padding:11px 12px; font-size:12px; font-weight:850; color:#475467; border-right:1px solid var(--line); }
 .timeline-head > div:last-child { border-right:0; }
 .sprint-head { display:grid; grid-template-columns:repeat(13,1fr); padding:0 !important; }
@@ -541,7 +546,8 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 </div>
 </div>
 
-<!-- Sprint 篩選列 (從 inspector 拉出常駐) -->
+<!-- 黏性軸區塊:Sprint 篩選列 + Lane/階段標頭 一起黏 -->
+<div class="sticky-axis-wrap">
 <div aria-label="Sprint 篩選" class="sprint-filter-bar sprint-filter-controls" id="sprintFilterControls">
 <span class="sprint-filter-label">Sprint 篩選</span>
 <span class="sprint-filter-label-hint">點擊保留該 Sprint 任務分布</span>
@@ -559,6 +565,12 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 <button class="sprint-filter-btn" data-sprint="14" type="button">S14</button>
 <button class="sprint-filter-btn" data-sprint="15" type="button">S15</button>
 <button class="sprint-filter-btn" data-sprint="16" type="button">S16</button>
+</div>
+<div class="timeline-head">
+<div>應用 Lane / 階段</div>
+<div class="sprint-head"><span>Sprint 4</span><span>Sprint 5</span><span>Sprint 6</span><span>Sprint 7</span><span>Sprint 8</span><span>Sprint 9</span><span>Sprint 10</span><span>Sprint 11</span><span>Sprint 12</span><span>Sprint 13</span><span>Sprint 14</span><span>Sprint 15</span><span>Sprint 16</span></div>
+<div>技術落點摘要 / 點擊任務卡展開</div>
+</div>
 </div>
 
 <!-- 收合區塊 2: Sprint 任務檢視 (預設關;點任務卡時自動展開) -->
@@ -593,11 +605,6 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 <div class="roadmap-shell" id="roadmapShell">
 <section aria-label="AI/ML Roadmap" class="roadmap-board" id="roadmapBoard">
 <svg aria-hidden="true" class="dependency-lines" focusable="false" id="dependencyLines"></svg>
-<div class="timeline-head">
-<div>應用 Lane / 階段</div>
-<div class="sprint-head"><span>Sprint 4</span><span>Sprint 5</span><span>Sprint 6</span><span>Sprint 7</span><span>Sprint 8</span><span>Sprint 9</span><span>Sprint 10</span><span>Sprint 11</span><span>Sprint 12</span><span>Sprint 13</span><span>Sprint 14</span><span>Sprint 15</span><span>Sprint 16</span></div>
-<div>技術落點摘要 / 點擊任務卡展開</div>
-</div>
 <div class="section-title section-foundation" id="section-data_foundation"><div><b>資料基礎</b><span>先讓資料可被觀測、回收與串接；不把資料表與 API 設計塞進 Roadmap。</span></div></div><article class="lane" data-lane="data_foundation" data-tags="D O" id="lane-data_foundation" style="--rows:4;">
 <div class="lane-meta">
 <div aria-hidden="true" class="role-badge"></div>
