@@ -47,6 +47,36 @@ button { font-family:inherit; }
 body:not(.is-admin-mode) .task { cursor:pointer; }
 body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr but cursor is pointer */ }
 
+/* ====== 收合區塊樣式 (預設全收起、不記憶狀態) ====== */
+.collapse-block { margin:0 0 12px; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:var(--shadow-soft); overflow:hidden; }
+.collapse-head { display:flex; align-items:center; gap:10px; width:100%; padding:11px 16px; background:#fff; border:0; cursor:pointer; text-align:left; font-family:inherit; transition:background .15s ease; }
+.collapse-head:hover { background:#f8fafc; }
+.collapse-head .collapse-caret { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; color:#667085; transition:transform .2s ease; flex-shrink:0; }
+.collapse-head[aria-expanded="true"] .collapse-caret { transform:rotate(90deg); }
+.collapse-head .collapse-caret svg { width:10px; height:10px; }
+.collapse-head .collapse-title { font-size:13px; font-weight:900; color:#101828; letter-spacing:-.005em; }
+.collapse-head .collapse-summary { font-size:11.8px; color:#667085; font-weight:600; margin-left:4px; }
+.collapse-head .collapse-summary::before { content:'·'; margin-right:6px; color:#cbd5e1; font-weight:900; }
+.collapse-head .collapse-hint { margin-left:auto; font-size:10.5px; color:#98a2b3; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+.collapse-body { display:none; padding:0 16px 16px; border-top:1px solid var(--line-soft); }
+.collapse-block.is-open .collapse-body { display:block; }
+.collapse-block.is-open .collapse-head { background:#f8fafc; border-bottom:1px solid var(--line-soft); }
+/* 收合區內的子區塊取消自己的外距,改用 collapse-body 的 padding 控版 */
+.collapse-body > .overview-shell,
+.collapse-body > .context-grid { margin:14px 0 0; }
+.collapse-body > .overview-shell:first-child,
+.collapse-body > .context-grid:first-child { margin-top:14px; }
+.collapse-body > .inspector-grid { margin-top:14px; }
+.collapse-body > .inspector-help { margin-top:12px; padding:10px 12px; background:#f8fafc; border:1px solid var(--line-soft); border-radius:12px; }
+.collapse-body > .inspector-help b { display:block; margin-bottom:6px; font-size:12px; color:#101828; }
+.collapse-body > .inspector-help ul { margin:0; padding-left:18px; }
+.collapse-body > .inspector-help li { font-size:11.4px; line-height:1.55; color:#475467; margin-bottom:3px; }
+
+/* 獨立 Sprint 篩選列 (從 inspector 拉出後常駐) */
+.sprint-filter-bar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 12px; padding:10px 14px; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:var(--shadow-soft); }
+.sprint-filter-bar .sprint-filter-label { font-size:11.5px; font-weight:900; color:#101828; letter-spacing:.02em; margin-right:4px; }
+.sprint-filter-bar .sprint-filter-label-hint { font-size:10.8px; color:#667085; font-weight:600; }
+
 .overview-shell { display:grid; grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr); gap:14px; margin-bottom:14px; align-items:stretch; }
 .hero-card, .guide-card, .mini-panel, .dependency-inspector { background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow-soft); }
 .hero-card { background:linear-gradient(135deg,#101828,#27364a); color:#fff; padding:24px; box-shadow:var(--shadow); }
@@ -378,6 +408,15 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 <span class="toolbar-cloud-status" id="cloudStatus">尚未連線</span>
 <span class="annotation-hint" id="annotationHint">檢視模式：可點擊任務卡查看相依線與方法摘要</span>
 </nav>
+<!-- 收合區塊 1: Roadmap 概覽與閱讀說明 (預設關) -->
+<div class="collapse-block" id="collapseOverview">
+<button class="collapse-head" type="button" aria-expanded="false" aria-controls="collapseOverviewBody" data-collapse-toggle="overview">
+<span class="collapse-caret" aria-hidden="true"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 1.5L6.5 5L3 8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+<span class="collapse-title">Roadmap 概覽與閱讀說明</span>
+<span class="collapse-summary">AI / ML Roadmap 2026 · 任務級相依、方法候選、能力成熟度、Capability tags</span>
+<span class="collapse-hint">點擊展開</span>
+</button>
+<div class="collapse-body" id="collapseOverviewBody">
 <section aria-label="Roadmap 概覽與閱讀導覽" class="overview-shell">
 <div class="hero-card">
 <span class="hero-eyebrow">AI / ML Roadmap 2026</span>
@@ -444,13 +483,13 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 </div>
 </section>
 </section>
-<section aria-live="polite" class="dependency-inspector sprint-filter-panel" id="dependencyInspector">
-<div class="inspector-header">
-<div class="inspector-main">
-<span class="inspector-label">Roadmap Control</span>
-<h3 id="inspectorTitle">Sprint 篩選與任務級技術檢視</h3>
-<p class="inspector-placeholder" id="inspectorIntro">選擇 Sprint 後保留該 Sprint 任務分布；點擊任務卡後，才展開該卡的前置、影響、主要方法與驗證口徑。預設不展開完整技術池，避免干擾 Roadmap 主線。</p>
-<div aria-label="Sprint 篩選" class="sprint-filter-controls" id="sprintFilterControls">
+</div>
+</div>
+
+<!-- Sprint 篩選列 (從 inspector 拉出常駐) -->
+<div aria-label="Sprint 篩選" class="sprint-filter-bar sprint-filter-controls" id="sprintFilterControls">
+<span class="sprint-filter-label">Sprint 篩選</span>
+<span class="sprint-filter-label-hint">點擊保留該 Sprint 任務分布</span>
 <button class="sprint-filter-btn is-active" data-sprint="all" type="button">全部</button>
 <button class="sprint-filter-btn" data-sprint="4" type="button">S4</button>
 <button class="sprint-filter-btn" data-sprint="5" type="button">S5</button>
@@ -466,8 +505,19 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 <button class="sprint-filter-btn" data-sprint="15" type="button">S15</button>
 <button class="sprint-filter-btn" data-sprint="16" type="button">S16</button>
 </div>
+
+<!-- 收合區塊 2: Sprint 任務檢視 (預設關;點任務卡時自動展開) -->
+<div class="collapse-block" id="collapseInspector">
+<button class="collapse-head" type="button" aria-expanded="false" aria-controls="collapseInspectorBody" data-collapse-toggle="inspector">
+<span class="collapse-caret" aria-hidden="true"><svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 1.5L6.5 5L3 8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+<span class="collapse-title" id="inspectorTitle">Sprint 任務檢視</span>
+<span class="collapse-summary">點擊任務卡或 Sprint 篩選按鈕可展開該卡的前置、影響、主要方法與驗證口徑</span>
+<span class="collapse-hint">點擊展開</span>
+</button>
+<div class="collapse-body" id="collapseInspectorBody">
+<section aria-live="polite" class="dependency-inspector sprint-filter-panel" id="dependencyInspector">
+<p class="inspector-placeholder" id="inspectorIntro" style="margin:14px 0 0;font-size:13px;line-height:1.6;color:#475467;">點擊任務卡或上方 Sprint 篩選後，此處顯示該選擇的任務分布與方法摘要。</p>
 <div class="inspector-tags" id="inspectorTags"></div>
-</div>
 <div class="inspector-help">
 <b>判讀規則</b>
 <ul>
@@ -476,13 +526,14 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 <li>拖曳任務卡：可改變所屬 Sprint 與 Lane；改動會即時更新工具列「未匯出的變更」狀態。</li>
 </ul>
 </div>
-</div>
 <div class="inspector-grid">
 <div class="inspector-box"><b>該 Sprint 任務</b><ul id="inspectorDeps"><li>顯示全部任務分布</li></ul></div>
 <div class="inspector-box"><b>方法採用摘要</b><div id="inspectorMethods"><ul class="inspector-method-list"><li><p>選擇 Sprint 後顯示本 Sprint 涵蓋的 Core / Support / Later 方法摘要。</p></li></ul></div></div>
 <div class="inspector-box"><b>跨 Sprint 相依與驗證提醒</b><ul id="inspectorImpact"><li>選擇 Sprint 後顯示前後承接關係。</li></ul></div>
 </div>
 </section>
+</div>
+</div>
 <div class="roadmap-scroll">
 <div class="roadmap-shell" id="roadmapShell">
 <section aria-label="AI/ML Roadmap" class="roadmap-board" id="roadmapBoard">
@@ -2053,21 +2104,50 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
   initDragAndDrop();
   INITIAL_LAYOUT = captureInitialLayout();
 
+  // ====== 收合區塊互動 ======
+  document.querySelectorAll('[data-collapse-toggle]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const block = btn.closest('.collapse-block');
+      if(!block) return;
+      const open = block.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      const hint = btn.querySelector('.collapse-hint');
+      if(hint) hint.textContent = open ? '點擊收起' : '點擊展開';
+    });
+  });
+
+  // 點任務卡 → 自動展開 inspector 收合塊
+  function openInspectorCollapse(){
+    const block = document.getElementById('collapseInspector');
+    if(!block || block.classList.contains('is-open')) return;
+    block.classList.add('is-open');
+    const head = block.querySelector('[data-collapse-toggle]');
+    if(head){
+      head.setAttribute('aria-expanded','true');
+      const hint = head.querySelector('.collapse-hint');
+      if(hint) hint.textContent = '點擊收起';
+    }
+  }
+
   document.querySelectorAll('.task[data-task-id]').forEach(task=>{
     task.addEventListener('click', e=>{
       if(task.classList.contains('task-dragging')) return; // safety guard
       e.preventDefault();
       e.stopPropagation();
       selectTask(task.dataset.taskId);
+      openInspectorCollapse();
       task.blur();
     });
-    task.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTask(task.dataset.taskId); } });
+    task.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTask(task.dataset.taskId); openInspectorCollapse(); } });
   });
   document.querySelectorAll('.tag[data-capability]').forEach(tag=>{
     tag.addEventListener('click', e=>{ e.stopPropagation(); filterBy(tag.dataset.capability); });
   });
   document.querySelectorAll('.toolbar-btn[data-filter]').forEach(btn=>btn.addEventListener('click', ()=>filterBy(btn.dataset.filter)));
-  document.querySelectorAll('.sprint-filter-btn[data-sprint]').forEach(btn=>btn.addEventListener('click', ()=>filterBySprint(btn.dataset.sprint)));
+  document.querySelectorAll('.sprint-filter-btn[data-sprint]').forEach(btn=>btn.addEventListener('click', ()=>{
+    filterBySprint(btn.dataset.sprint);
+    if(btn.dataset.sprint !== 'all') openInspectorCollapse();
+  }));
   document.querySelector('[data-action="note-mode"]')?.addEventListener('click', function(){
     document.body.classList.toggle('note-mode');
     const active = document.body.classList.contains('note-mode');
