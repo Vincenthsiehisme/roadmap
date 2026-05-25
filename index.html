@@ -31,6 +31,21 @@ button { font-family:inherit; }
 .toolbar-dirty-indicator { display:none; align-items:center; gap:5px; padding:3px 8px; border-radius:999px; background:#fffbeb; border:1px solid #fde68a; color:#92400e; font-size:10.5px; font-weight:900; line-height:1; }
 .toolbar-dirty-indicator.is-show { display:inline-flex; }
 .toolbar-dirty-indicator::before { content:''; width:6px; height:6px; border-radius:50%; background:#d97706; }
+.toolbar-mode-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 9px; border-radius:999px; background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; font-size:10.5px; font-weight:900; line-height:1; letter-spacing:.04em; }
+.toolbar-mode-badge.is-admin { background:#111827; border-color:#111827; color:#fff; }
+.toolbar-mode-badge.is-admin::before { content:''; width:6px; height:6px; border-radius:50%; background:#34d399; box-shadow:0 0 0 3px rgba(52,211,153,.18); }
+.toolbar-cloud-status { display:inline-flex; align-items:center; gap:5px; padding:3px 8px; border-radius:999px; background:#f8fafc; border:1px solid var(--line-soft); color:#475467; font-size:10.4px; font-weight:850; line-height:1; }
+.toolbar-cloud-status.is-syncing { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
+.toolbar-cloud-status.is-error { background:#fef2f2; border-color:#fecaca; color:#b91c1c; }
+.toolbar-cloud-status.is-ok { background:#ecfdf5; border-color:#a7f3d0; color:#047857; }
+.toolbar-btn.toolbar-btn-cloud { background:#1d4ed8; border-color:#1d4ed8; color:#fff; }
+.toolbar-btn.toolbar-btn-cloud:hover { background:#1e40af; border-color:#1e40af; }
+.toolbar-btn[data-admin-only] { display:none; }
+.is-admin-mode .toolbar-btn[data-admin-only] { display:inline-flex; }
+.is-admin-mode .toolbar-sep[data-admin-only] { display:block; }
+.toolbar-sep[data-admin-only] { display:none; }
+body:not(.is-admin-mode) .task { cursor:pointer; }
+body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr but cursor is pointer */ }
 
 .overview-shell { display:grid; grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr); gap:14px; margin-bottom:14px; align-items:stretch; }
 .hero-card, .guide-card, .mini-panel, .dependency-inspector { background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow-soft); }
@@ -351,12 +366,17 @@ button { font-family:inherit; }
 <button class="toolbar-btn" data-filter="G" type="button">AI 互動</button>
 <span class="toolbar-sep"></span>
 <button class="toolbar-btn" data-action="reset" type="button">重置</button>
-<span class="toolbar-sep"></span>
-<button class="toolbar-btn toolbar-btn-primary" data-action="export-json" type="button">匯出 JSON</button>
-<button class="toolbar-btn" data-action="import-json" type="button">匯入 JSON</button>
-<button class="toolbar-btn toolbar-btn-danger" data-action="reset-layout" type="button">重設位置</button>
-<span class="toolbar-dirty-indicator" id="dirtyIndicator">未匯出的變更</span>
-<span class="annotation-hint">拖曳任務卡可調整 Sprint 落點與所屬 Lane；點擊任務卡仍可展開相依線與方法摘要</span>
+<span class="toolbar-sep" data-admin-only></span>
+<button class="toolbar-btn toolbar-btn-cloud" data-action="cloud-save" data-admin-only type="button">儲存到雲端</button>
+<button class="toolbar-btn" data-action="cloud-load" data-admin-only type="button">從雲端重新載入</button>
+<span class="toolbar-sep" data-admin-only></span>
+<button class="toolbar-btn toolbar-btn-primary" data-action="export-json" data-admin-only type="button">匯出 JSON</button>
+<button class="toolbar-btn" data-action="import-json" data-admin-only type="button">匯入 JSON</button>
+<button class="toolbar-btn toolbar-btn-danger" data-action="reset-layout" data-admin-only type="button">重設位置</button>
+<span class="toolbar-dirty-indicator" id="dirtyIndicator">未儲存的變更</span>
+<span class="toolbar-mode-badge" id="modeBadge">檢視模式</span>
+<span class="toolbar-cloud-status" id="cloudStatus">尚未連線</span>
+<span class="annotation-hint" id="annotationHint">檢視模式：可點擊任務卡查看相依線與方法摘要</span>
 </nav>
 <section aria-label="Roadmap 概覽與閱讀導覽" class="overview-shell">
 <div class="hero-card">
@@ -973,6 +993,20 @@ button { font-family:inherit; }
   const sprintFilterControls = document.getElementById('sprintFilterControls');
   const dirtyIndicator = document.getElementById('dirtyIndicator');
   const importFileInput = document.getElementById('importFileInput');
+  const modeBadge = document.getElementById('modeBadge');
+  const cloudStatus = document.getElementById('cloudStatus');
+  const annotationHint = document.getElementById('annotationHint');
+
+  /* ============ Cloud config ============ */
+  /* GAS Web App URL — 部署 Apps Script Web App 之後填入。
+     格式:https://script.google.com/macros/s/AKfycb.../exec */
+  const GAS_URL = 'PASTE_YOUR_GAS_WEB_APP_URL_HERE';
+
+  /* Admin token — 從 URL ?admin=xxx 讀取,不寫死在 HTML 內。
+     使用方式:書籤存「https://你的網址/?admin=你的token」,平常分享不帶 token。 */
+  const urlParams = new URLSearchParams(window.location.search);
+  const ADMIN_TOKEN = urlParams.get('admin') || '';
+  const IS_ADMIN = !!ADMIN_TOKEN;
   let selectedTaskId = null;
   let activeSprint = 'all';
   let isDirty = false;
@@ -1755,6 +1789,13 @@ button { font-family:inherit; }
   }
 
   function initDragAndDrop() {
+    if(!IS_ADMIN) {
+      // 檢視模式:移除 draggable 屬性,避免出現拖曳游標、避免任何 drag event
+      document.querySelectorAll('.task[data-task-id]').forEach(task => {
+        task.removeAttribute('draggable');
+      });
+      return;
+    }
     document.querySelectorAll('.task[data-task-id]').forEach(task => {
       task.addEventListener('dragstart', onTaskDragStart);
       task.addEventListener('dragend', onTaskDragEnd);
@@ -1799,8 +1840,7 @@ button { font-family:inherit; }
     a.click();
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    clearDirty();
-    showToast(`已匯出 ${Object.keys(data.tasks).length} 張任務卡的位置`);
+    showToast(`已匯出 ${Object.keys(data.tasks).length} 張任務卡的位置 (本機備份)`);
   }
 
   function applyLayout(layout) {
@@ -1883,6 +1923,130 @@ button { font-family:inherit; }
 
   /* ============ Init ============ */
 
+  /* ============ Cloud sync ============ */
+
+  function setCloudStatus(state, text) {
+    if(!cloudStatus) return;
+    cloudStatus.classList.remove('is-syncing','is-error','is-ok');
+    if(state) cloudStatus.classList.add('is-' + state);
+    cloudStatus.textContent = text;
+  }
+
+  function formatLocalTime(iso) {
+    try {
+      const d = new Date(iso);
+      const pad = n => String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } catch(e) {
+      return iso;
+    }
+  }
+
+  async function cloudLoad(opts = {}) {
+    const { silent = false } = opts;
+    if(!GAS_URL || GAS_URL === 'PASTE_YOUR_GAS_WEB_APP_URL_HERE') {
+      if(!silent) showToast('尚未設定 GAS_URL,無法連線雲端');
+      setCloudStatus('error', '未設定雲端');
+      return false;
+    }
+    setCloudStatus('syncing', '載入中…');
+    try {
+      const res = await fetch(GAS_URL, { method: 'GET', redirect: 'follow' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if(data && data.ok === false) {
+        setCloudStatus('error', '雲端錯誤');
+        if(!silent) showToast('雲端回應錯誤:' + (data.error || 'unknown'));
+        return false;
+      }
+      if(data && data.empty) {
+        setCloudStatus('ok', '雲端尚無資料');
+        if(!silent) showToast('雲端尚無資料,使用內建初始位置');
+        return false;
+      }
+      if(data && data.tasks) {
+        const count = applyLayout(data);
+        clearDirty();
+        const stamp = data.serverTimestamp ? formatLocalTime(data.serverTimestamp) : '剛剛';
+        setCloudStatus('ok', `雲端 ${stamp}`);
+        if(!silent) showToast(`已從雲端載入 ${count} 張任務卡 (儲存於 ${stamp})`);
+        if(selectedTaskId) scheduleDrawLines();
+        return true;
+      }
+      setCloudStatus('error', '回應格式不符');
+      return false;
+    } catch(err) {
+      setCloudStatus('error', '連線失敗');
+      if(!silent) showToast('連線雲端失敗:' + err.message);
+      return false;
+    }
+  }
+
+  async function cloudSave() {
+    if(!IS_ADMIN) {
+      showToast('需要管理者權限');
+      return;
+    }
+    if(!GAS_URL || GAS_URL === 'PASTE_YOUR_GAS_WEB_APP_URL_HERE') {
+      showToast('尚未設定 GAS_URL,無法儲存');
+      setCloudStatus('error', '未設定雲端');
+      return;
+    }
+    setCloudStatus('syncing', '儲存中…');
+    const snapshot = gatherLayoutSnapshot();
+    const payload = Object.assign({}, snapshot, { token: ADMIN_TOKEN });
+    try {
+      // GAS Web App 用 text/plain 避免 CORS preflight
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if(data && data.ok) {
+        clearDirty();
+        const now = formatLocalTime(new Date().toISOString());
+        setCloudStatus('ok', `已儲存 ${now}`);
+        showToast(`已儲存 ${data.taskCount || ''} 張任務卡到雲端`);
+      } else {
+        setCloudStatus('error', '儲存失敗');
+        showToast('儲存失敗:' + (data && data.error ? data.error : 'unknown'));
+      }
+    } catch(err) {
+      setCloudStatus('error', '連線失敗');
+      showToast('連線雲端失敗:' + err.message);
+    }
+  }
+
+  /* ============ Mode setup ============ */
+
+  function applyMode() {
+    if(IS_ADMIN) {
+      document.body.classList.add('is-admin-mode');
+      if(modeBadge) {
+        modeBadge.textContent = '管理模式';
+        modeBadge.classList.add('is-admin');
+      }
+      if(annotationHint) {
+        annotationHint.textContent = '管理模式:可拖曳卡片調整 Sprint / Lane,改動後按「儲存到雲端」';
+      }
+    } else {
+      document.body.classList.remove('is-admin-mode');
+      if(modeBadge) {
+        modeBadge.textContent = '檢視模式';
+        modeBadge.classList.remove('is-admin');
+      }
+      if(annotationHint) {
+        annotationHint.textContent = '檢視模式:可點擊任務卡查看相依線與方法摘要';
+      }
+    }
+  }
+
+  /* ============ Init ============ */
+
+  applyMode();
   initMethodPoolChips();
   initSprintHeadControls();
   renderSprintPanel('all');
@@ -1922,11 +2086,20 @@ button { font-family:inherit; }
   document.querySelector('[data-action="export-json"]')?.addEventListener('click', exportJSON);
   document.querySelector('[data-action="import-json"]')?.addEventListener('click', () => importFileInput?.click());
   document.querySelector('[data-action="reset-layout"]')?.addEventListener('click', resetLayout);
+  document.querySelector('[data-action="cloud-save"]')?.addEventListener('click', cloudSave);
+  document.querySelector('[data-action="cloud-load"]')?.addEventListener('click', () => cloudLoad({silent:false}));
   importFileInput?.addEventListener('change', e => {
     const file = e.target.files && e.target.files[0];
     if(file) importJSON(file);
     e.target.value = ''; // allow re-import same file
   });
+
+  /* 頁面載入後,如果 GAS_URL 已設定就背景拉一次最新版 */
+  if(GAS_URL && GAS_URL !== 'PASTE_YOUR_GAS_WEB_APP_URL_HERE') {
+    cloudLoad({silent:false});
+  } else {
+    setCloudStatus('', '雲端未設定');
+  }
 
   let lineFrame = null;
   function scheduleDrawLines() {
