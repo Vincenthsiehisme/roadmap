@@ -317,6 +317,20 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .sprint-filter-active .task { opacity:.20; filter:grayscale(.28); }
 .sprint-filter-active .task.task-sprint-match { opacity:1; filter:none; outline:2px solid rgba(17,24,39,.12); outline-offset:1px; }
 .sprint-filter-active .lane:not(.sprint-match) .tech-card { opacity:.38; }
+
+/* ====== Phase 點亮模式 ====== */
+.phase-card { cursor:pointer; transition:background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; user-select:none; }
+.phase-card:hover { border-color:#cbd5e1; box-shadow:0 6px 16px rgba(16,24,40,.08); transform:translateY(-1px); }
+.phase-card.is-active { background:#111827; border-color:#111827; box-shadow:0 10px 22px rgba(16,24,40,.18); }
+.phase-card.is-active small { color:#93c5fd; }
+.phase-card.is-active b { color:#fff; }
+.phase-card.is-active p { color:#d0d5dd; }
+.phase-filter-active .lane { opacity:.30; }
+.phase-filter-active .lane.phase-match { opacity:1; }
+.phase-filter-active .task { opacity:.18; filter:grayscale(.32); }
+.phase-filter-active .task.task-phase-match { opacity:1; filter:none; outline:2px solid rgba(37,99,235,.35); outline-offset:1px; box-shadow:0 6px 14px rgba(37,99,235,.16); }
+.phase-filter-active .lane:not(.phase-match) .tech-card { opacity:.38; }
+
 .sprint-summary-metrics { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:7px; margin-top:8px; }
 .sprint-summary-metric { padding:8px 9px; border-radius:12px; border:1px solid var(--line-soft); background:#fff; }
 .sprint-summary-metric b { display:block; margin:0 0 3px; font-size:10.5px; color:#101828; }
@@ -464,12 +478,12 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 </div>
 <div class="mini-panel phase-panel">
 <div class="panel-head"><b>能力成熟度</b><span>Phase = maturity，代表能力成熟度</span></div>
-<div aria-label="技術線與演算法成熟度" class="phase-strip">
-<div class="phase-card"><small>Phase 1</small><b>Data Readiness / Observation</b><p>資料準備、事件回收與基本觀測。</p></div>
-<div class="phase-card"><small>Phase 2</small><b>Rule-based / Batch-based</b><p>熱門、規則推薦、初版分眾與批次名單。</p></div>
-<div class="phase-card"><small>Phase 3</small><b>Hybrid Search / Similarity</b><p>搜尋理解、向量召回、相似商品與重排。</p></div>
-<div class="phase-card"><small>Phase 4</small><b>Intent Scoring / Marketing Automation</b><p>意圖濃度、傾向分數與自動化觸發。</p></div>
-<div class="phase-card"><small>Phase 5</small><b>AI Interaction / Knowledge</b><p>AI 互動、知識節點、工具調用與回覆觀測。</p></div>
+<div aria-label="技術線與演算法成熟度" class="phase-strip" id="phaseStrip">
+<div class="phase-card" data-phase="1"><small>Phase 1</small><b>Data Readiness / Observation</b><p>資料準備、事件回收與基本觀測。</p></div>
+<div class="phase-card" data-phase="2"><small>Phase 2</small><b>Rule-based / Batch-based</b><p>熱門、規則推薦、初版分眾與批次名單。</p></div>
+<div class="phase-card" data-phase="3"><small>Phase 3</small><b>Hybrid Search / Similarity</b><p>搜尋理解、向量召回、相似商品與重排。</p></div>
+<div class="phase-card" data-phase="4"><small>Phase 4</small><b>Intent Scoring / Marketing Automation</b><p>意圖濃度、傾向分數與自動化觸發。</p></div>
+<div class="phase-card" data-phase="5"><small>Phase 5</small><b>AI Interaction / Knowledge</b><p>AI 互動、知識節點、工具調用與回覆觀測。</p></div>
 </div>
 </div>
 <section aria-label="階段註記" class="legend legend-panel">
@@ -873,6 +887,8 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
     "dt_posttrip": {"core":["RAG","Feedback Classification"],"support":["Sentiment Classification","LLM Evaluation","Trace Review"],"later":["Recommendation Feedback","Lifecycle Recommendation"],"maturity":"Phase 5：把行後互動回饋轉成可評估與可回收的知識與品質資料。"},
     "dt_intratrip": {"core":["Context Routing","Tool Calling","Guardrails"],"support":["Human Handoff","Runtime Monitoring"],"later":["Agent Workflow","Autonomous Tool Use"],"maturity":"Phase 5：行中互動以安全邊界、轉人工與即時監控為優先。"}
   };
+  // 把 TASKS 暴露給外部 phase 點亮模組讀取
+  window.TASKS = TASKS;
 
   const METHOD_DESCRIPTIONS = {
     "event taxonomy": "定義事件分類、命名與層級，讓後續追蹤與分析有共同語言。",
@@ -2185,6 +2201,78 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
   document.querySelector('.toolbar-btn[data-filter="all"]')?.classList.add('is-active');
   setSprintButtonActive('all');
 
+})();
+
+/* ====== Phase 點亮互動(獨立模組,不影響既有邏輯) ====== */
+(function(){
+  const strip = document.getElementById('phaseStrip');
+  const TASKS = window.TASKS;
+  if(!strip || !TASKS || typeof TASKS !== 'object') return;
+  const body = document.body;
+  let activePhase = null;
+
+  // 解析 task.phase 字串 → 涵蓋的 phase 號碼集合
+  // "Phase 1" → [1]; "Phase 2 → 4" → [2,3,4]; "Phase 2 → 5" → [2,3,4,5]
+  function phasesOf(phaseStr){
+    if(!phaseStr) return [];
+    const nums = (phaseStr.match(/\d+/g) || []).map(n => parseInt(n, 10));
+    if(nums.length === 0) return [];
+    if(nums.length === 1) return [nums[0]];
+    const [a, b] = [Math.min(...nums), Math.max(...nums)];
+    const out = [];
+    for(let i = a; i <= b; i++) out.push(i);
+    return out;
+  }
+
+  // 預計算每張 task 涵蓋的 phase
+  const taskPhaseMap = {};
+  Object.keys(TASKS).forEach(id => {
+    taskPhaseMap[id] = phasesOf(TASKS[id].phase);
+  });
+
+  function apply(phase){
+    const tasks = document.querySelectorAll('.task[data-task-id]');
+    const lanes = document.querySelectorAll('.lane');
+    const cards = strip.querySelectorAll('.phase-card');
+
+    if(phase === null){
+      body.classList.remove('phase-filter-active');
+      cards.forEach(c => c.classList.remove('is-active'));
+      tasks.forEach(t => t.classList.remove('task-phase-match'));
+      lanes.forEach(l => l.classList.remove('phase-match'));
+      return;
+    }
+
+    body.classList.add('phase-filter-active');
+    cards.forEach(c => {
+      c.classList.toggle('is-active', parseInt(c.dataset.phase, 10) === phase);
+    });
+
+    const laneHits = new Set();
+    tasks.forEach(t => {
+      const id = t.dataset.taskId;
+      const meta = TASKS[id];
+      const match = meta && taskPhaseMap[id] && taskPhaseMap[id].includes(phase);
+      t.classList.toggle('task-phase-match', !!match);
+      if(match && meta) laneHits.add(meta.lane);
+    });
+    lanes.forEach(l => {
+      // .lane 沒有 data-lane,但可從第一個子 task 推回去;改走 laneHits 比對 lane-meta h3 太脆,
+      // 我們直接看該 lane 內有沒有 .task.task-phase-match
+      const has = l.querySelector('.task.task-phase-match');
+      l.classList.toggle('phase-match', !!has);
+    });
+  }
+
+  strip.addEventListener('click', (e) => {
+    const card = e.target.closest('.phase-card');
+    if(!card) return;
+    const phase = parseInt(card.dataset.phase, 10);
+    if(!phase) return;
+    // 點同一張 → 取消;點不同張 → 切換
+    activePhase = (activePhase === phase) ? null : phase;
+    apply(activePhase);
+  });
 })();
 </script>
 </body>
