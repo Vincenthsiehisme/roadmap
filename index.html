@@ -165,8 +165,9 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .timeline-head > div { padding:11px 12px; font-size:12px; font-weight:850; color:#475467; border-right:1px solid var(--line); }
 .timeline-head > div:last-child { border-right:0; }
 .sprint-head { display:grid; grid-template-columns:repeat(13,1fr); padding:0 !important; }
-.sprint-head span { min-height:45px; display:flex; align-items:center; justify-content:center; border-right:1px solid var(--line-soft); font-size:10.8px; font-weight:850; color:#667085; }
+.sprint-head span { min-height:45px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; border-right:1px solid var(--line-soft); font-size:10.8px; font-weight:850; color:#667085; line-height:1.1; }
 .sprint-head span:nth-child(4n+1) { background:#fff; color:#344054; }
+.sprint-head span .sh-date { font-family:'SFMono-Regular',ui-monospace,Menlo,Consolas,monospace; font-size:8.6px; font-weight:600; letter-spacing:0; font-style:normal; opacity:.62; white-space:nowrap; }
 .section-title { display:flex; align-items:center; min-height:46px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:0 16px; position:relative; z-index:32; }
 .section-title:first-of-type { border-top:0; }
 .section-title div { display:flex; align-items:baseline; gap:12px; }
@@ -568,7 +569,7 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 </div>
 <div class="timeline-head">
 <div>應用 Lane / 階段</div>
-<div class="sprint-head"><span>Sprint 4</span><span>Sprint 5</span><span>Sprint 6</span><span>Sprint 7</span><span>Sprint 8</span><span>Sprint 9</span><span>Sprint 10</span><span>Sprint 11</span><span>Sprint 12</span><span>Sprint 13</span><span>Sprint 14</span><span>Sprint 15</span><span>Sprint 16</span></div>
+<div class="sprint-head"><span>Sprint 4<small class="sh-date">5/11–5/22</small></span><span>Sprint 5<small class="sh-date">5/25–6/5</small></span><span>Sprint 6<small class="sh-date">6/8–6/19</small></span><span>Sprint 7<small class="sh-date">6/22–7/3</small></span><span>Sprint 8<small class="sh-date">7/6–7/17</small></span><span>Sprint 9<small class="sh-date">7/20–7/31</small></span><span>Sprint 10<small class="sh-date">8/3–8/14</small></span><span>Sprint 11<small class="sh-date">8/17–8/28</small></span><span>Sprint 12<small class="sh-date">8/31–9/11</small></span><span>Sprint 13<small class="sh-date">9/14–9/25</small></span><span>Sprint 14<small class="sh-date">9/28–10/9</small></span><span>Sprint 15<small class="sh-date">10/12–10/23</small></span><span>Sprint 16<small class="sh-date">10/26–11/6</small></span></div>
 <div>技術落點摘要 / 點擊任務卡展開</div>
 </div>
 </div>
