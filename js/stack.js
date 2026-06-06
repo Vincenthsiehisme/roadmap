@@ -90,6 +90,19 @@ function boot() {
     down: document.getElementById('stkDown'),
   };
 
+  const layout = board.closest('.stk-layout');
+  const panelToggle = document.getElementById('stkPanelToggle');
+  const panelClose = document.getElementById('stkPanelClose');
+  function setPanelOpen(open) {
+    if (layout) layout.classList.toggle('panel-open', open);
+    if (panelToggle) {
+      panelToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panelToggle.textContent = open ? '收合細節面板' : '展開細節面板';
+    }
+  }
+  if (panelToggle) panelToggle.addEventListener('click', () => setPanelOpen(!(layout && layout.classList.contains('panel-open'))));
+  if (panelClose) panelClose.addEventListener('click', () => setPanelOpen(false));
+
   NODES.forEach((n) => {
     const el = document.createElement('button');
     el.className = 'stk-node';
@@ -139,12 +152,14 @@ function boot() {
       if (panel.sub) panel.sub.textContent = '點任一節點查看完整上游路徑與下游應用。';
       if (panel.up) panel.up.innerHTML = '';
       if (panel.down) panel.down.innerHTML = '';
+      setPanelOpen(false);
       return;
     }
     const sel = map[id];
     const anc = walk(id, upAdj);
     const desc = walk(id, down);
     board.classList.add('has-sel');
+    setPanelOpen(true);
     document.querySelectorAll('.stk-node').forEach((e) => {
       const nid = e.dataset.id;
       if (nid === id) e.classList.add('is-sel');
