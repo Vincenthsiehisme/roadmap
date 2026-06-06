@@ -481,6 +481,11 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .stk-board.has-sel .stk-node.is-sel { opacity:1; filter:none; border-color:#111827; box-shadow:0 0 0 2px #111827, 0 8px 18px rgba(16,24,40,.16); }
 .stk-node.is-up { box-shadow:0 0 0 1.5px var(--amber); }
 .stk-node.is-down { box-shadow:0 0 0 1.5px var(--blue); }
+/* stack 樹：既有業務資料（asset）子群 — teal，與資料來源底盤一致 */
+.stk-dot-asset { background:#f0fdfa; border-color:#5eead4; }
+.stk-node[data-layer=data][data-group=asset] { background:#f0fdfa; border-color:#99f6e4; }
+.stk-node[data-layer=data][data-group=asset] strong { color:#0f766e; }
+.stk-node[data-layer=data][data-group=asset] span { color:#0f766e; opacity:.8; }
 
 .stk-panel { background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow-soft); padding:16px 16px 18px; position:sticky; top:14px; }
 .stk-panel h2 { margin:0 0 2px; font-size:16px; letter-spacing:-.01em; }
