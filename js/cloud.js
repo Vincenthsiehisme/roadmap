@@ -4,7 +4,7 @@ import { ADMIN_TOKEN, GAS_URL, IS_ADMIN, state } from './state.js';
 import { showToast } from './render.js';
 import { scheduleDrawLines } from './lines.js';
 import { clearDirty } from './dnd.js';
-import { applyLayout, gatherLayoutSnapshot } from './io.js';
+import { applyLayout, applyTextFromData, gatherLayoutSnapshot } from './io.js';
 
 
   export function setCloudStatus(state, text) {
@@ -48,6 +48,7 @@ import { applyLayout, gatherLayoutSnapshot } from './io.js';
       }
       if(data && data.tasks) {
         const count = applyLayout(data);
+        applyTextFromData(data); // 套用雲端文字覆寫並刷新兩個視圖
         clearDirty();
         const stamp = data.serverTimestamp ? formatLocalTime(data.serverTimestamp) : '剛剛';
         setCloudStatus('ok', `雲端 ${stamp}`);

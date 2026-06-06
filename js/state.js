@@ -14,4 +14,10 @@ export const state = {
   activeSprint: 'all',
   isDirty: false,
   INITIAL_LAYOUT: null,
+  // 手動改字覆寫層。key 格式:
+  //   task:<taskId>:title / task:<taskId>:sprint  (Roadmap 任務卡)
+  //   node:<nodeId>:label / node:<nodeId>:sub      (技術堆疊能力樹節點)
+  //   head:<index>                                  (堆疊樹欄位標頭)
+  // 值為使用者輸入的字串;沒有 key 就回退到原文(HTML / data.js / NODES)。
+  textOverrides: {},
 };

@@ -2,6 +2,18 @@
 // 互動：模式 A — 點節點點亮整條上游（琥珀）+ 下游（藍），其餘暗下。
 // 標籤系統層（col 1）插在資料與演算法之間；既有業務資料（asset）預設收合成一顆，
 // 點該節點或工具列「展開既有業務資料」可展開成 訂單/產品/行程/景點 四顆。
+import { IS_ADMIN } from './state.js';
+import { overrideText, makeEditable } from './edit.js';
+
+// 讓 cloud / io 在載入新覆寫後能要求堆疊樹重畫(render 在 boot 閉包內,這裡轉出)
+let _rerender = null;
+export function refreshStack() { if (_rerender) _rerender(); }
+
+// 節點顯示文字:有覆寫用覆寫,否則回退 NODES 原文
+function nlabel(n) { return overrideText(`node:${n.id}:label`, n.label); }
+function nsub(n) { return overrideText(`node:${n.id}:sub`, n.sub); }
+
+
 const NODES = [
   { id: 'd_spec',      layer: 'data', col: 0, x: 0, y: 18,  label: '事件規範',     sub: '埋點 · 觀測',   up: [] },
   { id: 'd_behavior',  layer: 'data', col: 0, x: 0, y: 68,  label: '行為事件',     sub: '瀏覽 · 購買',   up: [] },
@@ -142,6 +154,7 @@ function boot() {
 
   // 這些隨收合狀態重建
   let map = {}; let upAdj = {}; let down = {}; let EDGES = [];
+  let _currentSel = null; // 目前選取節點 id(供改字提交後刷新側欄)
   // 治理層（D1 · B 案）：g_e 以虛線約束所有演算法，獨立於上下游 walk 之外
   const GOV_SRC = 'g_e';
   let GOV_EDGES = [];
@@ -210,7 +223,17 @@ function boot() {
       el.type = 'button';
       el.style.left = `${n.x}px`;
       el.style.top = `${n.y}px`;
-      el.innerHTML = `<strong>${n.label}</strong><span>${n.sub}</span>`;
+      const strong = document.createElement('strong');
+      strong.textContent = nlabel(n);
+      const span = document.createElement('span');
+      span.textContent = nsub(n);
+      el.appendChild(strong);
+      el.appendChild(span);
+      // 管理模式:節點 label / sub 可就地改;提交後刷新側欄(box 文字已即時更新)
+      if (IS_ADMIN && !n.isGroup) {
+        makeEditable(strong, `node:${n.id}:label`, () => select(_currentSel), n.label);
+        makeEditable(span, `node:${n.id}:sub`, () => select(_currentSel), n.sub);
+      }
       el.addEventListener('click', (e) => {
         e.stopPropagation();
         if (n.isGroup) { setCollapsed(false); return; } // 點收合節點 → 展開
@@ -239,6 +262,7 @@ function boot() {
   board.addEventListener('click', () => select(null));
 
   function select(id) {
+    _currentSel = id;
     document.querySelectorAll('.stk-node').forEach((e) => e.classList.remove('is-lit', 'is-sel', 'is-up', 'is-down', 'is-gov-lit'));
     if (!id || !map[id]) {
       board.classList.remove('has-sel');
@@ -288,9 +312,9 @@ function boot() {
       const gEl = document.querySelector(`.stk-node[data-id="${GOV_SRC}"]`);
       if (gEl) gEl.classList.add('is-lit', 'is-gov-lit');
     }
-    if (panel.title) panel.title.textContent = sel.label;
-    if (panel.sub) panel.sub.textContent = `${sel.sub}　·　${LAYER_LABEL[sel.layer]}`;
-    const li = (n) => `<li>${map[n].label} <em>${map[n].sub}</em></li>`;
+    if (panel.title) panel.title.textContent = nlabel(sel);
+    if (panel.sub) panel.sub.textContent = `${nsub(sel)}　·　${LAYER_LABEL[sel.layer]}`;
+    const li = (n) => `<li>${nlabel(map[n])} <em>${nsub(map[n])}</em></li>`;
     const ancArr = [...anc].sort((a, b) => map[a].col - map[b].col);
     const descArr = [...desc].sort((a, b) => map[a].col - map[b].col);
     if (panel.up) {
@@ -315,6 +339,7 @@ function boot() {
   const resetBtn = document.getElementById('stkReset');
   if (resetBtn) resetBtn.addEventListener('click', () => select(null));
 
+  _rerender = render; // 轉出給 refreshStack(),供載入雲端 / 匯入後重畫
   render(); // 首次渲染（預設收合）
 }
 

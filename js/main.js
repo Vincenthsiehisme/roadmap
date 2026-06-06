@@ -17,12 +17,13 @@ import { scheduleDrawLines } from './lines.js';
 import { initDragAndDrop, captureInitialLayout, hideDropIndicator } from './dnd.js';
 import { exportJSON, importJSON, resetLayout } from './io.js';
 import { cloudLoad, cloudSave, setCloudStatus } from './cloud.js';
+import { initInlineEdit } from './edit.js';
 
 function applyMode() {
   if (IS_ADMIN) {
     document.body.classList.add('is-admin-mode');
     if (modeBadge) { modeBadge.textContent = '管理模式'; modeBadge.classList.add('is-admin'); }
-    if (annotationHint) annotationHint.textContent = '管理模式:可拖曳卡片調整 Sprint / Lane,改動後按「儲存到雲端」';
+    if (annotationHint) annotationHint.textContent = '管理模式:可拖曳卡片調整 Sprint / Lane,點任務卡標題或堆疊節點文字可直接改字,改動後按「儲存到雲端」';
   } else {
     document.body.classList.remove('is-admin-mode');
     if (modeBadge) { modeBadge.textContent = '檢視模式'; modeBadge.classList.remove('is-admin'); }
@@ -32,6 +33,7 @@ function applyMode() {
 
 function boot() {
   applyMode();
+  initInlineEdit(); // 捕捉原文錨點 + 套現有覆寫;管理模式下掛上就地編輯
   initMethodPoolChips();
   initSprintHeadControls();
   renderSprintPanel('all');

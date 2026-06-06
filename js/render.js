@@ -4,11 +4,16 @@ import { inspectorDeps, inspectorImpact, inspectorIntro, inspectorMethods, inspe
 import { state } from './state.js';
 import { drawLines } from './lines.js';
 
+  // 改字覆寫:有覆寫用覆寫,否則回退 data.js 原文(與卡片顯示一致)
+  function ov(key, fallback) {
+    const v = state.textOverrides[key];
+    return (v === undefined || v === null) ? fallback : v;
+  }
   export function tagHtml(code) {
     const label = TAGS[code] ? TAGS[code][1] : code;
     return `<span class="tag tag-${code}">${code}<em>${label}</em></span>`;
   }
-  export function taskTitle(id) { return TASKS[id] ? TASKS[id].title : id; }
+  export function taskTitle(id) { return TASKS[id] ? ov(`task:${id}:title`, TASKS[id].title) : id; }
   export function sprintNumbers(task) {
     const nums = String(task?.sprint || '').match(/\d+/g)?.map(Number) || [];
     if(!nums.length) return [];
@@ -74,8 +79,8 @@ import { drawLines } from './lines.js';
     ids.forEach(id => {
       const task = TASKS[id];
       if(!task) return;
-      task.deps.forEach(dep => { if(!idSet.has(dep) && TASKS[dep]) upstream.push(`${TASKS[dep].sprint}｜${TASKS[dep].title} → ${task.title}`); });
-      task.enables.forEach(next => { if(!idSet.has(next) && TASKS[next]) downstream.push(`${task.title} → ${TASKS[next].sprint}｜${TASKS[next].title}`); });
+      task.deps.forEach(dep => { if(!idSet.has(dep) && TASKS[dep]) upstream.push(`${taskSprint(dep)}｜${taskTitle(dep)} → ${taskTitle(task.id)}`); });
+      task.enables.forEach(next => { if(!idSet.has(next) && TASKS[next]) downstream.push(`${taskTitle(task.id)} → ${taskSprint(next)}｜${taskTitle(next)}`); });
     });
     const rows = uniqueList([...upstream.slice(0,4), ...downstream.slice(0,5)], 9);
     if(!rows.length) return sprint === 'all' ? ['全部模式下不另外列出跨 Sprint 關聯；點擊任務卡可看完整前後關係。'] : ['此 Sprint 內任務目前沒有明顯跨 Sprint 關聯。'];
@@ -90,7 +95,7 @@ import { drawLines } from './lines.js';
     inspectorIntro.innerHTML = `${label} 涵蓋 ${ids.length} 張任務卡。此區作為控制台：先看任務分布，再點擊任務卡查看任務級方法採用與相依關係。<div class="sprint-summary-metrics"><div class="sprint-summary-metric"><b>任務數</b><span>${ids.length} 張 sprint card</span></div><div class="sprint-summary-metric"><b>Lane 分布</b><span>${escapeHtml(taskLaneSummary(ids))}</span></div><div class="sprint-summary-metric"><b>能力標籤</b><span>${tags.length ? tags.join(' / ') : '尚無'}</span></div></div>`;
     inspectorTags.innerHTML = tags.map(tagHtml).join('');
     inspectorDeps.innerHTML = ids.length
-      ? ids.map(id => `<li class="sprint-task-item"><strong>${escapeHtml(TASKS[id].title)}</strong><span>${escapeHtml(TASKS[id].sprint)}｜${escapeHtml(TASKS[id].laneTitle)}</span></li>`).join('')
+      ? ids.map(id => `<li class="sprint-task-item"><strong>${escapeHtml(taskTitle(id))}</strong><span>${escapeHtml(taskSprint(id))}｜${escapeHtml(TASKS[id].laneTitle)}</span></li>`).join('')
       : '<li>此 Sprint 目前沒有任務卡。</li>';
     inspectorMethods.innerHTML = ids.length ? sprintMethodSummary(ids) : '<ul class="inspector-method-list"><li><p>此 Sprint 尚無方法採用摘要。</p></li></ul>';
     inspectorImpact.innerHTML = listHtml(sprintDependencySummary(ids, sprint), '此 Sprint 目前沒有明確跨 Sprint 關係。');
@@ -125,7 +130,7 @@ import { drawLines } from './lines.js';
       span.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); filterBySprint(sprint); } });
     });
   }
-  export function taskSprint(id) { return TASKS[id] ? TASKS[id].sprint : ''; }
+  export function taskSprint(id) { return TASKS[id] ? ov(`task:${id}:sprint`, TASKS[id].sprint) : ''; }
   export function taskEl(id) { return document.querySelector(`.task[data-task-id="${id}"]`); }
   export function laneEl(id) { return document.querySelector(`.lane[data-lane="${id}"]`); }
   export function listHtml(items, fallback) { return items && items.length ? items.map(x=>`<li>${x}</li>`).join('') : `<li>${fallback}</li>`; }
@@ -275,9 +280,9 @@ import { drawLines } from './lines.js';
 
   export function updateInspector(task) {
     const plan = getMethodPlan(task);
-    inspectorTitle.textContent = `${task.laneTitle}｜${task.title}`;
+    inspectorTitle.textContent = `${task.laneTitle}｜${taskTitle(task.id)}`;
     inspectorIntro.classList.remove('inspector-placeholder');
-    inspectorIntro.innerHTML = `<div class="task-purpose-box"><span><b>${escapeHtml(task.sprint)}</b>｜${escapeHtml(task.initial)}</span><span class="task-limit">${escapeHtml(task.limit)}</span></div>`;
+    inspectorIntro.innerHTML = `<div class="task-purpose-box"><span><b>${escapeHtml(taskSprint(task.id))}</b>｜${escapeHtml(task.initial)}</span><span class="task-limit">${escapeHtml(task.limit)}</span></div>`;
     inspectorTags.innerHTML = task.tags.map(tagHtml).join('');
     inspectorDeps.innerHTML = listHtml(task.deps.map(id => `${taskSprint(id)}｜${taskTitle(id)}`), '無明確前置任務；此卡片可作為階段起點。');
     inspectorMethods.innerHTML = `

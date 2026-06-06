@@ -3,6 +3,8 @@ import { state } from './state.js';
 import { laneEl, reset, showToast, taskEl } from './render.js';
 import { scheduleDrawLines } from './lines.js';
 import { applyTaskPlacement, clearDirty, laneRowCount, markDirty, parseGridColumn, parseGridRow, setLaneRowCount } from './dnd.js';
+import { applyTextOverrides } from './edit.js';
+import { refreshStack } from './stack.js';
 
 
   export function gatherLayoutSnapshot() {
@@ -20,7 +22,8 @@ import { applyTaskPlacement, clearDirty, laneRowCount, markDirty, parseGridColum
     return {
       version: '1.0',
       exportedAt: new Date().toISOString(),
-      tasks
+      tasks,
+      textOverrides: { ...state.textOverrides }
     };
   }
 
@@ -64,6 +67,14 @@ import { applyTaskPlacement, clearDirty, laneRowCount, markDirty, parseGridColum
     return applied;
   }
 
+  // 從一份載入的資料(雲端 / 匯入)套用文字覆寫,並刷新兩個視圖
+  export function applyTextFromData(data) {
+    const ov = (data && data.textOverrides && typeof data.textOverrides === 'object') ? data.textOverrides : {};
+    state.textOverrides = { ...ov };
+    applyTextOverrides(); // Roadmap 卡片 + 堆疊欄頭
+    refreshStack();       // 堆疊樹節點重畫
+  }
+
   export function importJSON(file) {
     if(!file) return;
     const reader = new FileReader();
@@ -75,10 +86,12 @@ import { applyTaskPlacement, clearDirty, laneRowCount, markDirty, parseGridColum
           return;
         }
         const count = applyLayout(data);
-        if(count > 0) {
+        applyTextFromData(data); // 文字覆寫獨立於位置,一律套用
+        const ovCount = Object.keys(state.textOverrides).length;
+        if(count > 0 || ovCount > 0) {
           markDirty();
           if(state.selectedTaskId) scheduleDrawLines();
-          showToast(`已匯入 ${count} 張任務卡的位置`);
+          showToast(`已匯入 ${count} 張任務卡位置、${ovCount} 筆文字修改`);
         } else {
           showToast('JSON 解析成功但無可套用內容');
         }
