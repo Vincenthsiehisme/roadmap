@@ -27,11 +27,14 @@ const NODES = [
   { id: 'a_reco',       layer: 'app', col: 2, x: 700, y: 200, label: '推薦',        sub: '熱門 · 相似 · 情境',  up: ['f_popularity', 'f_similarity', 'f_intent', 'f_rules'] },
   { id: 'a_cross',      layer: 'app', col: 2, x: 700, y: 330, label: '交叉銷售',    sub: 'NBO · Lookalike',     up: ['f_assoc', 'f_intent', 'f_audience'] },
   { id: 'a_activation', layer: 'app', col: 2, x: 700, y: 430, label: '用戶活化',    sub: '分眾 · 推播 · 自動化', up: ['f_intent', 'f_rules'] },
-  { id: 'a_assistant',  layer: 'app', col: 2, x: 700, y: 540, label: 'AI 旅程助理', sub: 'RAG · 工具調用',      up: ['f_genai', 'a_search', 'a_cross'] },
-
   { id: 'b_ads',        layer: 'branch', col: 2, x: 700, y: 640, label: '廣告投放', sub: 'CAPI · Signal Gateway · 受眾', up: ['f_audience', 'f_intent'] },
+
+  // 使用者終點 — AI 旅程助理（行前 / 行中 / 行後）。所有應用輸出收斂於此，是終點而非與應用並列。
+  { id: 't_pre',   layer: 'terminal', col: 3, x: 1040, y: 150, label: 'AI 助理 · 行前', sub: '引導 · 銷售 · 說資 · 提醒',     up: ['f_genai', 'a_search', 'a_reco', 'a_cross', 'a_activation'] },
+  { id: 't_intra', layer: 'terminal', col: 3, x: 1040, y: 320, label: 'AI 助理 · 行中', sub: '疑難雜症 · 客訴 · 即時諮詢',   up: ['f_genai', 'a_reco'] },
+  { id: 't_post',  layer: 'terminal', col: 3, x: 1040, y: 490, label: 'AI 助理 · 行後', sub: '追蹤 · 互動 · 下次旅程',       up: ['f_genai', 'a_activation', 'a_cross'] },
 ];
-const NW = { data: 150, algo: 166, app: 160, branch: 160 };
+const NW = { data: 150, algo: 166, app: 160, branch: 160, terminal: 176 };
 const NH = 52;
 const map = {};
 NODES.forEach((n) => { n.w = NW[n.layer]; map[n.id] = n; });
@@ -42,7 +45,7 @@ const upAdj = {};
 NODES.forEach((n) => { upAdj[n.id] = n.up; });
 
 const SVGNS = 'http://www.w3.org/2000/svg';
-const LAYER_LABEL = { data: '資料上游', algo: '演算法核心', app: '應用', branch: '支線' };
+const LAYER_LABEL = { data: '資料上游', algo: '演算法核心', app: '應用', branch: '支線', terminal: '使用者終點' };
 
 function cy(n) { return n.y + NH / 2; }
 
@@ -115,7 +118,9 @@ function boot() {
       const bulge = Math.max(ax, bx) + 46;
       pts = [{ x: ax, y: ay }, { x: bulge, y: ay }, { x: bulge, y: by }, { x: bx, y: by }];
     } else {
-      const ax = u.x + u.w; const ay = cy(u); const bx = v.x; const by = cy(v); const mid = (ax + bx) / 2;
+      const ax = u.x + u.w; const ay = cy(u); const bx = v.x; const by = cy(v);
+      // 跨欄（≥2 欄）的前向線：把縱向轉折挪到目標欄左側，避免穿過中間欄的節點
+      const mid = (v.col - u.col >= 2) ? bx - 70 : (ax + bx) / 2;
       pts = [{ x: ax, y: ay }, { x: mid, y: ay }, { x: mid, y: by }, { x: bx, y: by }];
     }
     const p = document.createElementNS(SVGNS, 'path');
