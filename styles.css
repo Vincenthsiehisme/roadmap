@@ -449,15 +449,17 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .stk-dot-data { background:var(--slate-soft); border-color:var(--slate-line); }
 .stk-dot-algo { background:var(--purple-soft); border-color:var(--purple-line); }
 .stk-dot-app { background:var(--blue-soft); border-color:var(--blue-line); }
+.stk-dot-terminal { background:#fff1f2; border-color:#fecdd3; }
 
 .stk-layout { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:14px; align-items:start; }
 .stk-board-wrap { position:relative; background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow-soft); padding:14px; overflow:auto; }
-.stk-col-heads { display:flex; justify-content:space-between; padding:2px 4px 12px; }
+.stk-col-heads { display:flex; justify-content:space-between; padding:2px 4px 12px; width:1240px; }
 .stk-col-head { font-size:11px; font-weight:900; letter-spacing:.06em; color:#98a2b3; }
 .stk-col-head.h-data { color:var(--slate); }
 .stk-col-head.h-algo { color:var(--purple); }
 .stk-col-head.h-app { color:var(--blue); }
-.stk-board { position:relative; width:920px; height:700px; }
+.stk-col-head.h-terminal { color:#be123c; }
+.stk-board { position:relative; width:1240px; height:700px; }
 .stk-edges { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
 .stk-edge { fill:none; stroke:#cbd5e1; stroke-width:1.4; opacity:.5; transition:stroke .15s, opacity .15s, stroke-width .15s; }
 .stk-edge.is-branch { stroke-dasharray:5 4; }
@@ -476,6 +478,9 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .stk-node[data-layer=app] strong { color:#1d4ed8; }
 .stk-node[data-layer=branch] { background:var(--amber-soft); border-color:var(--amber-line); width:160px; }
 .stk-node[data-layer=branch] strong { color:#b45309; }
+.stk-node[data-layer=terminal] { background:#fff1f2; border-color:#fecdd3; width:176px; box-shadow:0 1px 0 rgba(190,18,60,.06); }
+.stk-node[data-layer=terminal] strong { color:#be123c; }
+.stk-node[data-layer=terminal] span { color:#be123c; opacity:.78; }
 .stk-board.has-sel .stk-node { opacity:.32; filter:saturate(.5); }
 .stk-board.has-sel .stk-node.is-lit { opacity:1; filter:none; }
 .stk-board.has-sel .stk-node.is-sel { opacity:1; filter:none; border-color:#111827; box-shadow:0 0 0 2px #111827, 0 8px 18px rgba(16,24,40,.16); }
