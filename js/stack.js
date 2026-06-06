@@ -27,11 +27,11 @@ const NODES = [
   { id: 'f_retrieval',  layer: 'algo', col: 2, x: 540, y: 22,  label: '檢索與排序',    sub: 'BM25 · Hybrid · LTR',       up: ['d_spec', 'd_behavior', 'g_a', 'g_b', 'g_c'] },
   { id: 'f_popularity', layer: 'algo', col: 2, x: 540, y: 72,  label: '熱門與趨勢',    sub: 'Popularity · Trend',        up: ['d_behavior'] },
   { id: 'f_similarity', layer: 'algo', col: 2, x: 540, y: 122, label: '相似度',        sub: 'Embedding · CF',            up: ['d_behavior', 'g_a'] },
-  { id: 'f_assoc',      layer: 'algo', col: 2, x: 540, y: 172, label: '關聯規則 · NBO', sub: 'Apriori · FP-Growth',       up: ['d_behavior', 'g_b'] },
+  { id: 'f_assoc',      layer: 'algo', col: 2, x: 540, y: 172, label: '關聯規則', sub: 'Apriori · FP-Growth · 購物籃',       up: ['d_behavior', 'g_b'] },
   { id: 'f_intent',     layer: 'algo', col: 2, x: 540, y: 222, label: '意圖與傾向',    sub: 'Propensity · RFM · Uplift', up: ['d_behavior', 'd_decision', 'd_marketing', 'g_b', 'g_d'] },
   { id: 'f_rules',      layer: 'algo', col: 2, x: 540, y: 272, label: '規則與自動化',   sub: 'Rule Engine · Trigger',     up: ['d_login', 'd_marketing', 'g_d', 'g_c'] },
   { id: 'f_audience',   layer: 'algo', col: 2, x: 540, y: 322, label: '受眾與回饋',    sub: 'Lookalike · CAPI · Match',  up: ['d_marketing', 'd_login', 'd_behavior', 'd_idmap', 'g_b'] },
-  { id: 'f_genai',      layer: 'algo', col: 2, x: 540, y: 378, label: '生成與代理',    sub: 'RAG · Tool · Guardrails',   up: ['d_spec', 'g_a'] },
+  { id: 'f_genai',      layer: 'algo', col: 2, x: 540, y: 378, label: '生成與代理',    sub: 'RAG · Tool · Guardrails',   up: ['d_spec', 'g_a', 'f_retrieval'] },
 
   // ── col 3 · 應用 / 支線 ───────────────────────────────────────────────
   { id: 'a_search',     layer: 'app', col: 3, x: 810, y: 30,  label: 'AI 搜尋',  sub: '理解 · 召回 · 排序',  up: ['f_retrieval', 'f_similarity'] },
