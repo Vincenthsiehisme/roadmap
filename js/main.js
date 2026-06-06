@@ -36,7 +36,30 @@ function boot() {
   initSprintHeadControls();
   renderSprintPanel('all');
   initDragAndDrop();
-  state.INITIAL_LAYOUT = captureInitialLayout();
+
+  // 分頁切換 + roadmap lazy init
+  // roadmap 預設 hidden(stack 為預設分頁)時,boot 量 getBoundingClientRect 會抓到 0/錯位,
+  // 故把版面捕捉與首次畫線延到「第一次切到 roadmap 分頁」才做。
+  let roadmapInited = false;
+  function ensureRoadmapInit() {
+    if (roadmapInited) return;
+    roadmapInited = true;
+    state.INITIAL_LAYOUT = captureInitialLayout();
+    scheduleDrawLines();
+  }
+  const tabBtns = document.querySelectorAll('.tab-btn[data-view]');
+  const tabViews = {
+    roadmap: document.getElementById('view-roadmap'),
+    stack: document.getElementById('view-stack'),
+  };
+  function showView(name) {
+    tabBtns.forEach((b) => b.classList.toggle('is-active', b.dataset.view === name));
+    Object.entries(tabViews).forEach(([k, el]) => { if (el) el.hidden = (k !== name); });
+    if (name === 'roadmap') { ensureRoadmapInit(); requestAnimationFrame(scheduleDrawLines); }
+  }
+  tabBtns.forEach((b) => b.addEventListener('click', () => showView(b.dataset.view)));
+  // 若開頁即為 roadmap(未 hidden),立即 init;否則等首次切換
+  if (tabViews.roadmap && !tabViews.roadmap.hidden) ensureRoadmapInit();
 
   // 收合區塊(總覽 / Inspector)— 預設 aria-expanded="false",未綁定就打不開
   document.querySelectorAll('[data-collapse-toggle]').forEach((btn) => {
