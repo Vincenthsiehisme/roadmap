@@ -36,15 +36,15 @@ const NODES = [
   // ── col 3 · 應用 / 支線 ───────────────────────────────────────────────
   { id: 'a_search',     layer: 'app', col: 3, x: 810, y: 30,  label: 'AI 搜尋',  sub: '理解 · 召回 · 排序',  up: ['f_retrieval', 'f_similarity'] },
   { id: 'a_reco',       layer: 'app', col: 3, x: 810, y: 108, label: '推薦',     sub: '熱門 · 相似 · 情境',  up: ['f_popularity', 'f_similarity', 'f_intent', 'f_rules'] },
-  { id: 'a_cross',      layer: 'app', col: 3, x: 810, y: 186, label: '交叉銷售', sub: 'NBO · Lookalike',     up: ['f_assoc', 'f_intent', 'f_audience', 'f_rules'] },
-  { id: 'a_activation', layer: 'app', col: 3, x: 810, y: 264, label: '用戶活化', sub: '分眾 · 推播 · 自動化', up: ['f_intent', 'f_rules'] },
+  { id: 'a_cross',      layer: 'app', col: 3, x: 810, y: 186, label: '交叉銷售', sub: 'NBO · Lookalike',     up: ['f_assoc', 'f_intent', 'f_audience', 'f_rules', 'f_similarity'] },
+  { id: 'a_activation', layer: 'app', col: 3, x: 810, y: 264, label: '用戶活化', sub: '分眾 · 推播 · 自動化', up: ['f_intent', 'f_rules', 'f_audience'] },
   { id: 'b_ads',        layer: 'branch', col: 3, x: 810, y: 368, label: '廣告投放', sub: 'CAPI · Signal Gateway', up: ['f_audience', 'f_intent'] },
   // AI 行程規劃：標籤(g_a/g_c/g_d) + 生成代理(f_genai) → 組裝個人化行程 → 餵行前助理
   { id: 'b_plan',       layer: 'branch', col: 3, x: 810, y: 438, label: 'AI 行程規劃', sub: '行程組裝·景點排序·可售檢核', up: ['g_a', 'g_c', 'g_d', 'f_genai'] },
 
   // ── col 4 · 使用者終點 ────────────────────────────────────────────────
   { id: 't_pre',   layer: 'terminal', col: 4, x: 1080, y: 110, label: 'AI 助理 · 行前', sub: '引導 · 銷售 · 說資 · 提醒',   up: ['f_genai', 'a_search', 'a_reco', 'a_cross', 'a_activation', 'b_plan'] },
-  { id: 't_intra', layer: 'terminal', col: 4, x: 1080, y: 250, label: 'AI 助理 · 行中', sub: '疑難雜症 · 客訴 · 即時諮詢', up: ['f_genai', 'a_reco'] },
+  { id: 't_intra', layer: 'terminal', col: 4, x: 1080, y: 250, label: 'AI 助理 · 行中', sub: '疑難雜症 · 客訴 · 即時諮詢', up: ['f_genai', 'a_reco', 'a_search'] },
   { id: 't_post',  layer: 'terminal', col: 4, x: 1080, y: 390, label: 'AI 助理 · 行後', sub: '追蹤 · 互動 · 下次旅程',     up: ['f_genai', 'a_activation', 'a_cross'] },
 ];
 const NW = { data: 150, tag: 164, algo: 166, app: 160, branch: 160, terminal: 176 };
