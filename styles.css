@@ -450,16 +450,18 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .stk-dot-algo { background:var(--purple-soft); border-color:var(--purple-line); }
 .stk-dot-app { background:var(--blue-soft); border-color:var(--blue-line); }
 .stk-dot-terminal { background:#fff1f2; border-color:#fecdd3; }
+.stk-dot-tag { background:#ecfdf5; border-color:#86efac; }
 
 .stk-layout { position:relative; display:block; }
 .stk-board-wrap { position:relative; background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow-soft); padding:14px; overflow:auto; }
-.stk-col-heads { display:flex; justify-content:space-between; padding:2px 4px 12px; width:1240px; }
+.stk-col-heads { display:flex; justify-content:space-between; padding:2px 4px 12px; width:1560px; }
 .stk-col-head { font-size:11px; font-weight:900; letter-spacing:.06em; color:#98a2b3; }
 .stk-col-head.h-data { color:var(--slate); }
+.stk-col-head.h-tag { color:#15803d; }
 .stk-col-head.h-algo { color:var(--purple); }
 .stk-col-head.h-app { color:var(--blue); }
 .stk-col-head.h-terminal { color:#be123c; }
-.stk-board { position:relative; width:1240px; height:700px; }
+.stk-board { position:relative; width:1560px; height:780px; }
 .stk-edges { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
 .stk-edge { fill:none; stroke:#cbd5e1; stroke-width:1.4; opacity:.5; transition:stroke .15s, opacity .15s, stroke-width .15s; }
 .stk-edge.is-branch { stroke-dasharray:5 4; }
@@ -491,6 +493,16 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .stk-node[data-layer=data][data-group=asset] { background:#f0fdfa; border-color:#99f6e4; }
 .stk-node[data-layer=data][data-group=asset] strong { color:#0f766e; }
 .stk-node[data-layer=data][data-group=asset] span { color:#0f766e; opacity:.8; }
+/* stack 樹：標籤治理層（col 1）— 綠；E 治理為深綠 */
+.stk-node[data-layer=tag] { background:#ecfdf5; border-color:#86efac; width:164px; }
+.stk-node[data-layer=tag] strong { color:#15803d; }
+.stk-node[data-layer=tag] span { color:#15803d; opacity:.8; }
+.stk-node[data-layer=tag][data-group=gov] { background:#d1fae5; border-color:#34d399; }
+.stk-node[data-layer=tag][data-group=gov] strong { color:#065f46; }
+.stk-node[data-layer=tag][data-group=gov] span { color:#065f46; opacity:.85; }
+/* stack 樹：既有業務資料收合節點 — 虛線框 + 右上「＋」提示可展開 */
+.stk-node[data-collapsed] { border-style:dashed; }
+.stk-node[data-collapsed]::after { content:'＋'; position:absolute; top:5px; right:9px; font-size:13px; font-weight:900; color:#0f766e; opacity:.7; }
 
 .stk-panel { position:absolute; top:0; right:0; width:300px; max-width:calc(100% - 20px); max-height:100%; overflow:auto; background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 18px 44px rgba(16,24,40,.18); padding:16px 16px 18px; z-index:20; transform:translateX(calc(100% + 24px)); opacity:0; visibility:hidden; transition:transform .26s ease, opacity .2s ease, visibility .26s; }
 .stk-layout.panel-open .stk-panel { transform:translateX(0); opacity:1; visibility:visible; }

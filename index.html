@@ -18,6 +18,7 @@
 <b>技術堆疊能力樹</b>
 <button class="btn dark" id="stkReset" type="button">重置</button>
 <button class="btn" id="stkPanelToggle" type="button" aria-expanded="false" aria-controls="stkPanel">展開細節面板</button>
+<button class="btn" id="stkAssetToggle" type="button" aria-expanded="false">展開既有業務資料</button>
 <span class="stk-hint">點任一節點 → 點亮整條依賴路徑：往上（琥珀）追溯所需上游，往下（藍）顯示它撐起的應用。這不是時間軸，是「點亮哪些底層、應用端就更滿」的堆疊關係。</span>
 </div>
 <div class="stk-legend">
@@ -26,6 +27,7 @@
 <span class="stk-lg"><span class="stk-sw stk-sw-branch"></span>支線</span>
 <span class="stk-lg"><span class="stk-dot stk-dot-data"></span>資料 · 使用者訊號</span>
 <span class="stk-lg"><span class="stk-dot stk-dot-asset"></span>資料 · 既有業務</span>
+<span class="stk-lg"><span class="stk-dot stk-dot-tag"></span>標籤系統</span>
 <span class="stk-lg"><span class="stk-dot stk-dot-algo"></span>演算法核心</span>
 <span class="stk-lg"><span class="stk-dot stk-dot-app"></span>應用</span>
 <span class="stk-lg"><span class="stk-dot stk-dot-terminal"></span>使用者終點 · 旅程助理</span>
@@ -34,6 +36,7 @@
 <div class="stk-board-wrap">
 <div class="stk-col-heads">
 <span class="stk-col-head h-data">資料上游 · 訊號 / 既有業務資料</span>
+<span class="stk-col-head h-tag">標籤治理 · 標籤系統</span>
 <span class="stk-col-head h-algo">演算法核心 · 算法類型</span>
 <span class="stk-col-head h-app">應用輸出（含支線）</span>
 <span class="stk-col-head h-terminal">使用者終點 · AI 旅程助理</span>
