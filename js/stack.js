@@ -24,26 +24,26 @@ const NODES = [
   { id: 'g_e',    layer: 'tag', col: 1, x: 270, y: 326, group: 'gov', label: 'E 治理 metadata', sub: '來源·owner·版本·可信度', up: ['g_a', 'g_b', 'g_c', 'g_d'] },
 
   // ── col 2 · 演算法核心（up 已改走標籤）────────────────────────────────
-  { id: 'f_retrieval',  layer: 'algo', col: 2, x: 540, y: 22,  label: '檢索與排序',    sub: 'BM25 · Hybrid · LTR',       up: ['d_spec', 'd_behavior', 'g_a', 'g_b'] },
+  { id: 'f_retrieval',  layer: 'algo', col: 2, x: 540, y: 22,  label: '檢索與排序',    sub: 'BM25 · Hybrid · LTR',       up: ['d_spec', 'd_behavior', 'g_a', 'g_b', 'g_c'] },
   { id: 'f_popularity', layer: 'algo', col: 2, x: 540, y: 72,  label: '熱門與趨勢',    sub: 'Popularity · Trend',        up: ['d_behavior'] },
   { id: 'f_similarity', layer: 'algo', col: 2, x: 540, y: 122, label: '相似度',        sub: 'Embedding · CF',            up: ['d_behavior', 'g_a'] },
-  { id: 'f_assoc',      layer: 'algo', col: 2, x: 540, y: 172, label: '關聯規則 · NBO', sub: 'Apriori · FP-Growth',       up: ['d_behavior', 'd_orders', 'g_b'] },
-  { id: 'f_intent',     layer: 'algo', col: 2, x: 540, y: 222, label: '意圖與傾向',    sub: 'Propensity · RFM · Uplift', up: ['d_behavior', 'd_decision', 'd_marketing', 'd_orders', 'g_d'] },
-  { id: 'f_rules',      layer: 'algo', col: 2, x: 540, y: 272, label: '規則與自動化',   sub: 'Rule Engine · Trigger',     up: ['d_login', 'd_marketing', 'g_d'] },
-  { id: 'f_audience',   layer: 'algo', col: 2, x: 540, y: 322, label: '受眾與回饋',    sub: 'Lookalike · CAPI · Match',  up: ['d_marketing', 'd_login', 'd_behavior', 'd_idmap', 'd_orders', 'g_b'] },
+  { id: 'f_assoc',      layer: 'algo', col: 2, x: 540, y: 172, label: '關聯規則 · NBO', sub: 'Apriori · FP-Growth',       up: ['d_behavior', 'g_b'] },
+  { id: 'f_intent',     layer: 'algo', col: 2, x: 540, y: 222, label: '意圖與傾向',    sub: 'Propensity · RFM · Uplift', up: ['d_behavior', 'd_decision', 'd_marketing', 'g_b', 'g_d'] },
+  { id: 'f_rules',      layer: 'algo', col: 2, x: 540, y: 272, label: '規則與自動化',   sub: 'Rule Engine · Trigger',     up: ['d_login', 'd_marketing', 'g_d', 'g_c'] },
+  { id: 'f_audience',   layer: 'algo', col: 2, x: 540, y: 322, label: '受眾與回饋',    sub: 'Lookalike · CAPI · Match',  up: ['d_marketing', 'd_login', 'd_behavior', 'd_idmap', 'g_b'] },
   { id: 'f_genai',      layer: 'algo', col: 2, x: 540, y: 378, label: '生成與代理',    sub: 'RAG · Tool · Guardrails',   up: ['d_spec', 'g_a'] },
 
   // ── col 3 · 應用 / 支線 ───────────────────────────────────────────────
   { id: 'a_search',     layer: 'app', col: 3, x: 810, y: 30,  label: 'AI 搜尋',  sub: '理解 · 召回 · 排序',  up: ['f_retrieval', 'f_similarity'] },
   { id: 'a_reco',       layer: 'app', col: 3, x: 810, y: 108, label: '推薦',     sub: '熱門 · 相似 · 情境',  up: ['f_popularity', 'f_similarity', 'f_intent', 'f_rules'] },
-  { id: 'a_cross',      layer: 'app', col: 3, x: 810, y: 186, label: '交叉銷售', sub: 'NBO · Lookalike',     up: ['f_assoc', 'f_intent', 'f_audience'] },
+  { id: 'a_cross',      layer: 'app', col: 3, x: 810, y: 186, label: '交叉銷售', sub: 'NBO · Lookalike',     up: ['f_assoc', 'f_intent', 'f_audience', 'f_rules'] },
   { id: 'a_activation', layer: 'app', col: 3, x: 810, y: 264, label: '用戶活化', sub: '分眾 · 推播 · 自動化', up: ['f_intent', 'f_rules'] },
   { id: 'b_ads',        layer: 'branch', col: 3, x: 810, y: 368, label: '廣告投放', sub: 'CAPI · Signal Gateway', up: ['f_audience', 'f_intent'] },
-  // 反向支線：標籤直接回頭餵「產品規劃前的整合性思考」，跳過演算法
-  { id: 'b_plan',       layer: 'branch', col: 3, x: 810, y: 438, label: '規劃主軸建議', sub: '價格帶空缺·體驗分佈·可售缺口', up: ['g_a', 'g_b', 'g_d'] },
+  // AI 行程規劃：標籤(g_a/g_c/g_d) + 生成代理(f_genai) → 組裝個人化行程 → 餵行前助理
+  { id: 'b_plan',       layer: 'branch', col: 3, x: 810, y: 438, label: 'AI 行程規劃', sub: '行程組裝·景點排序·可售檢核', up: ['g_a', 'g_c', 'g_d', 'f_genai'] },
 
   // ── col 4 · 使用者終點 ────────────────────────────────────────────────
-  { id: 't_pre',   layer: 'terminal', col: 4, x: 1080, y: 110, label: 'AI 助理 · 行前', sub: '引導 · 銷售 · 說資 · 提醒',   up: ['f_genai', 'a_search', 'a_reco', 'a_cross', 'a_activation'] },
+  { id: 't_pre',   layer: 'terminal', col: 4, x: 1080, y: 110, label: 'AI 助理 · 行前', sub: '引導 · 銷售 · 說資 · 提醒',   up: ['f_genai', 'a_search', 'a_reco', 'a_cross', 'a_activation', 'b_plan'] },
   { id: 't_intra', layer: 'terminal', col: 4, x: 1080, y: 250, label: 'AI 助理 · 行中', sub: '疑難雜症 · 客訴 · 即時諮詢', up: ['f_genai', 'a_reco'] },
   { id: 't_post',  layer: 'terminal', col: 4, x: 1080, y: 390, label: 'AI 助理 · 行後', sub: '追蹤 · 互動 · 下次旅程',     up: ['f_genai', 'a_activation', 'a_cross'] },
 ];
@@ -142,11 +142,14 @@ function boot() {
 
   // 這些隨收合狀態重建
   let map = {}; let upAdj = {}; let down = {}; let EDGES = [];
+  // 治理層（D1 · B 案）：g_e 以虛線約束所有演算法，獨立於上下游 walk 之外
+  const GOV_SRC = 'g_e';
+  let GOV_EDGES = [];
 
   function clearBoard() {
     board.querySelectorAll('.stk-node').forEach((e) => e.remove());
     while (svg.firstChild) svg.removeChild(svg.firstChild);
-    EDGES = [];
+    EDGES = []; GOV_EDGES = [];
   }
 
   function drawEdges(nodes) {
@@ -174,6 +177,22 @@ function boot() {
     }));
   }
 
+  // 治理虛線：g_e（col1）→ 每顆演算法（col2）。只畫關係，不進 walk。
+  function drawGovEdges(nodes) {
+    const u = map[GOV_SRC];
+    if (!u) return;
+    nodes.filter((n) => n.layer === 'algo').forEach((v) => {
+      const ax = u.x + u.w; const ay = cy(u); const bx = v.x; const by = cy(v);
+      const mid = (ax + bx) / 2;
+      const pts = [{ x: ax, y: ay }, { x: mid, y: ay }, { x: mid, y: by }, { x: bx, y: by }];
+      const p = document.createElementNS(SVGNS, 'path');
+      p.setAttribute('d', roundPath(pts));
+      p.setAttribute('class', 'stk-edge is-gov');
+      svg.appendChild(p);
+      GOV_EDGES.push({ v: v.id, el: p });
+    });
+  }
+
   function render() {
     clearBoard();
     const eff = buildEffective();
@@ -197,6 +216,7 @@ function boot() {
       board.appendChild(el);
     });
     drawEdges(eff.nodes);
+    drawGovEdges(eff.nodes);
     updateAssetToggle();
     select(null);
   }
@@ -216,10 +236,11 @@ function boot() {
   board.addEventListener('click', () => select(null));
 
   function select(id) {
-    document.querySelectorAll('.stk-node').forEach((e) => e.classList.remove('is-lit', 'is-sel', 'is-up', 'is-down'));
+    document.querySelectorAll('.stk-node').forEach((e) => e.classList.remove('is-lit', 'is-sel', 'is-up', 'is-down', 'is-gov-lit'));
     if (!id || !map[id]) {
       board.classList.remove('has-sel');
       EDGES.forEach((e) => e.el.setAttribute('class', `stk-edge${e.branch ? ' is-branch' : ''}`));
+      GOV_EDGES.forEach((e) => e.el.setAttribute('class', 'stk-edge is-gov'));
       if (panel.title) panel.title.textContent = '尚未選取';
       if (panel.sub) panel.sub.textContent = '點任一節點查看完整上游路徑與下游應用。';
       if (panel.up) panel.up.innerHTML = '';
@@ -247,6 +268,23 @@ function boot() {
       else cls += ' dim';
       e.el.setAttribute('class', cls);
     });
+    // 治理層（B 案）：g_e 選取 → 點亮全部演算法；演算法選取 → 點亮對應虛線 + g_e
+    const govTarget = (sel.layer === 'algo') ? id : null;
+    GOV_EDGES.forEach((e) => {
+      let cls = 'stk-edge is-gov';
+      if (id === GOV_SRC || (govTarget && e.v === govTarget)) cls += ' on';
+      else cls += ' dim';
+      e.el.setAttribute('class', cls);
+    });
+    if (id === GOV_SRC) {
+      document.querySelectorAll('.stk-node').forEach((e) => {
+        const n = map[e.dataset.id];
+        if (n && n.layer === 'algo') e.classList.add('is-lit', 'is-gov-lit');
+      });
+    } else if (govTarget) {
+      const gEl = document.querySelector(`.stk-node[data-id="${GOV_SRC}"]`);
+      if (gEl) gEl.classList.add('is-lit', 'is-gov-lit');
+    }
     if (panel.title) panel.title.textContent = sel.label;
     if (panel.sub) panel.sub.textContent = `${sel.sub}　·　${LAYER_LABEL[sel.layer]}`;
     const li = (n) => `<li>${map[n].label} <em>${map[n].sub}</em></li>`;
@@ -261,6 +299,13 @@ function boot() {
       panel.down.innerHTML = descArr.length
         ? `<li class="stk-count down">撐起 ${descArr.length} 個下游</li>${descArr.map(li).join('')}`
         : '<li class="stk-empty">無下游 — 它是末端應用。</li>';
+    }
+    // 治理層面板覆寫
+    if (id === GOV_SRC && panel.down) {
+      const govIds = Object.keys(map).filter((k) => map[k].layer === 'algo');
+      panel.down.innerHTML = `<li class="stk-count gov">治理 ${govIds.length} 個演算法（虛線約束）</li>${govIds.map(li).join('')}`;
+    } else if (govTarget && map[GOV_SRC] && panel.sub) {
+      panel.sub.textContent += '　·　受 E 治理約束';
     }
   }
 
