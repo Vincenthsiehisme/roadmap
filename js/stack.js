@@ -169,11 +169,14 @@ function boot() {
         const mid = (v.col - u.col >= 2) ? bx - 70 : (ax + bx) / 2;
         pts = [{ x: ax, y: ay }, { x: mid, y: ay }, { x: mid, y: by }, { x: bx, y: by }];
       }
+      const from = (u.layer === 'data')
+        ? (u.group === 'asset' ? 'from-asset' : 'from-data')
+        : `from-${u.layer}`;
       const p = document.createElementNS(SVGNS, 'path');
       p.setAttribute('d', roundPath(pts));
-      p.setAttribute('class', `stk-edge${type === 'branch' ? ' is-branch' : ''}`);
+      p.setAttribute('class', `stk-edge ${from}${type === 'branch' ? ' is-branch' : ''}`);
       svg.appendChild(p);
-      EDGES.push({ u: uid, v: v.id, el: p, branch: type === 'branch' });
+      EDGES.push({ u: uid, v: v.id, el: p, branch: type === 'branch', from });
     }));
   }
 
@@ -239,7 +242,7 @@ function boot() {
     document.querySelectorAll('.stk-node').forEach((e) => e.classList.remove('is-lit', 'is-sel', 'is-up', 'is-down', 'is-gov-lit'));
     if (!id || !map[id]) {
       board.classList.remove('has-sel');
-      EDGES.forEach((e) => e.el.setAttribute('class', `stk-edge${e.branch ? ' is-branch' : ''}`));
+      EDGES.forEach((e) => e.el.setAttribute('class', `stk-edge ${e.from}${e.branch ? ' is-branch' : ''}`));
       GOV_EDGES.forEach((e) => e.el.setAttribute('class', 'stk-edge is-gov'));
       if (panel.title) panel.title.textContent = '尚未選取';
       if (panel.sub) panel.sub.textContent = '點任一節點查看完整上游路徑與下游應用。';
@@ -260,7 +263,7 @@ function boot() {
       else if (desc.has(nid)) e.classList.add('is-lit', 'is-down');
     });
     EDGES.forEach((e) => {
-      let cls = `stk-edge${e.branch ? ' is-branch' : ''}`;
+      let cls = `stk-edge ${e.from}${e.branch ? ' is-branch' : ''}`;
       const upE = (e.v === id || anc.has(e.v)) && anc.has(e.u);
       const dnE = (e.u === id || desc.has(e.u)) && desc.has(e.v);
       if (upE) cls += ' up';
