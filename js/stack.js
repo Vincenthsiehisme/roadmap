@@ -1,21 +1,27 @@
 // 技術堆疊能力樹 — 策劃版能力圖（與 data.js 的細粒度任務 DAG 為兩層獨立抽象）
 // 互動：模式 A — 點節點點亮整條上游（琥珀）+ 下游（藍），其餘暗下。
 const NODES = [
-  { id: 'd_spec',      layer: 'data',   col: 0, x: 0,   y: 30,  label: '事件規範',     sub: '埋點 · 觀測',          up: [] },
-  { id: 'd_behavior',  layer: 'data',   col: 0, x: 0,   y: 150, label: '行為事件',     sub: '瀏覽 · 購買',          up: [] },
-  { id: 'd_decision',  layer: 'data',   col: 0, x: 0,   y: 250, label: '決策 · 冷啟動', sub: '偏好特徵',             up: [] },
-  { id: 'd_marketing', layer: 'data',   col: 0, x: 0,   y: 350, label: '行銷事件',     sub: 'UTM · 推播',           up: [] },
-  { id: 'd_login',     layer: 'data',   col: 0, x: 0,   y: 430, label: '登入註冊',     sub: '會員 · 同意',          up: [] },
-  { id: 'd_idmap',     layer: 'data',   col: 0, x: 0,   y: 510, label: 'ID Mapping',   sub: '跨裝置串接',           up: [] },
+  { id: 'd_spec',      layer: 'data',   col: 0, x: 0,   y: 24,  label: '事件規範',     sub: '埋點 · 觀測',          up: [] },
+  { id: 'd_behavior',  layer: 'data',   col: 0, x: 0,   y: 88, label: '行為事件',     sub: '瀏覽 · 購買',          up: [] },
+  { id: 'd_decision',  layer: 'data',   col: 0, x: 0,   y: 152, label: '決策 · 冷啟動', sub: '偏好特徵',             up: [] },
+  { id: 'd_marketing', layer: 'data',   col: 0, x: 0,   y: 216, label: '行銷事件',     sub: 'UTM · 推播',           up: [] },
+  { id: 'd_login',     layer: 'data',   col: 0, x: 0,   y: 280, label: '登入註冊',     sub: '會員 · 同意',          up: [] },
+  { id: 'd_idmap',     layer: 'data',   col: 0, x: 0,   y: 344, label: 'ID Mapping',   sub: '跨裝置串接',           up: [] },
 
-  { id: 'f_retrieval',  layer: 'algo', col: 1, x: 340, y: 30,  label: '檢索與排序',    sub: 'BM25 · Hybrid · LTR',     up: ['d_spec', 'd_behavior'] },
+  // 既有業務資料（已彙整、先於 roadmap 存在）— 同屬資料上游，teal 標示
+  { id: 'd_orders',    layer: 'data',   col: 0, x: 0,   y: 408, group: 'asset', label: '訂單',     sub: '交易 · 加購基礎', up: [] },
+  { id: 'd_product',   layer: 'data',   col: 0, x: 0,   y: 472, group: 'asset', label: '產品',     sub: '團 · 元件',       up: [] },
+  { id: 'd_itin',      layer: 'data',   col: 0, x: 0,   y: 536, group: 'asset', label: '行程',     sub: '行程主檔',        up: [] },
+  { id: 'd_poi',       layer: 'data',   col: 0, x: 0,   y: 600, group: 'asset', label: '景點',     sub: 'POI · 內容知識',  up: [] },
+
+  { id: 'f_retrieval',  layer: 'algo', col: 1, x: 340, y: 30,  label: '檢索與排序',    sub: 'BM25 · Hybrid · LTR',     up: ['d_spec', 'd_behavior', 'd_product', 'd_poi'] },
   { id: 'f_popularity', layer: 'algo', col: 1, x: 340, y: 96,  label: '熱門與趨勢',    sub: 'Popularity · Trend',      up: ['d_behavior'] },
-  { id: 'f_similarity', layer: 'algo', col: 1, x: 340, y: 162, label: '相似度',        sub: 'Embedding · CF',          up: ['d_behavior'] },
-  { id: 'f_assoc',      layer: 'algo', col: 1, x: 340, y: 228, label: '關聯規則 · NBO', sub: 'Apriori · FP-Growth',     up: ['d_behavior'] },
-  { id: 'f_intent',     layer: 'algo', col: 1, x: 340, y: 294, label: '意圖與傾向',    sub: 'Propensity · RFM · Uplift', up: ['d_behavior', 'd_decision', 'd_marketing'] },
+  { id: 'f_similarity', layer: 'algo', col: 1, x: 340, y: 162, label: '相似度',        sub: 'Embedding · CF',          up: ['d_behavior', 'd_product', 'd_itin'] },
+  { id: 'f_assoc',      layer: 'algo', col: 1, x: 340, y: 228, label: '關聯規則 · NBO', sub: 'Apriori · FP-Growth',     up: ['d_behavior', 'd_orders'] },
+  { id: 'f_intent',     layer: 'algo', col: 1, x: 340, y: 294, label: '意圖與傾向',    sub: 'Propensity · RFM · Uplift', up: ['d_behavior', 'd_decision', 'd_marketing', 'd_orders'] },
   { id: 'f_rules',      layer: 'algo', col: 1, x: 340, y: 360, label: '規則與自動化',   sub: 'Rule Engine · Trigger',   up: ['d_login', 'd_marketing'] },
-  { id: 'f_audience',   layer: 'algo', col: 1, x: 340, y: 426, label: '受眾與回饋',    sub: 'Lookalike · CAPI · Match', up: ['d_marketing', 'd_login', 'd_behavior', 'd_idmap'] },
-  { id: 'f_genai',      layer: 'algo', col: 1, x: 340, y: 506, label: '生成與代理',    sub: 'RAG · Tool · Guardrails', up: ['d_spec'] },
+  { id: 'f_audience',   layer: 'algo', col: 1, x: 340, y: 426, label: '受眾與回饋',    sub: 'Lookalike · CAPI · Match', up: ['d_marketing', 'd_login', 'd_behavior', 'd_idmap', 'd_orders'] },
+  { id: 'f_genai',      layer: 'algo', col: 1, x: 340, y: 506, label: '生成與代理',    sub: 'RAG · Tool · Guardrails', up: ['d_spec', 'd_itin', 'd_poi'] },
 
   { id: 'a_search',     layer: 'app', col: 2, x: 700, y: 60,  label: 'AI 搜尋',     sub: '理解 · 召回 · 排序',  up: ['f_retrieval', 'f_similarity'] },
   { id: 'a_reco',       layer: 'app', col: 2, x: 700, y: 200, label: '推薦',        sub: '熱門 · 相似 · 情境',  up: ['f_popularity', 'f_similarity', 'f_intent', 'f_rules'] },
@@ -86,6 +92,7 @@ function boot() {
     el.className = 'stk-node';
     el.dataset.id = n.id;
     el.dataset.layer = n.layer;
+    if (n.group) el.dataset.group = n.group;
     el.type = 'button';
     el.style.left = `${n.x}px`;
     el.style.top = `${n.y}px`;
