@@ -564,3 +564,27 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
   .src-band { grid-template-columns:1fr; }
   .src-band-meta { border-right:0; border-bottom:1px solid var(--line); }
 }
+
+/* ============ 管理模式就地改字 (textOverrides) ============ */
+/* 只有 body.is-admin-mode 時,帶 .is-editable 的文字才顯示可編輯提示;
+   檢視模式下這些 class 不存在,完全無提示、不可編輯。 */
+.is-admin-mode .is-editable {
+  cursor: text;
+  border-radius: 4px;
+  transition: background-color .12s ease, box-shadow .12s ease;
+}
+.is-admin-mode .is-editable:hover {
+  background-color: rgba(74, 134, 255, .10);
+  box-shadow: inset 0 0 0 1px rgba(74, 134, 255, .55);
+}
+.is-admin-mode .is-editable:focus {
+  outline: none;
+  background-color: rgba(74, 134, 255, .16);
+  box-shadow: inset 0 0 0 1.5px #4a86ff;
+}
+/* 編輯中游標對齊:卡片標題與節點文字維持原本排版 */
+.is-admin-mode .task .is-editable,
+.is-admin-mode .stk-node .is-editable {
+  display: inline-block;
+  min-width: 1em;
+}
