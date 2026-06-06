@@ -17,6 +17,7 @@
 <div class="stk-toolbar">
 <b>技術堆疊能力樹</b>
 <button class="btn dark" id="stkReset" type="button">重置</button>
+<button class="btn" id="stkPanelToggle" type="button" aria-expanded="false" aria-controls="stkPanel">展開細節面板</button>
 <span class="stk-hint">點任一節點 → 點亮整條依賴路徑：往上（琥珀）追溯所需上游，往下（藍）顯示它撐起的應用。這不是時間軸，是「點亮哪些底層、應用端就更滿」的堆疊關係。</span>
 </div>
 <div class="stk-legend">
@@ -40,6 +41,7 @@
 <div class="stk-board" id="stkBoard"><svg class="stk-edges" id="stkEdges" preserveAspectRatio="none"></svg></div>
 </div>
 <aside class="stk-panel" id="stkPanel">
+<button class="stk-panel-close" id="stkPanelClose" type="button" aria-label="收合細節面板">×</button>
 <h2 id="stkTitle">尚未選取</h2>
 <p class="stk-sub" id="stkSub">點任一節點查看它的完整上游路徑與下游應用。</p>
 <div class="stk-block"><div class="stk-label"><span class="stk-pin up"></span>上游依賴（要先點亮）</div><ul id="stkUp"></ul></div>
