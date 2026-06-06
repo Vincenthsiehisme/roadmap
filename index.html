@@ -228,70 +228,6 @@
 <div class="validation-box"><b>初版驗證</b><ul><li>事件覆蓋率與漏斗可追蹤</li><li>搜尋、曝光、點擊、收藏、booking_start 可回收</li><li>ID Mapping 與跨渠道回饋可逐步銜接</li></ul></div>
 <div class="limit-box"><b>階段邊界</b>資料準備階段承載可觀測與可回饋基礎；資料表、欄位、API、權限與治理規格由資料治理或系統設計文件承接。</div>
 </aside>
-</article><div class="section-title section-ai" id="section-ai_app"><div><b>AI 應用</b><span>AI 搜尋理解與排序、AI 旅程助理對話互動，直接對使用者提供 AI 能力。</span></div></div><article class="lane" data-lane="ai_search" data-tags="S H" id="lane-ai_search" style="--rows:3;">
-<div class="lane-meta">
-<div aria-hidden="true" class="role-badge"></div>
-<div class="phase-pill">Phase 3</div>
-<h3>AI 搜尋機制</h3>
-<div class="tags"><span class="tag tag-S" data-capability="S">S<em>搜尋理解</em></span><span class="tag tag-H" data-capability="H">H<em>混合召回</em></span></div>
-<p>定位為搜尋理解與排序能力，並與 AI Agent、對話服務形成清楚分工。</p>
-<div class="inline-note"><b>初版定義</b><br/>先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。</div>
-</div>
-<div class="timeline-grid" style="--rows:3;"><button class="task task-search" data-lane="ai_search" data-task-id="search_beta" draggable="true" style="grid-column:2 / span 2; grid-row:1;" type="button">
-<small>Sprint 5–6</small>
-<strong>AI 產品搜尋 Beta</strong>
-</button><button class="task task-search" data-lane="ai_search" data-task-id="search_trial" draggable="true" style="grid-column:4 / span 1; grid-row:2;" type="button">
-<small>Sprint 7</small>
-<strong>AI 搜尋小流量試營運</strong>
-</button><button class="task task-search" data-lane="ai_search" data-task-id="search_vector" draggable="true" style="grid-column:4 / span 1; grid-row:3;" type="button">
-<small>Sprint 7</small>
-<strong>Vector Retrieval 接入 Hybrid Search</strong>
-</button><button class="task task-search" data-lane="ai_search" data-task-id="search_app_launch" draggable="true" style="grid-column:5 / span 2; grid-row:2;" type="button">
-<small>Sprint 8–9</small>
-<strong>AI 搜尋正式上線（App 2.0）</strong>
-</button><button class="task task-search" data-lane="ai_search" data-task-id="search_web_launch" draggable="true" style="grid-column:7 / span 2; grid-row:1;" type="button">
-<small>Sprint 10–11</small>
-<strong>AI 搜尋 Web 上線規劃</strong>
-</button></div>
-<aside class="tech-card">
-<h4>Query Understanding / Hybrid Search</h4>
-<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>讓搜尋能理解自然語言需求，並結合關鍵字、向量召回、條件過濾與排序機制，提高搜尋結果相關性。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Keyword Retrieval → Query Understanding → Vector Retrieval → Hybrid Search / Reranking</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以小流量驗證查詢改寫、意圖辨識、keyword retrieval、vector retrieval、filter 與 reranking。</p></div></div>
-<div class="method-box method-search"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">BM25</span><span class="method-chip">Synonym Expansion</span><span class="method-chip">Query Rewrite</span><span class="method-chip">NER</span><span class="method-chip">Intent Classification</span><span class="method-chip">Embedding Retrieval</span><span class="method-chip">ANN Search</span><span class="method-chip">Learning-to-Rank</span><span class="method-chip">Cross-Encoder Reranker</span><span class="method-chip">Rule-based Facet Mapping</span><span class="method-chip">Search Quality Evaluation</span><span class="method-chip">Relevance Feedback</span><span class="method-chip">Zero-result Analysis</span><span class="method-chip">Hybrid Fusion</span><span class="method-chip">Availability Filter</span><span class="method-chip">Facet Filter</span><span class="method-chip">Ranking Calibration</span></div></div>
-<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>query、目的地與 POI、天數、月份、價格帶、商品可售狀態、搜尋曝光、點擊、改搜與查無結果。</p></div><div class="io-box"><b>輸出物件</b><p>query intent、改寫後查詢、候選商品池、facet 條件、排序分數、zero-result 原因與搜尋品質回饋。</p></div></div>
-<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>同義詞、熱門詞、查無結果與規則排序</span></div><div class="evolution-step"><b>中期</b><span>Query Understanding + Keyword / Vector 召回</span></div><div class="evolution-step"><b>後期</b><span>Hybrid Search + 商品條件過濾 + Reranking</span></div></div></div>
-<div class="validation-box"><b>初版驗證</b><ul><li>搜尋結果頁到商品詳情頁 CTR</li><li>查無結果率與 zero-click rate</li><li>改搜率、搜尋後 booking_start 率</li></ul></div>
-<div class="limit-box"><b>階段邊界</b>AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。</div>
-<div class="tech-note">右側為 lane 方法池；實際候選方法以點擊後顯示的 sprint 任務卡內容為準，並取決於資料量、延遲、可解釋性與 A/B 驗證結果。</div>
-</aside>
-</article><article class="lane" data-lane="digital_twins" data-tags="G K O" id="lane-digital_twins" style="--rows:3;">
-<div class="lane-meta">
-<div aria-hidden="true" class="role-badge"></div>
-<div class="phase-pill">Phase 5</div>
-<h3>AI 旅程助理</h3>
-<div class="tags"><span class="tag tag-G" data-capability="G">G<em>代理流程</em></span><span class="tag tag-K" data-capability="K">K<em>知識節點</em></span><span class="tag tag-O" data-capability="O">O<em>成效觀測</em></span></div>
-<p>AI 互動服務調用搜尋、推薦、意圖與交叉銷售能力，讓對話層負責情境承接與服務體驗。</p>
-<div class="inline-note"><b>初版定義</b><br/>先以固定旅遊情境、知識節點、工具調用與回覆品質觀測落地，再逐步個人化。</div>
-</div>
-<div class="timeline-grid" style="--rows:3;"><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_pretrip" draggable="true" style="grid-column:7 / span 2; grid-row:1;" type="button">
-<small>Sprint 10–11</small>
-<strong>AI 旅程助理（行前提醒）</strong>
-</button><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_posttrip" draggable="true" style="grid-column:9 / span 2; grid-row:2;" type="button">
-<small>Sprint 12–13</small>
-<strong>AI 旅程助理（行後互動）</strong>
-</button><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_intratrip" draggable="true" style="grid-column:11 / span 2; grid-row:3;" type="button">
-<small>Sprint 14–15</small>
-<strong>AI 旅程助理（行中互動）</strong>
-</button></div>
-<aside class="tech-card">
-<h4>AI Journey Assistant / Knowledge Orchestration</h4>
-<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>以旅程階段、知識節點、工具調用與回覆品質觀測，支援行前、行中與行後的 AI 互動服務。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>RAG Response → Context Routing → Tool Calling → Guardrails / Human Handoff → Runtime Monitoring</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以固定旅遊情境、知識節點、工具調用與回答依據 trace 落地，再逐步導入個人化與更高自動化。</p></div></div>
-<div class="method-box method-ai"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">RAG</span><span class="method-chip">Knowledge Retrieval</span><span class="method-chip">Context Routing</span><span class="method-chip">Intent Classification</span><span class="method-chip">Tool Calling</span><span class="method-chip">Agent Workflow</span><span class="method-chip">LLM Evaluation</span><span class="method-chip">Answer Grounding</span><span class="method-chip">Guardrails</span><span class="method-chip">Feedback Classification</span><span class="method-chip">Sentiment Classification</span><span class="method-chip">Trace Review</span><span class="method-chip">Human Handoff</span><span class="method-chip">Runtime Monitoring</span><span class="method-chip">Journey Stage Context</span></div></div>
-<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>旅程階段、商品與訂單資訊、FAQ / 知識庫、搜尋與推薦結果、使用者上下文、服務流程與工具權限。</p></div><div class="io-box"><b>輸出物件</b><p>知識節點回覆、工具調用結果、行前 / 行中 / 行後互動、異常轉人工、prompt trace 與品質評估。</p></div></div>
-<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>固定情境腳本與知識節點</span></div><div class="evolution-step"><b>中期</b><span>Agent Workflow + Tool Calling + Trace</span></div><div class="evolution-step"><b>後期</b><span>個人化旅程互動與跨服務調用</span></div></div></div>
-<div class="validation-box"><b>初版驗證</b><ul><li>AI 回覆是否能被 trace 與評估</li><li>行前、行中、行後互動是否產生有效行為</li><li>工具調用成功率、成本、延遲與異常率</li></ul></div>
-<div class="limit-box"><b>階段邊界</b>AI 互動層聚焦情境承接、知識組織、工具調用與回覆品質觀測，並銜接搜尋推薦能力。</div>
-<div class="tech-note">不把 LLM 名稱作為 Roadmap 主體；重點是 RAG、工具調用、品質觀測與異常治理。</div>
-</aside>
 </article><div class="section-title section-webapp" id="section-webapp"><div><b>Web / App</b><span>站內推薦、交叉銷售與活化轉換決策。</span></div></div><article class="lane" data-lane="recommendation" data-tags="R B I" id="lane-recommendation" style="--rows:5;">
 <div class="lane-meta">
 <div aria-hidden="true" class="role-badge"></div>
@@ -419,6 +355,70 @@
 <div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>規則型受眾包與事件回傳</span></div><div class="evolution-step"><b>中期</b><span>高意圖 / 高價值受眾種子</span></div><div class="evolution-step"><b>後期</b><span>Lookalike seed + 投放成效回饋</span></div></div></div>
 <div class="validation-box"><b>初版驗證</b><ul><li>事件回傳成功率與去重品質</li><li>受眾匹配率與更新頻率</li><li>高意圖受眾與一般受眾的投放差異</li></ul></div>
 <div class="limit-box"><b>階段邊界</b>透過回接成效回饋，投放能力可由受眾輸出升級為可驗證增量的閉環。</div>
+</aside>
+</article><div class="section-title section-ai" id="section-ai_app"><div><b>AI 應用</b><span>AI 搜尋理解與排序、AI 旅程助理對話互動，直接對使用者提供 AI 能力。</span></div></div><article class="lane" data-lane="ai_search" data-tags="S H" id="lane-ai_search" style="--rows:3;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 3</div>
+<h3>AI 搜尋機制</h3>
+<div class="tags"><span class="tag tag-S" data-capability="S">S<em>搜尋理解</em></span><span class="tag tag-H" data-capability="H">H<em>混合召回</em></span></div>
+<p>定位為搜尋理解與排序能力，並與 AI Agent、對話服務形成清楚分工。</p>
+<div class="inline-note"><b>初版定義</b><br/>先以 Query Understanding、Keyword Retrieval、Vector Retrieval、Filter 與 Reranking 的小流量驗證為主。</div>
+</div>
+<div class="timeline-grid" style="--rows:3;"><button class="task task-search" data-lane="ai_search" data-task-id="search_beta" draggable="true" style="grid-column:2 / span 2; grid-row:1;" type="button">
+<small>Sprint 5–6</small>
+<strong>AI 產品搜尋 Beta</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_trial" draggable="true" style="grid-column:4 / span 1; grid-row:2;" type="button">
+<small>Sprint 7</small>
+<strong>AI 搜尋小流量試營運</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_vector" draggable="true" style="grid-column:4 / span 1; grid-row:3;" type="button">
+<small>Sprint 7</small>
+<strong>Vector Retrieval 接入 Hybrid Search</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_app_launch" draggable="true" style="grid-column:5 / span 2; grid-row:2;" type="button">
+<small>Sprint 8–9</small>
+<strong>AI 搜尋正式上線（App 2.0）</strong>
+</button><button class="task task-search" data-lane="ai_search" data-task-id="search_web_launch" draggable="true" style="grid-column:7 / span 2; grid-row:1;" type="button">
+<small>Sprint 10–11</small>
+<strong>AI 搜尋 Web 上線規劃</strong>
+</button></div>
+<aside class="tech-card">
+<h4>Query Understanding / Hybrid Search</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>讓搜尋能理解自然語言需求，並結合關鍵字、向量召回、條件過濾與排序機制，提高搜尋結果相關性。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>Keyword Retrieval → Query Understanding → Vector Retrieval → Hybrid Search / Reranking</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以小流量驗證查詢改寫、意圖辨識、keyword retrieval、vector retrieval、filter 與 reranking。</p></div></div>
+<div class="method-box method-search"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">BM25</span><span class="method-chip">Synonym Expansion</span><span class="method-chip">Query Rewrite</span><span class="method-chip">NER</span><span class="method-chip">Intent Classification</span><span class="method-chip">Embedding Retrieval</span><span class="method-chip">ANN Search</span><span class="method-chip">Learning-to-Rank</span><span class="method-chip">Cross-Encoder Reranker</span><span class="method-chip">Rule-based Facet Mapping</span><span class="method-chip">Search Quality Evaluation</span><span class="method-chip">Relevance Feedback</span><span class="method-chip">Zero-result Analysis</span><span class="method-chip">Hybrid Fusion</span><span class="method-chip">Availability Filter</span><span class="method-chip">Facet Filter</span><span class="method-chip">Ranking Calibration</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>query、目的地與 POI、天數、月份、價格帶、商品可售狀態、搜尋曝光、點擊、改搜與查無結果。</p></div><div class="io-box"><b>輸出物件</b><p>query intent、改寫後查詢、候選商品池、facet 條件、排序分數、zero-result 原因與搜尋品質回饋。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>同義詞、熱門詞、查無結果與規則排序</span></div><div class="evolution-step"><b>中期</b><span>Query Understanding + Keyword / Vector 召回</span></div><div class="evolution-step"><b>後期</b><span>Hybrid Search + 商品條件過濾 + Reranking</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>搜尋結果頁到商品詳情頁 CTR</li><li>查無結果率與 zero-click rate</li><li>改搜率、搜尋後 booking_start 率</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>AI 搜尋屬搜尋理解與排序能力；AI 互動服務或 Agent Workflow 由 AI 互動服務層承接。</div>
+<div class="tech-note">右側為 lane 方法池；實際候選方法以點擊後顯示的 sprint 任務卡內容為準，並取決於資料量、延遲、可解釋性與 A/B 驗證結果。</div>
+</aside>
+</article><article class="lane" data-lane="digital_twins" data-tags="G K O" id="lane-digital_twins" style="--rows:3;">
+<div class="lane-meta">
+<div aria-hidden="true" class="role-badge"></div>
+<div class="phase-pill">Phase 5</div>
+<h3>AI 旅程助理</h3>
+<div class="tags"><span class="tag tag-G" data-capability="G">G<em>代理流程</em></span><span class="tag tag-K" data-capability="K">K<em>知識節點</em></span><span class="tag tag-O" data-capability="O">O<em>成效觀測</em></span></div>
+<p>AI 互動服務調用搜尋、推薦、意圖與交叉銷售能力，讓對話層負責情境承接與服務體驗。</p>
+<div class="inline-note"><b>初版定義</b><br/>先以固定旅遊情境、知識節點、工具調用與回覆品質觀測落地，再逐步個人化。</div>
+</div>
+<div class="timeline-grid" style="--rows:3;"><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_pretrip" draggable="true" style="grid-column:7 / span 2; grid-row:1;" type="button">
+<small>Sprint 10–11</small>
+<strong>AI 旅程助理（行前提醒）</strong>
+</button><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_posttrip" draggable="true" style="grid-column:9 / span 2; grid-row:2;" type="button">
+<small>Sprint 12–13</small>
+<strong>AI 旅程助理（行後互動）</strong>
+</button><button class="task task-ai" data-lane="digital_twins" data-task-id="dt_intratrip" draggable="true" style="grid-column:11 / span 2; grid-row:3;" type="button">
+<small>Sprint 14–15</small>
+<strong>AI 旅程助理（行中互動）</strong>
+</button></div>
+<aside class="tech-card">
+<h4>AI Journey Assistant / Knowledge Orchestration</h4>
+<div class="capability-brief"><div class="capability-brief-item"><b>能力定位</b><p>以旅程階段、知識節點、工具調用與回覆品質觀測，支援行前、行中與行後的 AI 互動服務。</p></div><div class="capability-brief-item"><b>成熟度路徑</b><p>RAG Response → Context Routing → Tool Calling → Guardrails / Human Handoff → Runtime Monitoring</p></div><div class="capability-brief-item"><b>目前採用方式</b><p>先以固定旅遊情境、知識節點、工具調用與回答依據 trace 落地，再逐步導入個人化與更高自動化。</p></div></div>
+<div class="method-box method-ai"><b>方法池 / 任務採用關係</b><div class="method-chips"><span class="method-chip">RAG</span><span class="method-chip">Knowledge Retrieval</span><span class="method-chip">Context Routing</span><span class="method-chip">Intent Classification</span><span class="method-chip">Tool Calling</span><span class="method-chip">Agent Workflow</span><span class="method-chip">LLM Evaluation</span><span class="method-chip">Answer Grounding</span><span class="method-chip">Guardrails</span><span class="method-chip">Feedback Classification</span><span class="method-chip">Sentiment Classification</span><span class="method-chip">Trace Review</span><span class="method-chip">Human Handoff</span><span class="method-chip">Runtime Monitoring</span><span class="method-chip">Journey Stage Context</span></div></div>
+<div class="io-grid"><div class="io-box"><b>輸入資料</b><p>旅程階段、商品與訂單資訊、FAQ / 知識庫、搜尋與推薦結果、使用者上下文、服務流程與工具權限。</p></div><div class="io-box"><b>輸出物件</b><p>知識節點回覆、工具調用結果、行前 / 行中 / 行後互動、異常轉人工、prompt trace 與品質評估。</p></div></div>
+<div class="evolution"><div class="evolution-title">能力演進</div><div class="evolution-grid"><div class="evolution-step"><b>初期</b><span>固定情境腳本與知識節點</span></div><div class="evolution-step"><b>中期</b><span>Agent Workflow + Tool Calling + Trace</span></div><div class="evolution-step"><b>後期</b><span>個人化旅程互動與跨服務調用</span></div></div></div>
+<div class="validation-box"><b>初版驗證</b><ul><li>AI 回覆是否能被 trace 與評估</li><li>行前、行中、行後互動是否產生有效行為</li><li>工具調用成功率、成本、延遲與異常率</li></ul></div>
+<div class="limit-box"><b>階段邊界</b>AI 互動層聚焦情境承接、知識組織、工具調用與回覆品質觀測，並銜接搜尋推薦能力。</div>
+<div class="tech-note">不把 LLM 名稱作為 Roadmap 主體；重點是 RAG、工具調用、品質觀測與異常治理。</div>
 </aside>
 </article>
 </section>
