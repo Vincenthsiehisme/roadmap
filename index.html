@@ -9,6 +9,42 @@
 <body class="compact-tech">
 <input type="file" id="importFileInput" accept="application/json,.json" style="display:none"/>
 <main class="page">
+<nav class="tab-bar" aria-label="分頁切換">
+<button class="tab-btn" data-view="roadmap" type="button">Roadmap 時間視圖</button>
+<button class="tab-btn is-active" data-view="stack" type="button">技術堆疊能力樹</button>
+</nav>
+<section class="tab-view" id="view-stack" aria-label="技術堆疊能力樹">
+<div class="stk-toolbar">
+<b>技術堆疊能力樹</b>
+<button class="btn dark" id="stkReset" type="button">重置</button>
+<span class="stk-hint">點任一節點 → 點亮整條依賴路徑：往上（琥珀）追溯所需上游，往下（藍）顯示它撐起的應用。這不是時間軸，是「點亮哪些底層、應用端就更滿」的堆疊關係。</span>
+</div>
+<div class="stk-legend">
+<span class="stk-lg"><span class="stk-sw stk-sw-up"></span>上游依賴（要先點亮）</span>
+<span class="stk-lg"><span class="stk-sw stk-sw-down"></span>下游應用（被它撐起）</span>
+<span class="stk-lg"><span class="stk-sw stk-sw-branch"></span>支線</span>
+<span class="stk-lg"><span class="stk-dot stk-dot-data"></span>資料</span>
+<span class="stk-lg"><span class="stk-dot stk-dot-algo"></span>演算法核心</span>
+<span class="stk-lg"><span class="stk-dot stk-dot-app"></span>應用</span>
+</div>
+<div class="stk-layout">
+<div class="stk-board-wrap">
+<div class="stk-col-heads">
+<span class="stk-col-head h-data">資料上游 · 收集 / 清整</span>
+<span class="stk-col-head h-algo">演算法核心 · 算法類型</span>
+<span class="stk-col-head h-app">應用輸出（含支線）</span>
+</div>
+<div class="stk-board" id="stkBoard"><svg class="stk-edges" id="stkEdges" preserveAspectRatio="none"></svg></div>
+</div>
+<aside class="stk-panel" id="stkPanel">
+<h2 id="stkTitle">尚未選取</h2>
+<p class="stk-sub" id="stkSub">點任一節點查看它的完整上游路徑與下游應用。</p>
+<div class="stk-block"><div class="stk-label"><span class="stk-pin up"></span>上游依賴（要先點亮）</div><ul id="stkUp"></ul></div>
+<div class="stk-block"><div class="stk-label"><span class="stk-pin down"></span>下游應用（被它撐起）</div><ul id="stkDown"></ul></div>
+</aside>
+</div>
+</section>
+<div class="tab-view" id="view-roadmap" hidden>
 <nav aria-label="互動檢視工具列" class="annotation-toolbar">
 <span class="toolbar-title">檢視</span>
 <button class="toolbar-btn" data-action="compact-tech" type="button">展開技術細節</button>
@@ -424,10 +460,12 @@
 </section>
 </div>
 </div>
+</div>
 </main>
 <div class="toast" id="toast">已重置閱讀狀態</div>
 <script type="module" src="js/main.js"></script>
 <script type="module" src="js/phase.js"></script>
 <script type="module" src="js/milestone.js"></script>
+<script type="module" src="js/stack.js"></script>
 </body>
 </html>
