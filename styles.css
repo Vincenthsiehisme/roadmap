@@ -498,3 +498,44 @@ body:not(.is-admin-mode) .task[draggable="true"] { /* still keep draggable attr 
 .stk-count.down { background:var(--blue-soft) !important; border-color:var(--blue-line) !important; }
 .stk-empty { color:#98a2b3 !important; }
 @media (max-width:980px){ .stk-layout { grid-template-columns:1fr; } .stk-panel { position:static; } }
+
+/* ============================================================
+   資料來源底盤 (Data Source Inventory band) — 純呈現層
+   置於 roadmap-board 最上方、資料基礎 lane 之上。
+   不綁 Sprint、不參與點選與相依連線；全部 src- 前綴，
+   不重用 .task / .lane / .timeline-grid，避免被 dnd / lines / io / cloud 觸及。
+   ============================================================ */
+.section-source { background:linear-gradient(90deg, rgba(17,24,39,.13), rgba(17,24,39,.03)); border-left:7px solid var(--ink); }
+.src-band { display:grid; grid-template-columns:205px 1fr; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#f8fafc,#fff); position:relative; z-index:24; }
+.src-band-meta { padding:15px 14px; background:#fff; border-right:1px solid var(--line); }
+.src-band-badge { display:inline-flex; padding:4px 9px; border-radius:999px; font-size:10px; font-weight:900; letter-spacing:.08em; color:#fff; background:var(--ink); margin-bottom:9px; }
+.src-band-meta h3 { margin:0 0 9px; font-size:17px; letter-spacing:-.01em; line-height:1.2; }
+.src-band-meta p { margin:0 0 10px; color:#667085; font-size:11.5px; line-height:1.56; }
+.src-band-note { font-size:10.6px; line-height:1.5; color:#475467; background:#f8fafc; border:1px solid var(--line-soft); border-radius:10px; padding:8px 9px; }
+.src-band-note b { color:#101828; }
+
+.src-tiers { display:flex; flex-direction:column; gap:11px; padding:14px; }
+.src-tier { background:#fff; border:1px solid var(--line); border-radius:14px; padding:11px 12px; box-shadow:var(--shadow-soft); }
+.src-tier-head { display:flex; align-items:baseline; gap:8px; margin-bottom:9px; flex-wrap:wrap; }
+.src-tier-head b { font-size:13px; color:#101828; }
+.src-tier-dot { width:9px; height:9px; border-radius:3px; align-self:center; }
+.src-tier-sub { font-size:10.6px; color:var(--muted); }
+.src-cards { display:flex; flex-wrap:wrap; gap:8px; }
+.src-card { flex:1 1 150px; min-width:140px; border:1px solid var(--line); border-left:3px solid var(--slate-line); border-radius:11px; background:var(--slate-soft); padding:9px 11px; }
+.src-card b { display:block; font-size:11.6px; font-weight:850; color:#101828; margin-bottom:3px; }
+.src-card p { margin:0; font-size:10.7px; line-height:1.4; color:#475467; }
+
+/* 使用者訊號層：slate 中性（對應下方資料基礎尚需埋設的任務卡） */
+.src-tier-signal .src-tier-dot { background:var(--slate); }
+.src-tier-signal .src-card { border-left-color:var(--slate-line); background:var(--slate-soft); }
+
+/* 既有業務資料層：teal 凸顯為已彙整、先於 roadmap 存在的資產 */
+.src-tier-asset .src-tier-dot { background:#0d9488; }
+.src-card-asset { border-left-color:#5eead4; background:#f0fdfa; }
+.src-card-asset b { color:#0f766e; }
+.src-card-asset p { color:#0f766e; opacity:.85; }
+
+@media (max-width:900px) {
+  .src-band { grid-template-columns:1fr; }
+  .src-band-meta { border-right:0; border-bottom:1px solid var(--line); }
+}
