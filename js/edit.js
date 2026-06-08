@@ -32,6 +32,25 @@ export function setOverride(key, value, original) {
   return true;
 }
 
+// 儲存 / 匯出前呼叫：把畫面上尚未 blur 的 contenteditable 最新文字，
+// 強制同步回 state.textOverrides。避免使用者改完技術堆疊節點文字後，
+// 直接按「儲存到雲端」時，畫面有改但覆寫層尚未 commit。
+export function flushInlineEdits() {
+  if (!IS_ADMIN) return;
+  document.querySelectorAll('[data-edit-key]').forEach((el) => {
+    const key = el.dataset.editKey;
+    if (!key) return;
+
+    const original = el.dataset.original || '';
+    const text = el.textContent.replace(/\s+/g, ' ').trim();
+
+    // 同步時也順手收掉多餘空白；若清空則回原文，和 makeEditable 的 blur 行為一致。
+    el.textContent = text || original;
+    const changed = setOverride(key, text, original);
+    if (changed) markDirty();
+  });
+}
+
 // 第一次看到某元素時,把當下文字記成 data-original(原文錨點),之後就不再覆寫此錨點
 function captureOriginal(el) {
   if (!el) return '';

@@ -3,11 +3,13 @@ import { state } from './state.js';
 import { laneEl, reset, showToast, taskEl } from './render.js';
 import { scheduleDrawLines } from './lines.js';
 import { applyTaskPlacement, clearDirty, laneRowCount, markDirty, parseGridColumn, parseGridRow, setLaneRowCount } from './dnd.js';
-import { applyTextOverrides } from './edit.js';
+import { applyTextOverrides, flushInlineEdits } from './edit.js';
 import { refreshStack } from './stack.js';
 
 
   export function gatherLayoutSnapshot() {
+    flushInlineEdits();
+
     const tasks = {};
     document.querySelectorAll('.task[data-task-id]').forEach(el => {
       const { start, span } = parseGridColumn(el);
